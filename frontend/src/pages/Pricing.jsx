@@ -4,6 +4,7 @@ import { useAuth } from '../AuthContext'
 import { api } from '../api'
 import { CheckCircle, Lightbulb } from 'lucide-react'
 import './Pricing.css'
+import { track } from '../analytics'
 
 export default function Pricing() {
   const { user } = useAuth()
@@ -13,6 +14,7 @@ export default function Pricing() {
 
   useEffect(() => {
     api.getPlans().then(d => setPlans(d.plans)).catch(console.error)
+    track.pricingViewed()
   }, [])
 
   const subscribe = async (planId) => {
@@ -27,6 +29,7 @@ export default function Pricing() {
     setLoading(true)
     try {
       const { checkout_url } = await api.createCheckout(planId)
+      track.checkoutStarted(planId)
       window.location.href = checkout_url
     } catch (e) {
       alert(e.message)

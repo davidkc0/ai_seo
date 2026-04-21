@@ -7,6 +7,7 @@ import ProductModal from '../components/ProductModal'
 import ScanResults from '../components/ScanResults'
 import Recommendations from '../components/Recommendations'
 import illusionLogo from '../assets/illusion_logo.svg'
+import { track } from '../analytics'
 import './Dashboard.css'
 
 const RESEARCH_MESSAGES = [
@@ -103,6 +104,7 @@ export default function Dashboard() {
 
     try {
       await api.scanProduct(selectedProduct.id)
+      track.scanRun()
     } catch (e) {
       setScanning(false)
       setScanStatus('')
@@ -146,6 +148,11 @@ export default function Dashboard() {
             loadSummary(productId)
             setResultsRefreshKey(k => k + 1)
             stopScanning('success:Scan complete.')
+            // Track completion with mention rate
+            try {
+              const s = await api.getSummary(productId)
+              if (s) track.scanCompleted(s.mention_rate)
+            } catch {}
           }
         }
       } catch (e) {
@@ -155,6 +162,7 @@ export default function Dashboard() {
   }
 
   const handleProductCreated = (product) => {
+    track.firstProductAdded()
     setProducts(prev => [...prev, product])
     setSelectedProduct(product)
     setShowModal(false)

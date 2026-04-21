@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, BarChart2, Mail, Zap, Target, Sparkles } from 'lucide-react'
 import doughnut from '../assets/doughnut.jpg'
@@ -6,6 +6,7 @@ import cube from '../assets/cube.jpg'
 import diamond from '../assets/diamond.jpg'
 import illusionLogo from '../assets/illusion_logo.svg'
 import './Landing.css'
+import { track } from '../analytics'
 
 const features = [
   { icon: <Search size={24} />, title: 'Multi-AI Query Monitoring', desc: 'We ask ChatGPT, Claude, Gemini, and Perplexity the category questions your customers are already typing.' },
@@ -23,6 +24,8 @@ const testimonials = [
 ]
 
 export default function Landing() {
+  useEffect(() => { track.landingViewed() }, [])
+
   return (
     <div className="landing">
       {/* Nav */}

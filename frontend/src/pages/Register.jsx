@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { CheckCircle } from 'lucide-react'
 import illusionLogo from '../assets/illusion_logo.svg'
 import './Auth.css'
+import { track } from '../analytics'
 
 export default function Register() {
   const [searchParams] = useSearchParams()
@@ -13,6 +14,8 @@ export default function Register() {
   const [loading, setLoading] = useState(false)
   const { register } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => { track.registerStarted() }, [])
 
   const submit = async (e) => {
     e.preventDefault()
@@ -24,6 +27,7 @@ export default function Register() {
     setLoading(true)
     try {
       await register(email, password)
+      track.registerCompleted('organic')
       navigate('/dashboard')
     } catch (err) {
       setError(err.message)

@@ -66,55 +66,6 @@ async def health():
     return {"status": "ok", "version": "1.0.0"}
 
 
-@app.get("/api/debug/register-test")
-async def debug_register_test():
-    """Temporary debug endpoint — tests each step of register to find the 500."""
-    import traceback, secrets
-    from datetime import timedelta
-    steps = {}
-    try:
-        from auth import get_password_hash
-        h = get_password_hash("testpassword123")
-        steps["1_bcrypt"] = "OK"
-    except Exception:
-        steps["1_bcrypt"] = traceback.format_exc()
-        return steps
-    try:
-        from database import AsyncSessionLocal
-        from models import User, NotificationSettings
-        from sqlalchemy import select, text
-        from datetime import datetime, timezone
-        async with AsyncSessionLocal() as db:
-            await db.execute(text("SELECT 1"))
-            steps["2_db_connect"] = "OK"
-
-            unsub = secrets.token_urlsafe(32)
-            user = User(
-                email=f"debugtest_{secrets.token_hex(4)}@test.com",
-                hashed_password=h,
-                plan="free",
-                trial_ends_at=datetime.now(timezone.utc) + timedelta(days=7),
-                unsubscribe_token=unsub,
-            )
-            db.add(user)
-            await db.flush()
-            steps["3_user_insert"] = f"OK (id={user.id})"
-
-            notif = NotificationSettings(user_id=user.id, weekly_digest=True)
-            db.add(notif)
-            await db.commit()
-            steps["4_notif_insert"] = "OK"
-
-            # Clean up test user
-            await db.delete(notif)
-            await db.delete(user)
-            await db.commit()
-            steps["5_cleanup"] = "OK"
-    except Exception:
-        steps["error"] = traceback.format_exc()
-    return steps
-
-
 
 # Serve frontend build if it exists
 frontend_build = os.path.join(os.path.dirname(__file__), "../frontend/dist")

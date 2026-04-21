@@ -42,7 +42,7 @@ The `.gitignore` at the root excludes `backend/.env`, `*.db`, `venv/`, and `node
    | `ANTHROPIC_MODEL` | `claude-sonnet-4-6` (or omit for the default, or use `claude-haiku-4-5-20251001` to save ~80%) |
    | `SERPAPI_API_KEY` | your SerpAPI key — scrapes Google AI Overview once per scan. Free tier: 100 searches/mo |
    | `RESEND_API_KEY` | your Resend key |
-   | `RESEND_FROM_EMAIL` | `noreply@contact.joinroomieapp.com` |
+   | `RESEND_FROM_EMAIL` | `noreply@contact.illusion.ai` (domain `contact.illusion.ai` must be verified in Resend) |
    | `STRIPE_SECRET_KEY` | `sk_live_...` (or test key to start) |
    | `STRIPE_PUBLISHABLE_KEY` | `pk_live_...` |
    | `STRIPE_WEBHOOK_SECRET` | fill in after step 4 below |
@@ -117,13 +117,13 @@ Still in the Stripe Dashboard:
 
 ---
 
-## 6. Custom domain (optional, free subdomain)
+## 6. Custom domain
 
-You own `joinroomieapp.com`. Point a subdomain like `ai.joinroomieapp.com` at the Vercel frontend:
+You own `illusion.ai`. Recommended setup:
 
-1. Vercel → Project → Settings → Domains → add `ai.joinroomieapp.com`.
-2. Vercel shows a CNAME record to add in your DNS provider. Add it.
-3. Update the Stripe webhook URL if you also point a `api.` subdomain at Railway (optional).
+1. **Frontend**: Vercel → Project → Settings → Domains → add `illusion.ai` (and `www.illusion.ai` with redirect). Vercel shows a CNAME / A record to add in your DNS provider.
+2. **Backend** (optional but nice): Add `api.illusion.ai` → CNAME to the Railway URL. Update `BACKEND_URL` env var and the Stripe webhook URL accordingly.
+3. **Email sending**: Verify `illusion.ai` as a sending domain in Resend (Domains → Add Domain → copy the SPF + DKIM + DMARC records into your DNS). Without verification, your transactional emails go to spam.
 
 ---
 

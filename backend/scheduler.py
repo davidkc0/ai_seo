@@ -141,7 +141,8 @@ async def scan_product(product_id: int, db: AsyncSession):
                         product_name=product.name,
                         query=sr["query"],
                         position=sr["mention_position"],
-                        sentiment=sr["mention_sentiment"] or "neutral"
+                        sentiment=sr["mention_sentiment"] or "neutral",
+                        unsubscribe_token=user.unsubscribe_token,
                     )
 
     print(f"[Scheduler] Done scanning {product.name}: {len(new_results)} queries run")
@@ -268,6 +269,7 @@ async def send_weekly_digests():
                     user_name=user.email.split("@")[0],
                     product_name=product.name,
                     scan_summary=scan_summary,
+                    unsubscribe_token=user.unsubscribe_token,
                 )
 
 

@@ -1,12 +1,130 @@
 """
-Email digest service using Resend API.
+Email service using Resend API — transactional (welcome) + bulk (digest, alerts).
+
+All bulk sends include RFC 8058 List-Unsubscribe + One-Click headers so Gmail
+and Yahoo count us as a compliant bulk sender (required since Feb 2024).
 """
 import resend
 from datetime import datetime, timedelta, timezone
+from urllib.parse import urlencode
 from config import settings
 from typing import Optional
 
 resend.api_key = settings.resend_api_key
+
+
+def _is_resend_configured() -> bool:
+    return bool(settings.resend_api_key) and settings.resend_api_key != "re_your_key_here"
+
+
+def build_unsubscribe_url(token: str, list_name: str) -> str:
+    """One-click unsubscribe endpoint on the backend. list_name is a short key
+    like 'weekly_digest', 'mention_alerts', 'marketing', or 'all'."""
+    qs = urlencode({"token": token, "list": list_name})
+    return f"{settings.backend_url}/api/unsubscribe?{qs}"
+
+
+def _bulk_email_headers(unsubscribe_url: str) -> dict:
+    """Headers required for Gmail/Yahoo bulk-sender compliance.
+
+    - List-Unsubscribe: URL the mail client links to
+    - List-Unsubscribe-Post: tells the client it can POST to that URL to
+      unsubscribe in one click (no user confirmation page)
+    """
+    return {
+        "List-Unsubscribe": f"<{unsubscribe_url}>",
+        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+    }
+
+
+def send_welcome_email(to_email: str, unsubscribe_token: str) -> bool:
+    """Send the onboarding email fired off by POST /api/auth/register.
+
+    Transactional, so technically doesn't need List-Unsubscribe headers — but
+    we include a visible footer link anyway so users can disable future bulk
+    mail (weekly digest) in one click, which is good hygiene for deliverability.
+    """
+    if not _is_resend_configured():
+        print(f"[EMAIL] Resend not configured. Would send welcome to {to_email}")
+        return False
+
+    dashboard_url = f"{settings.app_url}/dashboard"
+    # Welcome is transactional, but offer a path to opt out of everything else.
+    unsubscribe_url = build_unsubscribe_url(unsubscribe_token, "all")
+
+    html_body = f"""
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f3f4f6;margin:0;padding:40px 20px;">
+    <div style="max-width:600px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg,#6366f1,#8b5cf6);padding:40px 32px;text-align:center;">
+            <div style="font-size:26px;font-weight:700;color:white;letter-spacing:-0.5px;">Illusion</div>
+            <div style="color:#c7d2fe;margin-top:6px;font-size:14px;">Know where you stand in AI search</div>
+        </div>
+
+        <!-- Body -->
+        <div style="padding:36px 32px;">
+            <h1 style="color:#111827;font-size:22px;margin:0 0 12px;">Welcome to Illusion 👋</h1>
+            <p style="color:#374151;font-size:16px;line-height:1.6;margin:0 0 20px;">
+                You're on a 7-day free trial — no credit card needed. Here's how to get the most out of it:
+            </p>
+
+            <!-- Onboarding steps -->
+            <ol style="color:#374151;font-size:15px;line-height:1.7;padding-left:20px;margin:0 0 28px;">
+                <li style="margin-bottom:10px;">
+                    <strong>Add your product.</strong> Give us the name, category, and 2–3 competitors.
+                </li>
+                <li style="margin-bottom:10px;">
+                    <strong>Run your first scan.</strong> We query Claude, GPT, Gemini and Perplexity with real buyer-intent questions and report who gets mentioned — you or your competitors.
+                </li>
+                <li style="margin-bottom:10px;">
+                    <strong>Watch the weekly digest.</strong> Every Monday we'll email a summary of how your AI visibility is trending, plus action items from Claude.
+                </li>
+            </ol>
+
+            <!-- CTA -->
+            <div style="text-align:center;margin:32px 0;">
+                <a href="{dashboard_url}"
+                   style="display:inline-block;background:#6366f1;color:white;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;">
+                    Open Your Dashboard →
+                </a>
+            </div>
+
+            <p style="color:#6b7280;font-size:13px;line-height:1.6;margin:24px 0 0;border-top:1px solid #e5e7eb;padding-top:20px;">
+                Replies to this address aren't monitored. If you need help, hit reply-all to any digest email or ping us from the in-app support link.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div style="padding:20px 32px;background:#f9fafb;border-top:1px solid #e5e7eb;text-align:center;">
+            <p style="font-size:12px;color:#9ca3af;margin:0;line-height:1.6;">
+                Illusion · You're getting this because you just signed up.<br>
+                <a href="{unsubscribe_url}" style="color:#6b7280;text-decoration:underline;">Unsubscribe from all emails</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+"""
+
+    try:
+        params = {
+            "from": settings.resend_from_email,
+            "to": [to_email],
+            "subject": "Welcome to Illusion — let's see where you stand in AI search",
+            "html": html_body,
+            # Even though this is transactional, include the header so Gmail
+            # groups us cleanly and the "Unsubscribe" chip appears if the user
+            # marks a later mail as spam.
+            "headers": _bulk_email_headers(unsubscribe_url),
+        }
+        resend.Emails.send(params)
+        return True
+    except Exception as e:
+        print(f"[EMAIL] Failed to send welcome to {to_email}: {e}")
+        return False
 
 
 def send_weekly_digest(
@@ -15,10 +133,11 @@ def send_weekly_digest(
     product_name: str,
     scan_summary: dict,
     week_start: Optional[datetime] = None,
+    unsubscribe_token: Optional[str] = None,
 ) -> bool:
     """
     Send a weekly digest email showing AI mention results.
-    
+
     scan_summary = {
         "total_queries": int,
         "mentions": int,
@@ -28,8 +147,13 @@ def send_weekly_digest(
         "best_position": int | None,
         "sample_responses": list[dict]  # {query, mentioned, position, sentiment}
     }
+
+    unsubscribe_token: the user's User.unsubscribe_token. When provided we wire
+    up the List-Unsubscribe / one-click headers Gmail requires for bulk mail.
+    Old callers that don't pass one will still work but fall back to the
+    settings page (not compliant — fix callers).
     """
-    if not settings.resend_api_key or settings.resend_api_key == "re_your_key_here":
+    if not _is_resend_configured():
         print(f"[EMAIL] Resend not configured. Would send digest to {to_email}")
         return False
 
@@ -58,6 +182,14 @@ def send_weekly_digest(
 
     sentiment_emoji = {"positive": "😊", "neutral": "😐", "negative": "😟"}.get(sentiment, "😐")
     position_text = f"#{best_position}" if best_position else "Not ranked"
+
+    # Unsubscribe wiring. Falls back to /settings if no token was passed by the
+    # caller — we still emit the email, but without one-click headers.
+    unsubscribe_url = (
+        build_unsubscribe_url(unsubscribe_token, "weekly_digest")
+        if unsubscribe_token
+        else f"{settings.app_url}/settings"
+    )
 
     competitors_html = ""
     if competitors:
@@ -96,7 +228,7 @@ def send_weekly_digest(
     <div style="max-width:600px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
         <!-- Header -->
         <div style="background:linear-gradient(135deg,#6366f1,#8b5cf6);padding:32px;text-align:center;">
-            <div style="font-size:22px;font-weight:700;color:white;">AI Mention Tracker</div>
+            <div style="font-size:22px;font-weight:700;color:white;">Illusion</div>
             <div style="color:#c7d2fe;margin-top:4px;font-size:14px;">Weekly Digest · {week_label}</div>
         </div>
         
@@ -144,8 +276,8 @@ def send_weekly_digest(
         
         <!-- Footer -->
         <div style="padding:20px 32px;background:#f9fafb;border-top:1px solid #e5e7eb;text-align:center;">
-            <p style="font-size:12px;color:#9ca3af;margin:0;">
-                AI Mention Tracker · <a href="{settings.app_url}/settings" style="color:#6366f1;">Manage notifications</a>
+            <p style="font-size:12px;color:#9ca3af;margin:0;line-height:1.6;">
+                Illusion · <a href="{settings.app_url}/settings" style="color:#6b7280;text-decoration:underline;">Manage notifications</a> · <a href="{unsubscribe_url}" style="color:#6b7280;text-decoration:underline;">Unsubscribe</a>
             </p>
         </div>
     </div>
@@ -160,6 +292,10 @@ def send_weekly_digest(
             "subject": f"🔍 AI Mention Digest: {product_name} — Week of {week_label}",
             "html": html_body,
         }
+        # Only attach one-click headers when we have a real token — Gmail
+        # requires the URL in List-Unsubscribe to actually work without login.
+        if unsubscribe_token:
+            params["headers"] = _bulk_email_headers(unsubscribe_url)
         resend.Emails.send(params)
         return True
     except Exception as e:
@@ -167,14 +303,27 @@ def send_weekly_digest(
         return False
 
 
-def send_mention_alert(to_email: str, product_name: str, query: str, position: int, sentiment: str) -> bool:
+def send_mention_alert(
+    to_email: str,
+    product_name: str,
+    query: str,
+    position: int,
+    sentiment: str,
+    unsubscribe_token: Optional[str] = None,
+) -> bool:
     """Send an immediate alert when product gets a new mention."""
-    if not settings.resend_api_key or settings.resend_api_key == "re_your_key_here":
+    if not _is_resend_configured():
         print(f"[EMAIL] Resend not configured. Would send alert to {to_email}")
         return False
 
     sentiment_emoji = {"positive": "🟢", "neutral": "🟡", "negative": "🔴"}.get(sentiment, "🟡")
-    
+
+    unsubscribe_url = (
+        build_unsubscribe_url(unsubscribe_token, "mention_alerts")
+        if unsubscribe_token
+        else f"{settings.app_url}/settings"
+    )
+
     html_body = f"""
 <!DOCTYPE html>
 <html>
@@ -193,11 +342,14 @@ def send_mention_alert(to_email: str, product_name: str, query: str, position: i
             {sentiment_emoji} Sentiment: <strong>{sentiment}</strong>
         </div>
         <div style="text-align:center;margin-top:24px;">
-            <a href="{settings.app_url}/dashboard" 
+            <a href="{settings.app_url}/dashboard"
                style="background:#6366f1;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:600;">
                 View Details →
             </a>
         </div>
+        <p style="font-size:12px;color:#9ca3af;text-align:center;margin:24px 0 0;border-top:1px solid #e5e7eb;padding-top:16px;">
+            Illusion · <a href="{unsubscribe_url}" style="color:#6b7280;text-decoration:underline;">Unsubscribe from alerts</a>
+        </p>
     </div>
 </body>
 </html>
@@ -209,6 +361,8 @@ def send_mention_alert(to_email: str, product_name: str, query: str, position: i
             "subject": f"🔔 {product_name} mentioned in AI response (#{position})",
             "html": html_body,
         }
+        if unsubscribe_token:
+            params["headers"] = _bulk_email_headers(unsubscribe_url)
         resend.Emails.send(params)
         return True
     except Exception as e:

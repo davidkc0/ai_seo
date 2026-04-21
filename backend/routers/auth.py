@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+import secrets
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -9,6 +10,7 @@ from database import get_db
 from models import User, NotificationSettings
 from auth import verify_password, get_password_hash, create_access_token, get_current_user
 from config import settings
+from email_service import send_welcome_email
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
@@ -25,7 +27,11 @@ class TokenResponse(BaseModel):
 
 
 @router.post("/register", response_model=TokenResponse)
-async def register(req: RegisterRequest, db: AsyncSession = Depends(get_db)):
+async def register(
+    req: RegisterRequest,
+    background_tasks: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+):
     result = await db.execute(select(User).where(User.email == req.email))
     if result.scalar_one_or_none():
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -33,12 +39,15 @@ async def register(req: RegisterRequest, db: AsyncSession = Depends(get_db)):
     if len(req.password) < 8:
         raise HTTPException(status_code=400, detail="Password must be at least 8 characters")
 
-    # Create user on free trial
+    # Create user on free trial. Generate the unsubscribe_token up front so the
+    # first email we send them (welcome) already has a working unsubscribe URL.
+    unsub_token = secrets.token_urlsafe(32)
     user = User(
         email=req.email,
         hashed_password=get_password_hash(req.password),
         plan="free",
         trial_ends_at=datetime.now(timezone.utc) + timedelta(days=7),
+        unsubscribe_token=unsub_token,
     )
     db.add(user)
     await db.flush()
@@ -47,6 +56,15 @@ async def register(req: RegisterRequest, db: AsyncSession = Depends(get_db)):
     notif = NotificationSettings(user_id=user.id, weekly_digest=True)
     db.add(notif)
     await db.commit()
+
+    # Fire welcome email after we've committed. BackgroundTasks runs after the
+    # response is returned, so signup latency isn't blocked on Resend's API.
+    # Failures are logged inside send_welcome_email and never raise.
+    background_tasks.add_task(
+        send_welcome_email,
+        to_email=user.email,
+        unsubscribe_token=unsub_token,
+    )
 
     token = create_access_token({"sub": user.email})
     return {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Search, BarChart2, Mail, Zap, Target, TrendingUp } from 'lucide-react'
+import { Search, BarChart2, Mail, Zap, Target, Sparkles } from 'lucide-react'
 import doughnut from '../assets/doughnut.jpg'
 import cube from '../assets/cube.jpg'
 import diamond from '../assets/diamond.jpg'
@@ -8,12 +8,12 @@ import illusionLogo from '../assets/illusion_logo.svg'
 import './Landing.css'
 
 const features = [
-  { icon: <Search size={24} />, title: 'AI Query Monitoring', desc: 'We ask ChatGPT, Claude, Gemini, and Perplexity category questions — just like your customers do.' },
+  { icon: <Search size={24} />, title: 'Multi-AI Query Monitoring', desc: 'We ask ChatGPT, Claude, Gemini, and Perplexity the category questions your customers are already typing.' },
   { icon: <BarChart2 size={24} />, title: 'Mention Analytics', desc: 'See if your product gets mentioned, at what rank, and with what sentiment — compared to competitors.' },
-  { icon: <Mail size={24} />, title: 'Weekly Email Digest', desc: 'Get a clean, scannable summary every Monday morning — no login required to see the highlights.' },
-  { icon: <Zap size={24} />, title: 'Instant Alerts', desc: 'New mention at #1? Get notified within the hour. Never miss a ranking change.' },
-  { icon: <Target size={24} />, title: 'Competitor Tracking', desc: 'See exactly which competitors AI recommends instead of you — and spot patterns to act on.' },
-  { icon: <TrendingUp size={24} />, title: 'Trend Over Time', desc: 'Watch your AI visibility grow week over week as you improve your content and positioning.' },
+  { icon: <Sparkles size={24} />, title: 'AI-Generated Recommendations', desc: 'Every scan, Claude reads your results and the Google AI Overview to tell you exactly what to fix next.' },
+  { icon: <Target size={24} />, title: 'Google AI Overview Tracking', desc: 'We scrape the Overview box for your primary query so you know whether Google is citing you — and who it cites instead.' },
+  { icon: <Mail size={24} />, title: 'Weekly Email Digest', desc: 'A scannable summary in your inbox every Monday — mentions, wins, and the one thing to work on this week.' },
+  { icon: <Zap size={24} />, title: 'Competitor Tracking', desc: 'See exactly which competitors AI recommends instead of you — and spot patterns you can act on.' },
 ]
 
 const testimonials = [
@@ -41,11 +41,11 @@ export default function Landing() {
       {/* Hero */}
       <section className="hero">
         <div className="hero-left">
-          <div className="hero-badge">New: Gemini &amp; Perplexity tracking →</div>
+          <div className="hero-badge">New: Google AI Overview tracking →</div>
           <h1>Does AI recommend<br /><span className="gradient-text">your product</span>?</h1>
           <p className="hero-sub">
-            Your customers ask ChatGPT, Claude, and Gemini for tool recommendations.
-            Mention Tracker shows you exactly what those AIs say — and helps you get mentioned more.
+            Your customers ask ChatGPT, Claude, Gemini, and Perplexity for tool recommendations.
+            Illusion shows you exactly what those AIs say — and tells you how to get mentioned more.
           </p>
           <form className="hero-cta" onSubmit={e => { e.preventDefault(); const email = e.target.email.value; window.location.href = `/register?email=${encodeURIComponent(email)}`; }}>
             <div className="hero-input-group">
@@ -103,20 +103,20 @@ export default function Landing() {
         <div className="steps">
           <div className="step">
             <div className="step-num">1</div>
-            <h3>Register your product</h3>
-            <p>Tell us your product name, category, keywords, and competitors.</p>
+            <h3>Add your product</h3>
+            <p>Tell us your product name, category, keywords, and competitors. Takes 30 seconds.</p>
           </div>
           <div className="step-arrow">→</div>
           <div className="step">
             <div className="step-num">2</div>
-            <h3>We query the AIs</h3>
-            <p>We ask Claude and friends dozens of relevant category questions — daily.</p>
+            <h3>We query every major AI</h3>
+            <p>Illusion asks Claude, ChatGPT, Gemini, and Perplexity the questions your customers are actually asking.</p>
           </div>
           <div className="step-arrow">→</div>
           <div className="step">
             <div className="step-num">3</div>
-            <h3>Get actionable insights</h3>
-            <p>See your ranking, sentiment, and which competitors beat you — then fix it.</p>
+            <h3>Get your playbook</h3>
+            <p>See your rankings, sentiment, and competitors — plus a Claude-written list of exactly what to do next.</p>
           </div>
         </div>
       </section>
@@ -161,6 +161,7 @@ export default function Landing() {
               <li>✓ 1 product</li>
               <li>✓ 5 keywords</li>
               <li>✓ Daily AI scan</li>
+              <li>✓ AI-generated recommendations</li>
               <li>✓ Weekly email digest</li>
               <li>✓ Competitor tracking</li>
             </ul>
@@ -174,8 +175,9 @@ export default function Landing() {
               <li>✓ 3 products</li>
               <li>✓ 20 keywords</li>
               <li>✓ Daily AI scan</li>
+              <li>✓ AI-generated recommendations</li>
+              <li>✓ Google AI Overview tracking</li>
               <li>✓ Weekly email digest</li>
-              <li>✓ Instant mention alerts</li>
               <li>✓ Competitor comparison</li>
             </ul>
             <Link to="/register" className="plan-btn plan-btn-primary">Get started →</Link>

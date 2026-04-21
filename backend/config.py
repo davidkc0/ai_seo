@@ -21,7 +21,7 @@ class Settings(BaseSettings):
 
     # Resend
     resend_api_key: str = ""
-    resend_from_email: str = "noreply@aimentiontacker.com"
+    resend_from_email: str = "noreply@contact.illusion.ai"
 
     # Stripe
     stripe_secret_key: str = ""

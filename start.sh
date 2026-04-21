@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start AI Mention Tracker locally: backend on :8000, frontend on :5173.
+# Start Illusion locally: backend on :8000, frontend on :5173.
 # Kills both on Ctrl-C.
 
 set -euo pipefail

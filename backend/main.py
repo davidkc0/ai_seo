@@ -1,5 +1,5 @@
 """
-AI Mention Tracker - Backend API
+Illusion - Backend API
 FastAPI server with SQLite, scheduled monitoring, and Stripe billing.
 """
 import asyncio
@@ -12,7 +12,7 @@ import os
 
 from database import init_db
 from scheduler import start_scheduler
-from routers import auth, products, billing, settings as settings_router
+from routers import auth, products, billing, settings as settings_router, unsubscribe
 from config import settings as app_settings
 
 
@@ -28,7 +28,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="AI Mention Tracker",
+    title="Illusion",
     description="Track what AI says about your product",
     version="1.0.0",
     lifespan=lifespan,
@@ -58,6 +58,7 @@ app.include_router(auth.router)
 app.include_router(products.router)
 app.include_router(billing.router)
 app.include_router(settings_router.router)
+app.include_router(unsubscribe.router)
 
 
 @app.get("/api/health")

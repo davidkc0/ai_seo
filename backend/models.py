@@ -22,6 +22,9 @@ class User(Base):
     trial_ends_at = Column(DateTime, nullable=True)
     stripe_customer_id = Column(String, nullable=True)
     stripe_subscription_id = Column(String, nullable=True)
+    # Signed random token used for one-click unsubscribe links. Nullable so older
+    # rows don't break the ADD COLUMN migration; backfilled on startup.
+    unsubscribe_token = Column(String(64), unique=True, index=True, nullable=True)
     created_at = Column(DateTime, default=utcnow)
 
     products = relationship("Product", back_populates="owner", cascade="all, delete-orphan")
@@ -70,6 +73,9 @@ class NotificationSettings(Base):
     weekly_digest = Column(Boolean, default=True)
     mention_alerts = Column(Boolean, default=False)
     competitor_alerts = Column(Boolean, default=False)
+    # Marketing / product newsletter — separate from transactional mail. Users
+    # can opt out via the one-click unsubscribe link in any bulk email.
+    marketing_emails = Column(Boolean, default=True)
     alert_email = Column(String, nullable=True)
 
 

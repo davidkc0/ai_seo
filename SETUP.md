@@ -1,6 +1,6 @@
 # Setup
 
-First-time setup instructions for AI Mention Tracker. Takes ~15 minutes if you already have Python 3.11+ and Node 18+ installed.
+First-time setup instructions for Illusion. Takes ~15 minutes if you already have Python 3.11+ and Node 18+ installed.
 
 ---
 
@@ -77,7 +77,7 @@ Get your Anthropic key at <https://console.anthropic.com/settings/keys>. Claude 
 
 ```env
 RESEND_API_KEY=re_...
-RESEND_FROM_EMAIL=noreply@yourdomain.com
+RESEND_FROM_EMAIL=noreply@contact.illusion.ai
 ```
 
 1. Sign up at <https://resend.com> (free tier = 3,000 emails/month).

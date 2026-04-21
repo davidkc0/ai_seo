@@ -1,4 +1,4 @@
-# AI Mention Tracker
+# Illusion
 
 Track whether AI assistants like Claude and ChatGPT mention your product when users ask category questions. Because more and more buying decisions start with "what's the best X?" asked to an AI — and if your product doesn't show up in that answer, you're invisible.
 

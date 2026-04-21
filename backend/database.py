@@ -4,7 +4,14 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import DeclarativeBase
 from config import settings
 
-engine = create_async_engine(settings.database_url, echo=False)
+# Railway provides postgresql:// but SQLAlchemy async needs postgresql+asyncpg://
+_db_url = settings.database_url
+if _db_url.startswith("postgresql://"):
+    _db_url = _db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+elif _db_url.startswith("postgres://"):
+    _db_url = _db_url.replace("postgres://", "postgresql+asyncpg://", 1)
+
+engine = create_async_engine(_db_url, echo=False)
 AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 
 
@@ -57,7 +64,7 @@ def _ensure_notification_marketing_column(sync_conn):
         print("[Migration] Adding notification_settings.marketing_emails column")
         sync_conn.execute(text(
             "ALTER TABLE notification_settings "
-            "ADD COLUMN marketing_emails BOOLEAN DEFAULT 1"
+            "ADD COLUMN marketing_emails BOOLEAN DEFAULT TRUE"
         ))
 
 

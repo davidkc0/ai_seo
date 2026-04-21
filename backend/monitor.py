@@ -164,26 +164,39 @@ def run_product_scan(
     Run a full scan for a product across all (or a subset of) providers.
     Returns list of scan result dicts, each tagged with its provider.
 
-    `providers` defaults to every key in PROVIDERS. Pass a subset to limit
-    scans (e.g. for a cheap plan or a specific-provider re-scan).
+    All provider×query combinations run in parallel via ThreadPoolExecutor
+    to keep total scan time under ~20s instead of 4+ minutes sequential.
     """
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
     queries = build_queries(product_name, category, use_case, competitors, keywords)
     active_providers = providers or list(PROVIDERS.keys())
     results = []
 
-    for provider_tag in active_providers:
-        for query in queries:
-            try:
-                response = query_provider(provider_tag, query)
-                analysis = analyze_response(response, product_name, competitors)
-                results.append({
-                    "query": query,
-                    "ai_model": provider_tag,     # "claude" | "gpt" | "gemini" | "perplexity"
-                    "full_response": response,
-                    **analysis,
-                })
-            except Exception as e:
-                # Log and continue — one provider failing shouldn't kill the whole scan.
-                print(f"[monitor] {provider_tag} failed on '{query[:60]}...': {e}")
+    def _run_one(provider_tag: str, query: str) -> dict | None:
+        try:
+            response = query_provider(provider_tag, query)
+            analysis = analyze_response(response, product_name, competitors)
+            return {
+                "query": query,
+                "ai_model": provider_tag,
+                "full_response": response,
+                **analysis,
+            }
+        except Exception as e:
+            print(f"[monitor] {provider_tag} failed on '{query[:60]}...': {e}")
+            return None
+
+    with ThreadPoolExecutor(max_workers=12) as pool:
+        futures = {
+            pool.submit(_run_one, ptag, q): (ptag, q)
+            for ptag in active_providers
+            for q in queries
+        }
+        for future in as_completed(futures):
+            result = future.result()
+            if result:
+                results.append(result)
 
     return results
+

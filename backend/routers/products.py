@@ -6,7 +6,7 @@ from typing import Optional, List
 from datetime import datetime
 
 from database import get_db
-from models import User, Product, ScanResult
+from models import User, Product, ScanResult, AIOverviewSnapshot, Recommendation
 from auth import get_current_user
 
 router = APIRouter(prefix="/api/products", tags=["products"])
@@ -295,4 +295,74 @@ async def get_summary(
             }
             for s in scans[:10]
         ],
+    }
+
+
+async def _verify_product_ownership(product_id: int, user: User, db: AsyncSession):
+    result = await db.execute(
+        select(Product).where(Product.id == product_id, Product.user_id == user.id)
+    )
+    product = result.scalar_one_or_none()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return product
+
+
+@router.get("/{product_id}/ai-overview")
+async def get_ai_overview(
+    product_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Return the most recent Google AI Overview snapshot for a product."""
+    await _verify_product_ownership(product_id, current_user, db)
+
+    result = await db.execute(
+        select(AIOverviewSnapshot)
+        .where(AIOverviewSnapshot.product_id == product_id)
+        .order_by(AIOverviewSnapshot.created_at.desc())
+        .limit(1)
+    )
+    snap = result.scalar_one_or_none()
+    if not snap:
+        return None
+    return {
+        "id": snap.id,
+        "query": snap.query,
+        "was_returned": snap.was_returned,
+        "overview_text": snap.overview_text,
+        "text_blocks": snap.text_blocks,
+        "references": snap.references,
+        "created_at": snap.created_at,
+    }
+
+
+@router.get("/{product_id}/recommendations")
+async def get_recommendations(
+    product_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Return the most recent Claude-generated recommendations for a product."""
+    await _verify_product_ownership(product_id, current_user, db)
+
+    result = await db.execute(
+        select(Recommendation)
+        .where(Recommendation.product_id == product_id)
+        .order_by(Recommendation.created_at.desc())
+        .limit(1)
+    )
+    rec = result.scalar_one_or_none()
+    if not rec:
+        return None
+    return {
+        "id": rec.id,
+        "executive_summary": rec.executive_summary,
+        "strengths": rec.strengths,
+        "weaknesses": rec.weaknesses,
+        "actions": rec.actions,
+        "based_on_scan_count": rec.based_on_scan_count,
+        "model_used": rec.model_used,
+        "ai_overview_snapshot_id": rec.ai_overview_snapshot_id,
+        "created_at": rec.created_at,
     }

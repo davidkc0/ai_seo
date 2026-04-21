@@ -71,3 +71,43 @@ class NotificationSettings(Base):
     mention_alerts = Column(Boolean, default=False)
     competitor_alerts = Column(Boolean, default=False)
     alert_email = Column(String, nullable=True)
+
+
+class AIOverviewSnapshot(Base):
+    """Cached Google AI Overview result for a product's primary query."""
+    __tablename__ = "ai_overview_snapshots"
+
+    id = Column(Integer, primary_key=True, index=True)
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=False, index=True)
+    query = Column(Text, nullable=False)
+    # Flattened plain-text version of the overview, convenient for prompts and UI.
+    overview_text = Column(Text, nullable=True)
+    # Structured data from SerpAPI: list of {type, snippet/list/...}.
+    text_blocks = Column(JSON, default=list)
+    # Cited sources: [{url, title, source}].
+    references = Column(JSON, default=list)
+    # Raw SerpAPI response for debugging / future reprocessing.
+    raw_response = Column(JSON, default=dict)
+    # True if SerpAPI returned a non-empty AI Overview (only ~36% of queries do).
+    was_returned = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=utcnow)
+
+
+class Recommendation(Base):
+    """Claude-generated SEO / positioning recommendations for a product."""
+    __tablename__ = "recommendations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=False, index=True)
+    ai_overview_snapshot_id = Column(Integer, ForeignKey("ai_overview_snapshots.id"), nullable=True)
+    # 2-3 sentence high-level diagnosis.
+    executive_summary = Column(Text, nullable=False)
+    # Lists of short strings.
+    strengths = Column(JSON, default=list)
+    weaknesses = Column(JSON, default=list)
+    # Prioritized actions: [{priority: "high"|"medium"|"low", title, rationale}].
+    actions = Column(JSON, default=list)
+    # How many scan results the rec is based on — lets frontend show "based on N queries".
+    based_on_scan_count = Column(Integer, default=0)
+    model_used = Column(String, default="claude")  # e.g. "claude-sonnet-4-5"
+    created_at = Column(DateTime, default=utcnow)

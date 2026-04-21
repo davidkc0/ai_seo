@@ -6,9 +6,11 @@ Track whether AI assistants like Claude and ChatGPT mention your product when us
 
 1. You tell it about your product: name, category (e.g. "project management software"), use case, competitors, keywords.
 2. It generates realistic buyer queries — "what are the best project management tools?", "alternatives to Asana", etc.
-3. It asks those queries to Claude on a schedule (weekly on free, daily on paid).
-4. It parses each response and extracts: whether your product was mentioned, what rank, sentiment, and which competitors showed up.
-5. It shows the history and trends in a dashboard, and (on paid plans) emails you a weekly digest plus instant alerts when a mention appears.
+3. It asks those queries to **Claude, GPT, Gemini, and Perplexity** on a schedule (weekly on free, daily on paid) — all routed through a single OpenRouter key so you only deal with one vendor.
+4. It parses each response and extracts: whether your product was mentioned, what rank, sentiment, and which competitors showed up — tagged by provider so you can see where you're winning vs losing.
+5. It scrapes **Google's AI Overview** for the primary category query (via SerpAPI) so you see which sources Google itself cites in its AI answers.
+6. It feeds all of that — LLM mention data + competitors + AI Overview citations — into Claude directly, which returns a prioritized action list of concrete SEO / content moves to improve rankings across AI search.
+7. It shows history, trends, and recommendations in a dashboard, and (on paid plans) emails a weekly digest plus instant alerts when a mention appears.
 
 ## Plans
 
@@ -20,7 +22,7 @@ Track whether AI assistants like Claude and ChatGPT mention your product when us
 
 ## Stack
 
-- **Backend:** FastAPI (Python 3.11+), SQLAlchemy async, SQLite, APScheduler, JWT auth (bcrypt), Anthropic SDK, Resend, Stripe
+- **Backend:** FastAPI (Python 3.11+), SQLAlchemy async, SQLite, APScheduler, JWT auth (bcrypt), OpenRouter (Claude + GPT + Gemini + Perplexity for scans), Anthropic SDK (direct Claude for recommendations), SerpAPI (Google AI Overview), Resend, Stripe
 - **Frontend:** React 18, Vite, React Router, Lucide icons
 - **Deployment target:** Backend on Railway/Render, frontend on Vercel
 
@@ -70,14 +72,25 @@ ai-mention-tracker/
 
 ## How the monitoring works
 
-`backend/monitor.py` is the heart of the product:
+The scan pipeline lives across three modules:
 
+**`backend/monitor.py`** — LLM scanning
 1. **`build_queries(...)`** — generates 6–8 buyer-intent queries from a product's category, use case, competitors, and keywords.
-2. **`query_claude(prompt)`** — sends each query to `claude-haiku-4-5` (fast + cheap; ~\$0.001 per query).
+2. **`query_provider(provider_tag, prompt)`** — routes to the specified provider via OpenRouter's OpenAI-compatible API. The `PROVIDERS` dict maps short tags (`claude`, `gpt`, `gemini`, `perplexity`) to model ids.
 3. **`analyze_response(...)`** — regex/text parsing to detect whether the product appears, estimate list position, classify sentiment from surrounding words, and tag which competitors were mentioned.
-4. **`run_product_scan(...)`** — runs all queries for a product and returns a list of `ScanResult` dicts.
+4. **`run_product_scan(...)`** — runs every query against every provider. ~24–32 queries per scan → ~$0.02–0.04 in OpenRouter cost.
 
-The scheduler (`backend/scheduler.py`) runs three cron jobs:
+**`backend/serp.py`** — Google AI Overview scraping
+- **`fetch_ai_overview(query)`** — hits SerpAPI's `engine=google` search, looks for an inline `ai_overview` block, and falls back to the `page_token` → `engine=google_ai_overview` flow when Google defers the result. Returns normalized `{overview_text, text_blocks, references, was_returned}`.
+- Only the primary category query is sent (1 SerpAPI credit per scan). ~36% of queries return actual AI Overview content; the rest are recorded as `was_returned=False`.
+
+**`backend/recommendations.py`** — Claude-generated SEO plan
+- **`build_prompt(product, scan_results, ai_overview)`** — assembles product metadata + per-provider mention stats + representative response samples + AI Overview text and citations.
+- **`generate_recommendations(...)`** — calls Anthropic directly (using `ANTHROPIC_API_KEY`, separate from OpenRouter) and expects structured JSON back: `{executive_summary, strengths, weaknesses, actions: [{priority, title, rationale}]}`. ~$0.02 per summary with Sonnet 4.5.
+
+**`backend/scheduler.py`** ties it together: after the LLM scan saves `ScanResult` rows it runs SerpAPI (saved as `AIOverviewSnapshot`) then Claude (saved as `Recommendation`). Both steps are wrapped in try/except so a SerpAPI or Claude failure never fails the scan.
+
+The scheduler runs three cron jobs:
 - **Daily 06:00 UTC** — scan every active product belonging to `starter` or `growth` users.
 - **Monday 07:00 UTC** — scan every active product belonging to `free` users.
 - **Monday 09:00 UTC** — send weekly email digests to all users who haven't disabled them.

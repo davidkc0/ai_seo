@@ -55,6 +55,8 @@ export const api = {
   scanProduct: (id) => request(`/products/${id}/scan`, { method: 'POST' }),
   getResults: (id, limit = 50) => request(`/products/${id}/results?limit=${limit}`),
   getSummary: (id) => request(`/products/${id}/summary`),
+  getRecommendations: (id) => request(`/products/${id}/recommendations`),
+  getAIOverview: (id) => request(`/products/${id}/ai-overview`),
 
   // Billing
   getPlans: () => request('/billing/plans'),

@@ -23,19 +23,15 @@
 .sidebar-logo {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
   padding: 6px 12px 20px;
   border-bottom: 1px solid var(--border);
   margin-bottom: 16px;
 }
 
-.sidebar-logo svg {
-  color: var(--primary);
-  flex-shrink: 0;
+.sidebar-logo img {
+  height: 24px;
+  width: auto;
+  display: block;
 }
 
 .spin-icon {
@@ -338,6 +334,87 @@
 .success-msg,
 .error-msg {
   margin-bottom: 20px;
+}
+
+/* ─── Researching Banner (scan-in-progress) ─────────────────── */
+.researching-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  background: linear-gradient(
+    90deg,
+    rgba(16, 185, 129, 0.08),
+    rgba(16, 185, 129, 0.02)
+  );
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.researching-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(16, 185, 129, 0.08),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: shimmer 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+.researching-banner .spin-icon {
+  color: var(--primary);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.researching-text {
+  flex: 1;
+  min-width: 0;
+  z-index: 1;
+}
+
+.researching-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+}
+
+.researching-sub {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  animation: fadepulse 2.5s ease-in-out infinite;
+}
+
+@keyframes fadepulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 1; }
+}
+
+.researching-hint {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  white-space: nowrap;
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .researching-hint { display: none; }
 }
 
 /* ─── Card override for dashboard ──────────────────────────── */

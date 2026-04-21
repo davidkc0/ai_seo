@@ -1,11 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { api } from '../api'
-import { Radar, Package, Settings, CreditCard, LogOut, Rocket, Search, CheckCircle, XCircle, Loader } from 'lucide-react'
+import { Package, Settings, CreditCard, LogOut, Rocket, Search, CheckCircle, XCircle, Loader } from 'lucide-react'
 import ProductModal from '../components/ProductModal'
 import ScanResults from '../components/ScanResults'
+import Recommendations from '../components/Recommendations'
+import illusionLogo from '../assets/illusion_logo.svg'
 import './Dashboard.css'
+
+const RESEARCH_MESSAGES = [
+  'Asking Claude...',
+  'Asking GPT...',
+  'Asking Gemini...',
+  'Asking Perplexity...',
+  'Parsing responses...',
+  'Tallying mentions...',
+]
 
 export default function Dashboard() {
   const { user, logout } = useAuth()
@@ -15,8 +26,13 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [scanning, setScanning] = useState(false)
+  const [scanStatus, setScanStatus] = useState('')
   const [scanMessage, setScanMessage] = useState('')
+  const [resultsRefreshKey, setResultsRefreshKey] = useState(0)
   const [searchParams] = useSearchParams()
+
+  const pollRef = useRef(null)
+  const statusRotateRef = useRef(null)
 
   useEffect(() => {
     loadProducts()
@@ -30,6 +46,14 @@ export default function Dashboard() {
       loadSummary(selectedProduct.id)
     }
   }, [selectedProduct])
+
+  // Cleanup pollers on unmount
+  useEffect(() => {
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current)
+      if (statusRotateRef.current) clearInterval(statusRotateRef.current)
+    }
+  }, [])
 
   const loadProducts = async () => {
     try {
@@ -52,18 +76,82 @@ export default function Dashboard() {
     }
   }
 
+  const stopScanning = (msg) => {
+    if (pollRef.current) clearInterval(pollRef.current)
+    if (statusRotateRef.current) clearInterval(statusRotateRef.current)
+    pollRef.current = null
+    statusRotateRef.current = null
+    setScanning(false)
+    setScanStatus('')
+    if (msg) setScanMessage(msg)
+  }
+
   const triggerScan = async () => {
     if (!selectedProduct) return
+
+    // Capture the newest existing result ID so we can detect new ones
+    let baselineId = 0
+    try {
+      const existing = await api.getResults(selectedProduct.id, 1)
+      baselineId = existing[0]?.id ?? 0
+    } catch {}
+
+    const scanStartTime = Date.now()
     setScanning(true)
     setScanMessage('')
+    setScanStatus(RESEARCH_MESSAGES[0])
+
     try {
       await api.scanProduct(selectedProduct.id)
-      setScanMessage('success:Scan started! Results will appear in a few minutes.')
     } catch (e) {
-      setScanMessage(`error:${e.message}`)
-    } finally {
       setScanning(false)
+      setScanStatus('')
+      setScanMessage(`error:${e.message}`)
+      return
     }
+
+    // Rotate the "what we're doing right now" message
+    let msgIdx = 0
+    statusRotateRef.current = setInterval(() => {
+      msgIdx = (msgIdx + 1) % RESEARCH_MESSAGES.length
+      setScanStatus(RESEARCH_MESSAGES[msgIdx])
+    }, 2500)
+
+    // Poll for new results
+    const POLL_INTERVAL_MS = 4000
+    const TIMEOUT_MS = 4 * 60 * 1000
+    const IDLE_POLLS_TO_STOP = 4 // ~16s of no new results after at least one arrived
+    const productId = selectedProduct.id
+    let lastSeenId = baselineId
+    let idlePolls = 0
+
+    pollRef.current = setInterval(async () => {
+      if (Date.now() - scanStartTime > TIMEOUT_MS) {
+        stopScanning('error:Scan timed out. Some results may still arrive — try refreshing.')
+        return
+      }
+
+      try {
+        const latest = await api.getResults(productId, 20)
+        const topId = latest[0]?.id ?? 0
+        if (topId !== lastSeenId && topId > baselineId) {
+          lastSeenId = topId
+          idlePolls = 0
+          // Refresh summary + trigger ScanResults reload
+          loadSummary(productId)
+          setResultsRefreshKey(k => k + 1)
+        } else if (topId > baselineId) {
+          idlePolls += 1
+          if (idlePolls >= IDLE_POLLS_TO_STOP) {
+            loadSummary(productId)
+            setResultsRefreshKey(k => k + 1)
+            stopScanning('success:Scan complete.')
+          }
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }, POLL_INTERVAL_MS)
   }
 
   const handleProductCreated = (product) => {
@@ -85,8 +173,7 @@ export default function Dashboard() {
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-logo">
-          <Radar size={16} />
-          <span>Mention Tracker</span>
+          <img src={illusionLogo} alt="Illusion" />
         </div>
 
         <div className="sidebar-section">
@@ -158,7 +245,20 @@ export default function Dashboard() {
               </button>
             </div>
 
-            {scanMessage && (
+            {scanning && (
+              <div className="researching-banner">
+                <Loader size={18} className="spin-icon" />
+                <div className="researching-text">
+                  <div className="researching-title">Researching across 4 AI providers</div>
+                  <div className="researching-sub">{scanStatus || 'Starting scan...'}</div>
+                </div>
+                <div className="researching-hint">
+                  Results will appear below as they come in · ~60–90s total
+                </div>
+              </div>
+            )}
+
+            {!scanning && scanMessage && (
               <div className={scanMsgType === 'error' ? 'error-msg' : 'success-msg'}>
                 {scanMsgText}
               </div>
@@ -194,6 +294,13 @@ export default function Dashboard() {
                     <div className="stat-sub">in same responses</div>
                   </div>
                 </div>
+
+                {/* Recommendations (Claude-generated) */}
+                <Recommendations
+                  productId={selectedProduct?.id}
+                  refreshKey={resultsRefreshKey}
+                  scanning={scanning}
+                />
 
                 {/* Competitors */}
                 {summary.competitors_seen?.length > 0 && (
@@ -239,7 +346,7 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                <ScanResults productId={selectedProduct?.id} />
+                <ScanResults productId={selectedProduct?.id} refreshKey={resultsRefreshKey} />
               </>
             ) : (
               <div className="empty-state">

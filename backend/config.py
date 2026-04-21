@@ -8,8 +8,16 @@ class Settings(BaseSettings):
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 60 * 24 * 7  # 7 days
 
-    # Anthropic
+    # OpenRouter — routes to Claude, GPT, Gemini, Perplexity (for scans)
+    openrouter_api_key: str = ""
+
+    # Anthropic — used directly by recommendations.py to generate the
+    # per-scan SEO summary (fed with LLM scan data + Google AI Overview).
     anthropic_api_key: str = ""
+    anthropic_model: str = "claude-sonnet-4-6"
+
+    # SerpAPI — scrapes Google AI Overview for the primary query each scan.
+    serpapi_api_key: str = ""
 
     # Resend
     resend_api_key: str = ""

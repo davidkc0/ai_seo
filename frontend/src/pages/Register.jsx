@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
-import { Radar, CheckCircle } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
+import illusionLogo from '../assets/illusion_logo.svg'
 import './Auth.css'
 
 export default function Register() {
@@ -34,7 +35,7 @@ export default function Register() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo"><Radar size={16} /> Mention Tracker</div>
+        <div className="auth-logo"><img src={illusionLogo} alt="Illusion" /></div>
         <h1>Start your free trial</h1>
         <p className="auth-sub">7 days free · No credit card required</p>
 

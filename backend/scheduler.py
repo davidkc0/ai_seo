@@ -11,8 +11,10 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import AsyncSessionLocal
-from models import User, Product, ScanResult, NotificationSettings
+from models import User, Product, ScanResult, NotificationSettings, AIOverviewSnapshot, Recommendation
 import monitor
+import serp
+import recommendations
 import email_service
 
 
@@ -53,6 +55,73 @@ async def scan_product(product_id: int, db: AsyncSession):
 
     product.last_scanned_at = datetime.now(timezone.utc)
     await db.commit()
+
+    # ────────────────────────────────────────────────────────────────
+    # AI Overview + Recommendations (best-effort, never fails the scan)
+    # ────────────────────────────────────────────────────────────────
+    ai_overview_snapshot = None
+    try:
+        queries = monitor.build_queries(
+            product_name=product.name,
+            category=product.category,
+            use_case=product.use_case,
+            competitors=product.competitors or [],
+            keywords=product.keywords or [],
+        )
+        primary_query = serp.pick_primary_query(queries)
+        if primary_query:
+            overview = serp.fetch_ai_overview(primary_query)
+            ai_overview_snapshot = AIOverviewSnapshot(
+                product_id=product.id,
+                query=primary_query,
+                overview_text=overview.get("overview_text", ""),
+                text_blocks=overview.get("text_blocks", []),
+                references=overview.get("references", []),
+                raw_response=overview.get("raw_response", {}),
+                was_returned=overview.get("was_returned", False),
+            )
+            db.add(ai_overview_snapshot)
+            await db.commit()
+            await db.refresh(ai_overview_snapshot)
+            print(f"[Scheduler] AI Overview fetched (returned={ai_overview_snapshot.was_returned})")
+    except Exception as e:
+        print(f"[Scheduler] AI Overview step failed: {type(e).__name__}: {e}")
+
+    try:
+        ai_overview_payload = None
+        if ai_overview_snapshot and ai_overview_snapshot.was_returned:
+            ai_overview_payload = {
+                "was_returned": True,
+                "overview_text": ai_overview_snapshot.overview_text,
+                "references": ai_overview_snapshot.references,
+            }
+
+        rec = recommendations.generate_recommendations(
+            product={
+                "name": product.name,
+                "category": product.category,
+                "use_case": product.use_case,
+                "competitors": product.competitors or [],
+                "keywords": product.keywords or [],
+            },
+            scan_results=new_results,
+            ai_overview=ai_overview_payload,
+        )
+        db_rec = Recommendation(
+            product_id=product.id,
+            ai_overview_snapshot_id=ai_overview_snapshot.id if ai_overview_snapshot else None,
+            executive_summary=rec["executive_summary"],
+            strengths=rec["strengths"],
+            weaknesses=rec["weaknesses"],
+            actions=rec["actions"],
+            based_on_scan_count=len(new_results),
+            model_used=rec["model_used"],
+        )
+        db.add(db_rec)
+        await db.commit()
+        print(f"[Scheduler] Recommendations saved ({len(rec['actions'])} actions)")
+    except Exception as e:
+        print(f"[Scheduler] Recommendations step failed: {type(e).__name__}: {e}")
 
     # Check if we should send instant alerts (Growth plan)
     user_result = await db.execute(select(User).where(User.id == product.user_id))

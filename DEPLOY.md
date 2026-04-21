@@ -37,7 +37,10 @@ The `.gitignore` at the root excludes `backend/.env`, `*.db`, `venv/`, and `node
    | Key | Value |
    |---|---|
    | `SECRET_KEY` | generate a new one: `python -c "import secrets; print(secrets.token_hex(32))"` |
-   | `ANTHROPIC_API_KEY` | your Claude key |
+   | `OPENROUTER_API_KEY` | your OpenRouter key (routes to Claude + GPT + Gemini + Perplexity for scans) |
+   | `ANTHROPIC_API_KEY` | your Anthropic key — used directly for the per-scan SEO recommendations |
+   | `ANTHROPIC_MODEL` | `claude-sonnet-4-6` (or omit for the default, or use `claude-haiku-4-5-20251001` to save ~80%) |
+   | `SERPAPI_API_KEY` | your SerpAPI key — scrapes Google AI Overview once per scan. Free tier: 100 searches/mo |
    | `RESEND_API_KEY` | your Resend key |
    | `RESEND_FROM_EMAIL` | `noreply@contact.joinroomieapp.com` |
    | `STRIPE_SECRET_KEY` | `sk_live_...` (or test key to start) |

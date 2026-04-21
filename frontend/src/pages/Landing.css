@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 0 max(40px, calc((100% - 1200px) / 2));
   height: 60px;
   background: rgba(10, 10, 10, 0.85);
   backdrop-filter: blur(12px);
@@ -51,17 +51,12 @@
 .landing-nav .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.01em;
 }
 
-.landing-nav .logo svg {
-  color: var(--primary);
-  flex-shrink: 0;
+.landing-nav .logo img {
+  height: 26px;
+  width: auto;
+  display: block;
 }
 
 .nav-links {
@@ -691,7 +686,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 40px;
+  padding: 20px max(40px, calc((100% - 1200px) / 2));
   border-top: 1px solid var(--border);
   font-family: var(--font-mono);
   font-size: 12px;

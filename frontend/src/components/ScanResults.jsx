@@ -2,24 +2,30 @@ import React, { useState, useEffect } from 'react'
 import { api } from '../api'
 import './ScanResults.css'
 
-export default function ScanResults({ productId }) {
+export default function ScanResults({ productId, refreshKey = 0 }) {
   const [results, setResults] = useState([])
   const [expanded, setExpanded] = useState(null)
   const [loading, setLoading] = useState(false)
 
+  // Initial load / product change — show spinner
   useEffect(() => {
-    if (productId) loadResults()
+    if (productId) loadResults(false)
   }, [productId])
 
-  const loadResults = async () => {
-    setLoading(true)
+  // Silent refresh triggered by parent (e.g. during an in-flight scan)
+  useEffect(() => {
+    if (productId && refreshKey > 0) loadResults(true)
+  }, [refreshKey])
+
+  const loadResults = async (silent = false) => {
+    if (!silent) setLoading(true)
     try {
       const data = await api.getResults(productId, 20)
       setResults(data)
     } catch (e) {
       console.error(e)
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
   }
 
@@ -67,7 +73,7 @@ export default function ScanResults({ productId }) {
             </button>
             {expanded === r.id && (
               <div className="result-response">
-                <div className="response-label">AI Response (Claude {r.ai_model}):</div>
+                <div className="response-label">AI Response ({r.ai_model || 'AI'}):</div>
                 <pre>{r.full_response}</pre>
                 {r.competitors_mentioned?.length > 0 && (
                   <div className="response-competitors">

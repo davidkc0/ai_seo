@@ -25,20 +25,16 @@
 }
 
 .auth-logo {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-muted);
   margin-bottom: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  text-align: center;
 }
 
-.auth-logo svg {
-  color: var(--primary);
+.auth-logo img {
+  height: 28px;
+  width: auto;
+  display: block;
 }
 
 .auth-card h1 {

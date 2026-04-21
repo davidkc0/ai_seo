@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
-import { Radar } from 'lucide-react'
+import illusionLogo from '../assets/illusion_logo.svg'
 import './Auth.css'
 
 export default function Login() {
@@ -29,7 +29,7 @@ export default function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo"><Radar size={16} /> Mention Tracker</div>
+        <div className="auth-logo"><img src={illusionLogo} alt="Illusion" /></div>
         <h1>Welcome back</h1>
         <p className="auth-sub">Log in to your account</p>
 

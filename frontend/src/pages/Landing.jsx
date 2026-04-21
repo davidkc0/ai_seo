@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Radar, Search, BarChart2, Mail, Zap, Target, TrendingUp } from 'lucide-react'
+import { Search, BarChart2, Mail, Zap, Target, TrendingUp } from 'lucide-react'
 import doughnut from '../assets/doughnut.jpg'
 import cube from '../assets/cube.jpg'
 import diamond from '../assets/diamond.jpg'
+import illusionLogo from '../assets/illusion_logo.svg'
 import './Landing.css'
 
 const features = [
@@ -27,8 +28,7 @@ export default function Landing() {
       {/* Nav */}
       <nav className="landing-nav">
         <div className="logo">
-          <Radar size={18} />
-          <span>Mention Tracker</span>
+          <img src={illusionLogo} alt="Illusion" />
         </div>
         <div className="nav-links">
           <a href="#features">Features</a>
@@ -191,7 +191,7 @@ export default function Landing() {
       </section>
 
       <footer className="footer">
-        <div>© 2024 Mention Tracker</div>
+        <div>© 2026 Illusion</div>
         <div className="footer-links">
           <a href="#">Privacy</a>
           <a href="#">Terms</a>

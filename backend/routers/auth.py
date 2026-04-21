@@ -102,3 +102,25 @@ async def get_me(current_user: User = Depends(get_current_user)):
         "trial_ends_at": current_user.trial_ends_at,
         "created_at": current_user.created_at,
     }
+
+
+@router.get("/admin/users")
+async def admin_list_users(key: str, db: AsyncSession = Depends(get_db)):
+    """Quick admin endpoint — pass ?key=<SECRET_KEY> to list all users."""
+    if key != settings.secret_key:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    result = await db.execute(
+        select(User).order_by(User.created_at.desc())
+    )
+    users = result.scalars().all()
+    return [
+        {
+            "id": u.id,
+            "email": u.email,
+            "plan": u.plan,
+            "trial_ends_at": str(u.trial_ends_at) if u.trial_ends_at else None,
+            "created_at": str(u.created_at),
+        }
+        for u in users
+    ]
+

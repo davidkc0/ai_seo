@@ -72,20 +72,20 @@ def send_welcome_email(to_email: str, unsubscribe_token: str) -> bool:
     <table width="100%" cellpadding="0" cellspacing="0">
       <tr><td style="padding:0 0 16px;">
         <table cellpadding="0" cellspacing="0"><tr>
-          <td style="width:28px;height:28px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:50%;color:#34d399;font-size:12px;font-weight:700;text-align:center;line-height:28px;font-family:'JetBrains Mono',monospace;vertical-align:top;" width="28" height="28">1</td>
-          <td style="padding-left:14px;color:#ededed;font-size:14px;line-height:1.65;"><strong>Add your product.</strong> <span style="color:#ccc;">Name, category, and 2&ndash;3 competitors.</span></td>
+          <td style="vertical-align:top;width:28px;" width="28"><div style="width:28px;height:28px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:50%;color:#34d399;font-size:12px;font-weight:700;text-align:center;line-height:28px;font-family:'JetBrains Mono',monospace;">1</div></td>
+          <td style="padding-left:14px;color:#ededed;font-size:14px;line-height:1.65;vertical-align:top;"><strong>Add your product.</strong> <span style="color:#ccc;">Name, category, and 2&ndash;3 competitors.</span></td>
         </tr></table>
       </td></tr>
       <tr><td style="padding:0 0 16px;">
         <table cellpadding="0" cellspacing="0"><tr>
-          <td style="width:28px;height:28px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:50%;color:#34d399;font-size:12px;font-weight:700;text-align:center;line-height:28px;font-family:'JetBrains Mono',monospace;vertical-align:top;" width="28" height="28">2</td>
-          <td style="padding-left:14px;color:#ededed;font-size:14px;line-height:1.65;"><strong>Run your first scan.</strong> <span style="color:#ccc;">We query Claude, GPT, Gemini and Perplexity with real buyer-intent questions.</span></td>
+          <td style="vertical-align:top;width:28px;" width="28"><div style="width:28px;height:28px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:50%;color:#34d399;font-size:12px;font-weight:700;text-align:center;line-height:28px;font-family:'JetBrains Mono',monospace;">2</div></td>
+          <td style="padding-left:14px;color:#ededed;font-size:14px;line-height:1.65;vertical-align:top;"><strong>Run your first scan.</strong> <span style="color:#ccc;">We query Claude, GPT, Gemini and Perplexity with real buyer-intent questions.</span></td>
         </tr></table>
       </td></tr>
       <tr><td>
         <table cellpadding="0" cellspacing="0"><tr>
-          <td style="width:28px;height:28px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:50%;color:#34d399;font-size:12px;font-weight:700;text-align:center;line-height:28px;font-family:'JetBrains Mono',monospace;vertical-align:top;" width="28" height="28">3</td>
-          <td style="padding-left:14px;color:#ededed;font-size:14px;line-height:1.65;"><strong>Watch the weekly digest.</strong> <span style="color:#ccc;">Every Monday we email a summary of your AI visibility trending.</span></td>
+          <td style="vertical-align:top;width:28px;" width="28"><div style="width:28px;height:28px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:50%;color:#34d399;font-size:12px;font-weight:700;text-align:center;line-height:28px;font-family:'JetBrains Mono',monospace;">3</div></td>
+          <td style="padding-left:14px;color:#ededed;font-size:14px;line-height:1.65;vertical-align:top;"><strong>Watch the weekly digest.</strong> <span style="color:#ccc;">Every Monday we email a summary of your AI visibility trending.</span></td>
         </tr></table>
       </td></tr>
     </table>

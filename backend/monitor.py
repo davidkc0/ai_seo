@@ -31,8 +31,8 @@ client = OpenAI(
 PROVIDERS = {
     "claude":     ("Claude Haiku 4.5",   "anthropic/claude-3.5-haiku"),
     "gpt":        ("GPT-4o mini",        "openai/gpt-4o-mini"),
-    "gemini":     ("Gemini Flash",       "google/gemini-flash-1.5"),
-    "perplexity": ("Perplexity Sonar",   "perplexity/llama-3.1-sonar-small-128k-online"),
+    "gemini":     ("Gemini 2.5 Flash",   "google/gemini-2.5-flash"),
+    "perplexity": ("Perplexity Sonar",   "perplexity/sonar"),
 }
 
 

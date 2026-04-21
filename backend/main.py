@@ -66,6 +66,31 @@ async def health():
     return {"status": "ok", "version": "1.0.0"}
 
 
+@app.get("/api/debug/register-test")
+async def debug_register_test():
+    """Temporary debug endpoint — tests each step of register to find the 500."""
+    import traceback
+    steps = {}
+    try:
+        from auth import get_password_hash
+        h = get_password_hash("testpassword123")
+        steps["bcrypt"] = f"OK: {h[:20]}..."
+    except Exception as e:
+        steps["bcrypt"] = f"FAIL: {traceback.format_exc()}"
+        return steps
+    try:
+        from database import AsyncSessionLocal
+        from models import User
+        from sqlalchemy import select, text
+        async with AsyncSessionLocal() as db:
+            result = await db.execute(text("SELECT 1"))
+            steps["db_connect"] = "OK"
+    except Exception as e:
+        steps["db_connect"] = f"FAIL: {traceback.format_exc()}"
+    return steps
+
+
+
 # Serve frontend build if it exists
 frontend_build = os.path.join(os.path.dirname(__file__), "../frontend/dist")
 if os.path.exists(frontend_build):

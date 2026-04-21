@@ -56,52 +56,55 @@ def send_welcome_email(to_email: str, unsubscribe_token: str) -> bool:
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
-<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f3f4f6;margin:0;padding:40px 20px;">
-    <div style="max-width:600px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+<body style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;margin:0;padding:40px 20px;">
+    <div style="max-width:600px;margin:0 auto;background:#111111;border-radius:14px;overflow:hidden;border:1px solid #1f1f1f;">
         <!-- Header -->
-        <div style="background:linear-gradient(135deg,#6366f1,#8b5cf6);padding:40px 32px;text-align:center;">
-            <div style="font-size:26px;font-weight:700;color:white;letter-spacing:-0.5px;">Illusion</div>
-            <div style="color:#c7d2fe;margin-top:6px;font-size:14px;">Know where you stand in AI search</div>
+        <div style="padding:36px 32px;text-align:center;background:#0a0a0a;">
+            <img src="{settings.app_url}/illusion_logo.png" alt="illusion" style="height:36px;width:auto;margin:0 auto;display:block;" />
+            <div style="color:#ccc;margin-top:10px;font-size:13px;font-family:'JetBrains Mono',monospace;">Know where you stand in AI search</div>
         </div>
 
         <!-- Body -->
         <div style="padding:36px 32px;">
-            <h1 style="color:#111827;font-size:22px;margin:0 0 12px;">Welcome to Illusion 👋</h1>
-            <p style="color:#374151;font-size:16px;line-height:1.6;margin:0 0 20px;">
+            <h1 style="color:#ededed;font-size:22px;margin:0 0 12px;font-weight:700;">Welcome to Illusion 👋</h1>
+            <p style="color:#ccc;font-size:15px;line-height:1.65;margin:0 0 24px;">
                 You're on a 7-day free trial — no credit card needed. Here's how to get the most out of it:
             </p>
 
             <!-- Onboarding steps -->
-            <ol style="color:#374151;font-size:15px;line-height:1.7;padding-left:20px;margin:0 0 28px;">
-                <li style="margin-bottom:10px;">
-                    <strong>Add your product.</strong> Give us the name, category, and 2–3 competitors.
-                </li>
-                <li style="margin-bottom:10px;">
-                    <strong>Run your first scan.</strong> We query Claude, GPT, Gemini and Perplexity with real buyer-intent questions and report who gets mentioned — you or your competitors.
-                </li>
-                <li style="margin-bottom:10px;">
-                    <strong>Watch the weekly digest.</strong> Every Monday we'll email a summary of how your AI visibility is trending, plus action items from Claude.
-                </li>
-            </ol>
+            <div style="margin:0 0 28px;">
+                <div style="display:flex;margin-bottom:16px;">
+                    <div style="min-width:28px;height:28px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:50%;color:#34d399;font-size:12px;font-weight:700;text-align:center;line-height:26px;font-family:'JetBrains Mono',monospace;">1</div>
+                    <div style="margin-left:14px;color:#ededed;font-size:14px;line-height:1.65;"><strong>Add your product.</strong> <span style="color:#ccc;">Give us the name, category, and 2–3 competitors.</span></div>
+                </div>
+                <div style="display:flex;margin-bottom:16px;">
+                    <div style="min-width:28px;height:28px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:50%;color:#34d399;font-size:12px;font-weight:700;text-align:center;line-height:26px;font-family:'JetBrains Mono',monospace;">2</div>
+                    <div style="margin-left:14px;color:#ededed;font-size:14px;line-height:1.65;"><strong>Run your first scan.</strong> <span style="color:#ccc;">We query Claude, GPT, Gemini and Perplexity with real buyer-intent questions and report who gets mentioned.</span></div>
+                </div>
+                <div style="display:flex;">
+                    <div style="min-width:28px;height:28px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:50%;color:#34d399;font-size:12px;font-weight:700;text-align:center;line-height:26px;font-family:'JetBrains Mono',monospace;">3</div>
+                    <div style="margin-left:14px;color:#ededed;font-size:14px;line-height:1.65;"><strong>Watch the weekly digest.</strong> <span style="color:#ccc;">Every Monday we'll email a summary of how your AI visibility is trending, plus action items.</span></div>
+                </div>
+            </div>
 
             <!-- CTA -->
             <div style="text-align:center;margin:32px 0;">
                 <a href="{dashboard_url}"
-                   style="display:inline-block;background:#6366f1;color:white;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;">
+                   style="display:inline-block;background:#10b981;color:#fff;padding:13px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">
                     Open Your Dashboard →
                 </a>
             </div>
 
-            <p style="color:#6b7280;font-size:13px;line-height:1.6;margin:24px 0 0;border-top:1px solid #e5e7eb;padding-top:20px;">
+            <p style="color:#555;font-size:13px;line-height:1.6;margin:24px 0 0;border-top:1px solid #1f1f1f;padding-top:20px;">
                 Replies to this address aren't monitored. If you need help, hit reply-all to any digest email or ping us from the in-app support link.
             </p>
         </div>
 
         <!-- Footer -->
-        <div style="padding:20px 32px;background:#f9fafb;border-top:1px solid #e5e7eb;text-align:center;">
-            <p style="font-size:12px;color:#9ca3af;margin:0;line-height:1.6;">
-                Illusion · You're getting this because you just signed up.<br>
-                <a href="{unsubscribe_url}" style="color:#6b7280;text-decoration:underline;">Unsubscribe from all emails</a>
+        <div style="padding:20px 32px;background:#0a0a0a;border-top:1px solid #1f1f1f;text-align:center;">
+            <p style="font-size:12px;color:#555;margin:0;line-height:1.6;font-family:'JetBrains Mono',monospace;">
+                illusion · You're getting this because you just signed up.<br>
+                <a href="{unsubscribe_url}" style="color:#888;text-decoration:underline;">Unsubscribe from all emails</a>
             </p>
         </div>
     </div>
@@ -168,20 +171,20 @@ def send_weekly_digest(
 
     # Build mention badge
     if mention_rate >= 0.7:
-        badge_color = "#22c55e"
+        badge_color = "#10b981"
         badge_text = "Strong presence 🚀"
     elif mention_rate >= 0.4:
-        badge_color = "#f59e0b"
+        badge_color = "#059669"
         badge_text = "Growing visibility 📈"
     elif mention_rate > 0:
-        badge_color = "#3b82f6"
+        badge_color = "#34d399"
         badge_text = "Emerging mentions 🌱"
     else:
-        badge_color = "#6b7280"
+        badge_color = "#555"
         badge_text = "Not yet mentioned 👀"
 
     sentiment_emoji = {"positive": "😊", "neutral": "😐", "negative": "😟"}.get(sentiment, "😐")
-    position_text = f"#{best_position}" if best_position else "Not ranked"
+    position_text = f"#{best_position}" if best_position else "—"
 
     # Unsubscribe wiring. Falls back to /settings if no token was passed by the
     # caller — we still emit the email, but without one-click headers.
@@ -193,11 +196,11 @@ def send_weekly_digest(
 
     competitors_html = ""
     if competitors:
-        comp_items = "".join(f"<li>{c}</li>" for c in competitors)
+        comp_items = "".join(f"<li style='margin-bottom:4px;'>{c}</li>" for c in competitors)
         competitors_html = f"""
-        <div style="margin-top:20px;padding:16px;background:#f9fafb;border-radius:8px;">
-            <strong>Competitors also mentioned this week:</strong>
-            <ul style="margin:8px 0 0 0;padding-left:20px;color:#374151;">
+        <div style="margin-top:20px;padding:16px;background:#181818;border-radius:10px;border:1px solid #1f1f1f;">
+            <strong style="color:#ededed;font-size:13px;">Competitors also mentioned this week:</strong>
+            <ul style="margin:8px 0 0 0;padding-left:20px;color:#888;font-size:13px;">
                 {comp_items}
             </ul>
         </div>
@@ -214,9 +217,9 @@ def send_weekly_digest(
         pos_str = f" (#{pos})" if pos else ""
         sent_str = f" · {sent}" if mentioned else ""
         samples_html += f"""
-        <div style="padding:12px 0;border-bottom:1px solid #e5e7eb;">
-            <div style="font-size:13px;color:#6b7280;margin-bottom:4px;">{icon} {icon and 'Mentioned' or 'Not mentioned'}{pos_str}{sent_str}</div>
-            <div style="font-size:14px;color:#374151;font-style:italic;">"{q[:120]}{'...' if len(q)>120 else ''}"</div>
+        <div style="padding:12px 0;border-bottom:1px solid #1f1f1f;">
+            <div style="font-size:13px;color:#888;margin-bottom:4px;font-family:'JetBrains Mono',monospace;">{icon} {icon and 'Mentioned' or 'Not mentioned'}{pos_str}{sent_str}</div>
+            <div style="font-size:14px;color:#ededed;font-style:italic;">"{q[:120]}{'...' if len(q)>120 else ''}"</div>
         </div>
         """
 
@@ -224,60 +227,64 @@ def send_weekly_digest(
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
-<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f3f4f6;margin:0;padding:40px 20px;">
-    <div style="max-width:600px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+<body style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;margin:0;padding:40px 20px;">
+    <div style="max-width:600px;margin:0 auto;background:#111111;border-radius:14px;overflow:hidden;border:1px solid #1f1f1f;">
         <!-- Header -->
-        <div style="background:linear-gradient(135deg,#6366f1,#8b5cf6);padding:32px;text-align:center;">
-            <div style="font-size:22px;font-weight:700;color:white;">Illusion</div>
-            <div style="color:#c7d2fe;margin-top:4px;font-size:14px;">Weekly Digest · {week_label}</div>
+        <div style="padding:28px 32px;text-align:center;background:#0a0a0a;">
+            <img src="{settings.app_url}/illusion_logo.png" alt="illusion" style="height:32px;width:auto;margin:0 auto;display:block;" />
+            <div style="color:#ccc;margin-top:8px;font-size:13px;font-family:'JetBrains Mono',monospace;">Weekly Digest · {week_label}</div>
         </div>
         
         <!-- Body -->
         <div style="padding:32px;">
-            <p style="color:#374151;font-size:16px;">Hey {user_name or 'there'} 👋</p>
-            <p style="color:#6b7280;margin-top:0;">Here's what AI said about <strong>{product_name}</strong> this week across {total_queries} queries.</p>
+            <p style="color:#ededed;font-size:16px;">Hey {user_name or 'there'} 👋</p>
+            <p style="color:#ccc;margin-top:0;">Here's what AI said about <strong style="color:#ededed;">{product_name}</strong> this week across {total_queries} queries.</p>
             
             <!-- Badge -->
             <div style="text-align:center;margin:24px 0;">
-                <div style="display:inline-block;background:{badge_color};color:white;padding:12px 28px;border-radius:999px;font-size:18px;font-weight:600;">
+                <div style="display:inline-block;background:{badge_color};color:white;padding:10px 24px;border-radius:999px;font-size:16px;font-weight:700;">
                     {badge_text}
                 </div>
             </div>
 
             <!-- Stats row -->
-            <div style="display:flex;gap:16px;margin:24px 0;" class="stats">
-                <div style="flex:1;text-align:center;padding:16px;background:#f9fafb;border-radius:8px;">
-                    <div style="font-size:28px;font-weight:700;color:#6366f1;">{mention_count}/{total_queries}</div>
-                    <div style="font-size:12px;color:#6b7280;margin-top:4px;">Queries with mention</div>
+            <div style="margin:24px 0;">
+                <!--[if mso]><table role="presentation" width="100%"><tr><td width="33%" valign="top"><![endif]-->
+                <div style="display:inline-block;width:31%;text-align:center;padding:16px 4px;background:#181818;border-radius:10px;border:1px solid #1f1f1f;vertical-align:top;">
+                    <div style="font-size:26px;font-weight:800;color:#10b981;font-family:'JetBrains Mono',monospace;">{mention_count}/{total_queries}</div>
+                    <div style="font-size:11px;color:#555;margin-top:4px;font-family:'JetBrains Mono',monospace;">Mentions</div>
                 </div>
-                <div style="flex:1;text-align:center;padding:16px;background:#f9fafb;border-radius:8px;">
-                    <div style="font-size:28px;font-weight:700;color:#6366f1;">{position_text}</div>
-                    <div style="font-size:12px;color:#6b7280;margin-top:4px;">Best ranking</div>
+                <!--[if mso]></td><td width="2%"></td><td width="33%" valign="top"><![endif]-->
+                <div style="display:inline-block;width:31%;text-align:center;padding:16px 4px;background:#181818;border-radius:10px;border:1px solid #1f1f1f;vertical-align:top;margin:0 2%;">
+                    <div style="font-size:26px;font-weight:800;color:#10b981;font-family:'JetBrains Mono',monospace;">{position_text}</div>
+                    <div style="font-size:11px;color:#555;margin-top:4px;font-family:'JetBrains Mono',monospace;">Best rank</div>
                 </div>
-                <div style="flex:1;text-align:center;padding:16px;background:#f9fafb;border-radius:8px;">
-                    <div style="font-size:28px;font-weight:700;color:#6366f1;">{sentiment_emoji}</div>
-                    <div style="font-size:12px;color:#6b7280;margin-top:4px;">Avg sentiment</div>
+                <!--[if mso]></td><td width="2%"></td><td width="33%" valign="top"><![endif]-->
+                <div style="display:inline-block;width:31%;text-align:center;padding:16px 4px;background:#181818;border-radius:10px;border:1px solid #1f1f1f;vertical-align:top;">
+                    <div style="font-size:26px;font-weight:800;color:#10b981;">{sentiment_emoji}</div>
+                    <div style="font-size:11px;color:#555;margin-top:4px;font-family:'JetBrains Mono',monospace;">Sentiment</div>
                 </div>
+                <!--[if mso]></tr></table><![endif]-->
             </div>
 
             <!-- Query breakdown -->
-            {f'<h3 style="color:#111827;margin:24px 0 12px;">Query Breakdown</h3>{samples_html}' if samples_html else ''}
+            {f'<h3 style="color:#ededed;margin:24px 0 12px;font-size:15px;font-weight:700;">Query Breakdown</h3>{samples_html}' if samples_html else ''}
 
             {competitors_html}
 
             <!-- CTA -->
             <div style="text-align:center;margin-top:32px;">
                 <a href="{settings.app_url}/dashboard" 
-                   style="display:inline-block;background:#6366f1;color:white;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;">
+                   style="display:inline-block;background:#10b981;color:#fff;padding:13px 28px;border-radius:10px;text-decoration:none;font-weight:700;">
                     View Full Report →
                 </a>
             </div>
         </div>
         
         <!-- Footer -->
-        <div style="padding:20px 32px;background:#f9fafb;border-top:1px solid #e5e7eb;text-align:center;">
-            <p style="font-size:12px;color:#9ca3af;margin:0;line-height:1.6;">
-                Illusion · <a href="{settings.app_url}/settings" style="color:#6b7280;text-decoration:underline;">Manage notifications</a> · <a href="{unsubscribe_url}" style="color:#6b7280;text-decoration:underline;">Unsubscribe</a>
+        <div style="padding:20px 32px;background:#0a0a0a;border-top:1px solid #1f1f1f;text-align:center;">
+            <p style="font-size:12px;color:#555;margin:0;line-height:1.6;font-family:'JetBrains Mono',monospace;">
+                illusion · <a href="{settings.app_url}/settings" style="color:#888;text-decoration:underline;">Manage notifications</a> · <a href="{unsubscribe_url}" style="color:#888;text-decoration:underline;">Unsubscribe</a>
             </p>
         </div>
     </div>
@@ -327,29 +334,38 @@ def send_mention_alert(
     html_body = f"""
 <!DOCTYPE html>
 <html>
-<body style="font-family:-apple-system,sans-serif;background:#f3f4f6;margin:0;padding:40px 20px;">
-    <div style="max-width:500px;margin:0 auto;background:white;border-radius:12px;padding:32px;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
-        <div style="font-size:32px;text-align:center;">🔔</div>
-        <h2 style="text-align:center;color:#111827;">New AI Mention!</h2>
-        <p style="color:#6b7280;text-align:center;">
-            <strong>{product_name}</strong> was mentioned at position #{position}
-        </p>
-        <div style="background:#f9fafb;border-radius:8px;padding:16px;margin:20px 0;">
-            <div style="font-size:12px;color:#6b7280;">Query asked:</div>
-            <div style="color:#374151;margin-top:4px;font-style:italic;">"{query}"</div>
+<body style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;margin:0;padding:40px 20px;">
+    <div style="max-width:500px;margin:0 auto;background:#111111;border-radius:14px;overflow:hidden;border:1px solid #1f1f1f;">
+        <!-- Header -->
+        <div style="padding:24px 32px;text-align:center;background:#0a0a0a;">
+            <img src="{settings.app_url}/illusion_logo.png" alt="illusion" style="height:30px;width:auto;margin:0 auto;display:block;" />
         </div>
-        <div style="text-align:center;margin:8px 0;">
-            {sentiment_emoji} Sentiment: <strong>{sentiment}</strong>
+        <div style="padding:0 32px 32px;">
+            <div style="font-size:32px;text-align:center;">🔔</div>
+            <h2 style="text-align:center;color:#ededed;font-size:20px;font-weight:700;">New AI Mention!</h2>
+            <p style="color:#ccc;text-align:center;">
+                <strong style="color:#ededed;">{product_name}</strong> was mentioned at position <span style="color:#10b981;font-weight:700;">#{position}</span>
+            </p>
+            <div style="background:#181818;border-radius:10px;border:1px solid #1f1f1f;padding:16px;margin:20px 0;">
+                <div style="font-size:11px;color:#555;font-family:'JetBrains Mono',monospace;">Query asked:</div>
+                <div style="color:#ededed;margin-top:4px;font-style:italic;font-size:14px;">"{query}"</div>
+            </div>
+            <div style="text-align:center;margin:8px 0;color:#ccc;">
+                {sentiment_emoji} Sentiment: <strong style="color:#ededed;">{sentiment}</strong>
+            </div>
+            <div style="text-align:center;margin-top:24px;">
+                <a href="{settings.app_url}/dashboard"
+                   style="display:inline-block;background:#10b981;color:#fff;padding:13px 28px;border-radius:10px;text-decoration:none;font-weight:700;">
+                    View Details →
+                </a>
+            </div>
         </div>
-        <div style="text-align:center;margin-top:24px;">
-            <a href="{settings.app_url}/dashboard"
-               style="background:#6366f1;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:600;">
-                View Details →
-            </a>
+        <!-- Footer -->
+        <div style="padding:20px 32px;background:#0a0a0a;border-top:1px solid #1f1f1f;text-align:center;">
+            <p style="font-size:12px;color:#555;margin:0;font-family:'JetBrains Mono',monospace;">
+                illusion · <a href="{unsubscribe_url}" style="color:#888;text-decoration:underline;">Unsubscribe from alerts</a>
+            </p>
         </div>
-        <p style="font-size:12px;color:#9ca3af;text-align:center;margin:24px 0 0;border-top:1px solid #e5e7eb;padding-top:16px;">
-            Illusion · <a href="{unsubscribe_url}" style="color:#6b7280;text-decoration:underline;">Unsubscribe from alerts</a>
-        </p>
     </div>
 </body>
 </html>

@@ -19,13 +19,13 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
     plan = Column(String, default="free")  # free, starter, growth
-    trial_ends_at = Column(DateTime, nullable=True)
+    trial_ends_at = Column(DateTime(timezone=True), nullable=True)
     stripe_customer_id = Column(String, nullable=True)
     stripe_subscription_id = Column(String, nullable=True)
     # Signed random token used for one-click unsubscribe links. Nullable so older
     # rows don't break the ADD COLUMN migration; backfilled on startup.
     unsubscribe_token = Column(String(64), unique=True, index=True, nullable=True)
-    created_at = Column(DateTime, default=utcnow)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
 
     products = relationship("Product", back_populates="owner", cascade="all, delete-orphan")
 
@@ -41,8 +41,8 @@ class Product(Base):
     keywords = Column(JSON, default=list)  # list of keyword strings
     competitors = Column(JSON, default=list)  # list of competitor names
     is_active = Column(Boolean, default=True)
-    created_at = Column(DateTime, default=utcnow)
-    last_scanned_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
+    last_scanned_at = Column(DateTime(timezone=True), nullable=True)
 
     owner = relationship("User", back_populates="products")
     scan_results = relationship("ScanResult", back_populates="product", cascade="all, delete-orphan")
@@ -60,7 +60,7 @@ class ScanResult(Base):
     mention_position = Column(Integer, nullable=True)  # 1=first, 2=second, etc.
     mention_sentiment = Column(String, nullable=True)  # positive, neutral, negative
     competitors_mentioned = Column(JSON, default=list)  # list of competitor names found
-    created_at = Column(DateTime, default=utcnow)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
 
     product = relationship("Product", back_populates="scan_results")
 
@@ -96,7 +96,7 @@ class AIOverviewSnapshot(Base):
     raw_response = Column(JSON, default=dict)
     # True if SerpAPI returned a non-empty AI Overview (only ~36% of queries do).
     was_returned = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=utcnow)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
 
 
 class Recommendation(Base):
@@ -116,4 +116,4 @@ class Recommendation(Base):
     # How many scan results the rec is based on — lets frontend show "based on N queries".
     based_on_scan_count = Column(Integer, default=0)
     model_used = Column(String, default="claude")  # e.g. "claude-sonnet-4-5"
-    created_at = Column(DateTime, default=utcnow)
+    created_at = Column(DateTime(timezone=True), default=utcnow)

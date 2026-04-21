@@ -32,6 +32,9 @@ async def init_db():
     with targeted ADD COLUMN statements + a data backfill pass.
     """
     async with engine.begin() as conn:
+        # ONE-TIME: drop+recreate to migrate DateTime → DateTime(timezone=True)
+        # Remove this drop_all line after first successful deploy!
+        await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
         await conn.run_sync(_ensure_user_unsubscribe_token_column)
         await conn.run_sync(_ensure_notification_marketing_column)

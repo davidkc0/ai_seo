@@ -1,0 +1,234 @@
+/* ─── Pricing Page ──────────────────────────────────────────── */
+.pricing-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 60px 24px 100px;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.pricing-back {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 48px;
+  transition: color var(--transition);
+}
+
+.pricing-back:hover {
+  color: var(--text);
+}
+
+/* ─── Header ────────────────────────────────────────────────── */
+.pricing-page-header {
+  margin-bottom: 56px;
+}
+
+.pricing-page-header h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.pricing-page-header p {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.pricing-annual-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* ─── Grid ──────────────────────────────────────────────────── */
+.pricing-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 72px;
+  text-align: left;
+}
+
+/* ─── Card ──────────────────────────────────────────────────── */
+.pricing-page-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.pricing-page-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.pricing-page-card.popular {
+  border-color: var(--primary);
+  background: linear-gradient(160deg, rgba(16, 185, 129, 0.07) 0%, var(--surface) 60%);
+}
+
+.pricing-page-card.popular:hover {
+  border-color: var(--primary-light);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.plan-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.plan-price {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  margin-bottom: 28px;
+  line-height: 1;
+}
+
+.plan-price span {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+/* ─── Feature List ──────────────────────────────────────────── */
+.plan-features {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.feature-check {
+  color: var(--success);
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 14px;
+}
+
+/* ─── Buttons ───────────────────────────────────────────────── */
+.plan-page-btn {
+  display: block;
+  width: 100%;
+  padding: 11px 20px;
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition);
+  font-family: var(--font-body);
+}
+
+.plan-page-btn:hover:not(:disabled) {
+  background: var(--surface);
+  border-color: var(--border-hover);
+}
+
+.plan-page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.plan-page-btn-primary {
+  background: var(--primary) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+.plan-page-btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover) !important;
+  box-shadow: 0 0 20px var(--primary-glow);
+}
+
+/* ─── FAQ ───────────────────────────────────────────────────── */
+.pricing-faq {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  text-align: left;
+  border-top: 1px solid var(--border);
+  padding-top: 48px;
+}
+
+.faq-item {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.faq-q {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.faq-a {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ─── Responsive ────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .pricing-page-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-faq {
+    grid-template-columns: 1fr;
+  }
+}

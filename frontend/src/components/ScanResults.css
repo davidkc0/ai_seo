@@ -1,0 +1,128 @@
+/* ─── Scan Results ──────────────────────────────────────────── */
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.result-item {
+  border-bottom: 1px solid var(--border);
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+.result-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition);
+  flex-wrap: wrap;
+}
+
+.result-toggle:hover {
+  background: var(--surface2);
+  margin: 0 -24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  border-radius: var(--radius);
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.result-query {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.result-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.expand-icon {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-left: 4px;
+}
+
+/* ─── Expanded AI Response ──────────────────────────────────── */
+.result-response {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin: 0 0 16px;
+  overflow: hidden;
+}
+
+.response-label {
+  padding: 10px 16px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.response-label::before {
+  content: '●';
+  color: var(--primary-light);
+  font-size: 10px;
+}
+
+.result-response pre {
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.response-competitors {
+  padding: 10px 16px;
+  background: var(--surface2);
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* ─── Scrollbar inside pre ──────────────────────────────────── */
+.result-response pre::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}

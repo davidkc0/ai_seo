@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+backend/venv/
+backend/.venv/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Env / secrets — NEVER commit these
+.env
+.env.local
+backend/.env
+backend/.env.local
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+backend/ai_mention_tracker.db
+ai_mention_tracker.db
+
+# OS
+.DS_Store
+._*
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log

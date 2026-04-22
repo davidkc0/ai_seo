@@ -159,46 +159,62 @@ async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
         )
     except Exception as e:
         print(f"[Webhook] Signature verification failed: {e}")
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=400, detail=f"Sig verify failed: {str(e)}")
 
     print(f"[Webhook] Received event: {event['type']}")
 
-    if event["type"] == "checkout.session.completed":
-        session = event["data"]["object"]
-        user_id = int(session["metadata"].get("user_id", 0))
-        plan = session["metadata"].get("plan", "starter")
+    try:
+        if event["type"] == "checkout.session.completed":
+            session = event["data"]["object"]
+            user_id = int(session.get("metadata", {}).get("user_id", 0))
+            plan = session.get("metadata", {}).get("plan", "starter")
+            print(f"[Webhook] checkout.session.completed — user_id={user_id}, plan={plan}")
 
-        result = await db.execute(select(User).where(User.id == user_id))
-        user = result.scalar_one_or_none()
-        if user:
-            user.plan = plan
-            user.stripe_subscription_id = session.get("subscription")
-            await db.commit()
+            if user_id:
+                result = await db.execute(select(User).where(User.id == user_id))
+                user = result.scalar_one_or_none()
+                if user:
+                    user.plan = plan
+                    user.stripe_subscription_id = session.get("subscription")
+                    await db.commit()
+                    print(f"[Webhook] Updated user {user_id} to plan={plan}")
+                else:
+                    print(f"[Webhook] WARNING: user_id={user_id} not found in DB")
+            else:
+                print(f"[Webhook] WARNING: no user_id in metadata")
 
-    elif event["type"] in ("customer.subscription.deleted", "customer.subscription.paused"):
-        subscription = event["data"]["object"]
-        customer_id = subscription["customer"]
+        elif event["type"] in ("customer.subscription.deleted", "customer.subscription.paused"):
+            subscription = event["data"]["object"]
+            customer_id = subscription["customer"]
 
-        result = await db.execute(
-            select(User).where(User.stripe_customer_id == customer_id)
-        )
-        user = result.scalar_one_or_none()
-        if user:
-            user.plan = "free"
-            user.stripe_subscription_id = None
-            await db.commit()
+            result = await db.execute(
+                select(User).where(User.stripe_customer_id == customer_id)
+            )
+            user = result.scalar_one_or_none()
+            if user:
+                user.plan = "free"
+                user.stripe_subscription_id = None
+                await db.commit()
+                print(f"[Webhook] Downgraded user {user.id} to free (sub deleted)")
 
-    elif event["type"] == "customer.subscription.updated":
-        subscription = event["data"]["object"]
-        customer_id = subscription["customer"]
-        status = subscription["status"]
+        elif event["type"] == "customer.subscription.updated":
+            subscription = event["data"]["object"]
+            customer_id = subscription["customer"]
+            status = subscription["status"]
 
-        result = await db.execute(
-            select(User).where(User.stripe_customer_id == customer_id)
-        )
-        user = result.scalar_one_or_none()
-        if user and status not in ("active", "trialing"):
-            user.plan = "free"
-            await db.commit()
+            result = await db.execute(
+                select(User).where(User.stripe_customer_id == customer_id)
+            )
+            user = result.scalar_one_or_none()
+            if user and status not in ("active", "trialing"):
+                user.plan = "free"
+                await db.commit()
+                print(f"[Webhook] User {user.id} sub status={status}, downgraded to free")
+
+    except Exception as e:
+        print(f"[Webhook] ERROR processing {event['type']}: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Webhook processing error: {str(e)}")
 
     return {"received": True}

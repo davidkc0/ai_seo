@@ -6,7 +6,7 @@ ship comparison-heavy content that intercepts buyer-intent queries
 ("AthenaHQ vs Profound", etc.), paired with generative-engine-optimization
 (GEO) thought-leadership posts that build topical authority.
 
-Last updated: 2026-04-21
+Last updated: 2026-04-21 (Step 1 shipped)
 
 ---
 
@@ -56,95 +56,95 @@ AI search tracking tool" and paste it in. No competitor can fake that.
 
 ## TL;DR build order
 
-| # | Step | Effort |
-|---|---|---|
-| 1 | **SEO baseline cleanup** (meta tags, OG, sitemap, GSC) | ½ day |
-| 2 | **Blog infrastructure** — Astro `/blog` in the same repo | ½ day |
-| 3 | **First 5 posts** (3 comparison + 2 GEO pillars) | 1 week |
-| 4 | **Programmatic comparison pages** templated | 1–2 days |
-| 5 | **Off-page work** — GSC submission, directories, backlinks | ongoing |
-| 6 | **Wire analytics** — PostHog funnel blog → signup | ½ day |
+| # | Step | Effort | Status |
+|---|---|---|---|
+| 1 | **SEO baseline cleanup** (meta tags, OG, sitemap, GSC) | ½ day | ✅ code shipped · GSC/Bing verification pending David |
+| 2 | **Blog infrastructure** — Astro `/blog` in the same repo | ½ day | ☐ not started |
+| 3 | **First 5 posts** (3 comparison + 2 GEO pillars) | 1 week | ☐ not started (post #5 picked to go first) |
+| 4 | **Programmatic comparison pages** templated | 1–2 days | ☐ not started |
+| 5 | **Off-page work** — GSC submission, directories, backlinks | ongoing | ☐ not started |
+| 6 | **Wire analytics** — PostHog funnel blog → signup | ½ day | ☐ not started |
 
-Steps 1 and 2 block everything else. The other four can happen in parallel
-once the blog is live.
+Step 2 is the next thing to build. Step 1's code is live in the repo;
+the only remaining piece is David verifying the site in Google Search
+Console and Bing Webmaster Tools (requires DNS access — can't be
+automated from the codebase).
 
 ---
 
-## Step 1 — SEO baseline cleanup (no-brainer hacks)
+## Step 1 — SEO baseline cleanup ✅ (shipped 2026-04-21)
 
-Every minute spent here has a higher ROI than any blog post for the first
-couple of weeks. The current `frontend/index.html` is extremely bare — a dozen
-easy wins in one file.
+What was missing when we started: meta description, OG/Twitter tags,
+canonical link, robots.txt, sitemap.xml, JSON-LD. Every one of those holes
+is now plugged in the repo.
 
-### What's missing right now
-- No `<meta name="description">` — Google generates a description from
-  body text, and it's always worse than one we write.
-- No Open Graph tags → link previews in Twitter/LinkedIn/Slack/iMessage
-  render as "Illusion" with no image. Catastrophic for sharing.
-- No `<link rel="canonical">` → once marketing UTM params start flying
-  around we'll have duplicate-content issues.
-- No `sitemap.xml` or `robots.txt` → Google has to discover every page on
-  its own.
-- No JSON-LD structured data → we miss out on rich snippets.
+### What shipped (code-side)
 
-### Fixes
+**`frontend/index.html`** got the full head block:
+- `<meta name="description">`
+- `<link rel="canonical" href="https://www.illusion.ai/">` + `<meta name="robots" content="index, follow">`
+- Open Graph tags: `og:type`, `og:site_name`, `og:title`, `og:description`,
+  `og:url`, `og:image`, `og:image:secure_url`, `og:image:type`,
+  `og:image:width` (1200), `og:image:height` (630), `og:image:alt`
+- Twitter card tags: `twitter:card=summary_large_image`, plus title, description,
+  image, image:alt
+- Two JSON-LD blocks: `SoftwareApplication` (with $19/mo price) and
+  `Organization` (with logo pointing at `illusion_logo.png`)
 
-In `frontend/index.html`, add:
+**`frontend/public/OG.png`** — David designed this. Logo + tagline on brand
+gradient, 1200×630. Referenced from the OG and Twitter meta tags.
 
-```html
-<meta name="description" content="Illusion tracks what Claude, ChatGPT, Gemini and Perplexity say about your product. See where you rank in AI search results and what to fix — in 60 seconds.">
-<link rel="canonical" href="https://illusion.ai/">
+**`frontend/public/robots.txt`** — allows crawling of the marketing site,
+disallows `/dashboard` and `/settings` (logged-in pages), points at the
+sitemap.
 
-<!-- Open Graph -->
-<meta property="og:title" content="Illusion — Know Where You Stand in AI Search">
-<meta property="og:description" content="Track how Claude, ChatGPT, Gemini and Perplexity answer questions about your product.">
-<meta property="og:image" content="https://illusion.ai/og-image.png">
-<meta property="og:url" content="https://illusion.ai/">
-<meta property="og:type" content="website">
+**`frontend/public/sitemap.xml`** — static v1 listing homepage, pricing,
+register, login. Will be replaced with an auto-generated one once Astro is
+wired up at `/blog`.
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Illusion — Know Where You Stand in AI Search">
-<meta name="twitter:description" content="Track how Claude, ChatGPT, Gemini and Perplexity answer questions about your product.">
-<meta name="twitter:image" content="https://illusion.ai/og-image.png">
+### Key decisions made during implementation
 
-<!-- JSON-LD: SoftwareApplication -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Illusion",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web",
-  "offers": { "@type": "Offer", "price": "19", "priceCurrency": "USD" }
-}
-</script>
-```
+- **Canonical host is `www.illusion.ai`, not the bare apex.** Found out
+  during testing — Vercel was redirecting `illusion.ai` → `www.illusion.ai`
+  with a 307. Every URL in index.html, sitemap.xml, and robots.txt was
+  updated to use www consistently. **Rule going forward:** any new URL
+  anywhere in the project (email templates, marketing copy, backlinks we
+  submit) uses `https://www.illusion.ai/` as the canonical form.
+- **Filename is `OG.png`, not `og-image.png`.** David's existing file lives
+  in the public folder with capitals. References in index.html match.
+- **Added the `Organization` JSON-LD block** in addition to the
+  `SoftwareApplication` one that was in the original plan — gives Google a
+  clean signal for the brand name + logo, which helps the knowledge panel.
 
-Then:
+### What David still needs to do
 
-- Create `frontend/public/og-image.png` — 1200×630, Illusion wordmark + one
-  tagline line on a gradient background. One-time design.
-- Create `frontend/public/robots.txt`:
-  ```
-  User-agent: *
-  Allow: /
-  Sitemap: https://illusion.ai/sitemap.xml
-  ```
-- Create `frontend/public/sitemap.xml` manually for now (landing, pricing,
-  login, register). Switch to an auto-generated one once Astro blog is in.
-- Verify the site in [Google Search Console](https://search.google.com/search-console)
-  and [Bing Webmaster Tools](https://www.bing.com/webmasters). Submit the
-  sitemap once GSC verifies the DNS TXT record.
-- Submit to Bing too — Bing powers ChatGPT's web citations, so ranking there
-  matters for our own category.
+These require DNS access and/or account ownership so can't be automated:
 
-### Per-route meta tags
-Once the blog is in and we have real per-page content, use
-[`react-helmet-async`](https://github.com/staylor/react-helmet-async) in the
-React SPA routes (landing, pricing) to set per-route `<title>` + meta
-description. The current `<title>` is hard-coded in `index.html` and every
-route inherits it — suboptimal for pricing page ranking.
+1. **Verify in [Google Search Console](https://search.google.com/search-console)**.
+   Use the **Domain** property type (just enter `illusion.ai`, no protocol,
+   no www). Google gives a TXT record — add it at your DNS provider. Domain
+   property covers www + non-www + http + https with one record, which is
+   what we want given www is canonical but people still type the bare apex.
+   Once verified, submit `https://www.illusion.ai/sitemap.xml` under Sitemaps.
+2. **Verify in [Bing Webmaster Tools](https://www.bing.com/webmasters)**.
+   Easiest path: import from GSC once that's verified. Bing powers ChatGPT's
+   web citations, so ranking here matters for our own category.
+3. **Check social previews at [opengraph.xyz](https://www.opengraph.xyz/)**
+   after the next Vercel deploy. Paste `https://www.illusion.ai/` and
+   confirm the card renders with OG.png + title + description across
+   every major network.
+4. *(Optional)* Verify at [Ahrefs Webmaster Tools](https://ahrefs.com/webmaster-tools)
+   for free backlink data — nicer than GSC's backlinks report.
+
+### Deferred to later
+
+- **Per-route meta tags via `react-helmet-async`.** Still worth doing for
+  pricing/register/login, but it's a modest win compared to the rest of
+  the plan. Revisit once Astro `/blog` is in and we have a reason to be
+  in the routing layer anyway. Right now every SPA route inherits the
+  homepage's `<title>` + description.
+- **Dynamic OG images per blog post** (via `@vercel/og`). Using the same
+  generic OG.png everywhere for v1. Add this when post volume justifies.
 
 ---
 

@@ -6,4 +6,4 @@ Allow: /
 Disallow: /dashboard
 Disallow: /settings
 
-Sitemap: https://illusion.ai/sitemap.xml
+Sitemap: https://www.illusion.ai/sitemap.xml

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, BarChart2, Mail, Zap, Target, Sparkles } from 'lucide-react'
+import { Search, BarChart2, Mail, Zap, Sparkles } from 'lucide-react'
 import doughnut from '../assets/doughnut.jpg'
 import cube from '../assets/cube.jpg'
 import diamond from '../assets/diamond.jpg'
@@ -12,7 +12,7 @@ const features = [
   { icon: <Search size={24} />, title: 'Multi-AI Query Monitoring', desc: 'We ask ChatGPT, Claude, Gemini, and Perplexity the category questions your customers are already typing.' },
   { icon: <BarChart2 size={24} />, title: 'Mention Analytics', desc: 'See if your product gets mentioned, at what rank, and with what sentiment — compared to competitors.' },
   { icon: <Sparkles size={24} />, title: 'AI-Generated Recommendations', desc: 'Every scan, Claude reads your results and the Google AI Overview to tell you exactly what to fix next.' },
-  { icon: <Target size={24} />, title: 'Google AI Overview Tracking', desc: 'We scrape the Overview box for your primary query so you know whether Google is citing you — and who it cites instead.' },
+  { icon: <img src="/ai_overview.svg" alt="" width={24} height={24} />, title: 'Google AI Overview Tracking', desc: 'We scrape the Overview box for your primary query so you know whether Google is citing you — and who it cites instead.' },
   { icon: <Mail size={24} />, title: 'Weekly Email Digest', desc: 'A scannable summary in your inbox every Monday — mentions, wins, and the one thing to work on this week.' },
   { icon: <Zap size={24} />, title: 'Competitor Tracking', desc: 'See exactly which competitors AI recommends instead of you — and spot patterns you can act on.' },
 ]

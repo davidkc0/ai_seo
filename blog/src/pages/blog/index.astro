@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import '../../styles/global.css';
+
+const posts = (await getCollection('posts'))
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout
+  title="Illusion Blog — AI Search Intelligence"
+  description="Insights on generative engine optimization, AI search tracking, and how to get your product recommended by Claude, ChatGPT, and Gemini."
+>
+  <main class="blog-index">
+    <div class="blog-index-header">
+      <h1>Illusion <span style="color: var(--primary);">Blog</span></h1>
+      <p>Research, guides, and strategies for ranking in AI search — from the team building the tools to measure it.</p>
+    </div>
+
+    {posts.length === 0 ? (
+      <div style="text-align: center; padding: 80px 0; color: var(--text-dim);">
+        <p style="font-size: 48px; margin-bottom: 16px;">🚀</p>
+        <p style="font-size: 16px; margin-bottom: 4px;">First post coming soon.</p>
+        <p style="font-size: 13px;">We're writing something worth reading. Check back shortly.</p>
+      </div>
+    ) : (
+      <div class="blog-posts-grid">
+        {posts.map(post => {
+          const formattedDate = post.data.date.toLocaleDateString('en-US', {
+            year: 'numeric', month: 'short', day: 'numeric'
+          });
+          return (
+            <a href={`/blog/${post.id}`} class="blog-post-card">
+              {post.data.tags.length > 0 && (
+                <div class="blog-post-card-tags">
+                  {post.data.tags.slice(0, 3).map(tag => <span class="blog-tag">{tag}</span>)}
+                </div>
+              )}
+              <h2>{post.data.title}</h2>
+              <p>{post.data.description}</p>
+              <div class="blog-post-card-meta">
+                <span>{post.data.author}</span>
+                <span class="dot"></span>
+                <span>{formattedDate}</span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    )}
+  </main>
+</BaseLayout>

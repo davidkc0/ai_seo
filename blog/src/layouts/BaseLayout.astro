@@ -1,0 +1,72 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonical?: string;
+}
+
+const { title, description, ogImage, canonical } = Astro.props;
+const resolvedOG = ogImage || 'https://www.illusion.ai/OG.png';
+const resolvedCanonical = canonical || Astro.url.href;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={resolvedCanonical} />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#10b981" />
+
+  <!-- OG -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Illusion" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={resolvedCanonical} />
+  <meta property="og:image" content={resolvedOG} />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={resolvedOG} />
+</head>
+<body>
+  <!-- Nav -->
+  <nav class="blog-nav">
+    <a class="logo" href="https://www.illusion.ai/">
+      <img src="https://www.illusion.ai/illusion_logo.svg" alt="Illusion" />
+      <div class="logo-divider"></div>
+      <span class="logo-label">Blog</span>
+    </a>
+    <div class="blog-nav-links">
+      <a href="https://www.illusion.ai/#features">Features</a>
+      <a href="https://www.illusion.ai/#pricing">Pricing</a>
+      <a href="/blog">Articles</a>
+      <a href="https://www.illusion.ai/register" class="btn-primary-sm">Start free trial</a>
+    </div>
+  </nav>
+
+  <slot />
+
+  <!-- Footer -->
+  <footer class="blog-footer">
+    <div>© 2026 Illusion</div>
+    <div class="blog-footer-links">
+      <a href="https://www.illusion.ai/">Home</a>
+      <a href="/blog">Blog</a>
+      <a href="https://www.illusion.ai/login">Log in</a>
+    </div>
+  </footer>
+</body>
+</html>

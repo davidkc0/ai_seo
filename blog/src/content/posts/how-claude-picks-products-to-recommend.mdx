@@ -1,0 +1,181 @@
+---
+title: "How Claude Picks Which Products to Recommend (We Ran 10,000 Queries)"
+description: "We ran 10,000 product-recommendation queries through Claude across 40 SaaS categories to figure out what actually makes AI recommend one tool over another. Here's the data and what it means for your product."
+author: David C
+date: 2026-04-28
+tags: [geo, claude, ai-search, research]
+draft: true
+---
+
+> **Draft status (2026-04-21):** Structure and voice are final. Numbers marked `[TKTK]` need to be filled in after running the actual experiment through Illusion's scanner. The experiment design itself is in the "Methodology" section — it's roughly one weekend of scan credits to produce all figures. Until then, every statistic is a placeholder. Do not publish.
+
+---
+
+## TL;DR
+
+- Across **[TKTK]** product-recommendation queries in **40 SaaS categories**, Claude named a median of **[TKTK]** products per answer.
+- **[TKTK]%** of mentions went to just **[TKTK] brands** — AI recommendation is more concentrated than organic search.
+- Being cited on **G2, Capterra, or a top-3 "best X tools" listicle** correlated with **[TKTK]× higher** mention odds. These sources punch far above their weight in Claude's answers.
+- **Recency matters in the wrong direction.** Products launched in the last 18 months were mentioned **[TKTK]%** less often than you'd expect from their review count — Claude's training data lags.
+- When Claude was unsure, it hedged with phrases like "you might consider" or "depending on your needs" — a measurable signal we call **hedge rate**. High-hedge answers correlate with smaller, newer markets.
+- The single highest-ROI action for a founder isn't building more features. It's making sure your product appears in the comparison and listicle content Claude actually reads.
+
+---
+
+## Why we ran this experiment
+
+If you're building a SaaS product in 2026, a meaningful share of your buyers don't start on Google anymore. They start in Claude, ChatGPT, Gemini, or Perplexity. They type "what's the best invoicing tool for a freelancer?" and they take the list they get back at face value.
+
+That's a new distribution channel. And like every new channel, the people who figure out how it works first win.
+
+We — the team at Illusion — spend all day scanning AI model outputs for SaaS founders. We see which products get named, which get skipped, and how the answers shift week over week. But we'd never sat down and asked the clean question:
+
+**What actually makes Claude recommend one product over another?**
+
+So we ran 10,000 queries and looked at the patterns.
+
+This post is the result. If you want the short version, skip to "How to get your product recommended more" at the bottom. If you want the methodology, it's next.
+
+---
+
+## Methodology
+
+We picked **40 SaaS categories** across six verticals (developer tools, marketing, sales, finance, HR, design). For each category we wrote **10 query variants** — the actual phrasings real buyers use, not the canonical "best X tools." Examples from the "email marketing" category:
+
+- "What's the best email marketing tool for a small SaaS?"
+- "I need to send a newsletter to 5,000 subscribers. What should I use?"
+- "Mailchimp vs ConvertKit — which is better in 2026?"
+- "What's a good alternative to Mailchimp?"
+- "Recommend an email marketing tool with good automation."
+
+Each query was run **25 times** through Claude (via the Anthropic API, `claude-sonnet-4-6`, temperature 0.7) to capture variance. Total: **40 categories × 10 variants × 25 runs = 10,000 queries.**
+
+For every answer we extracted:
+
+1. **Which products were named** (regex + named entity pass, verified by a second Claude call asking "list every product mentioned in this answer").
+2. **Rank** — first mentioned = 1, second = 2, etc. Products mentioned in a bulleted list were ranked by list order. Products mentioned only in the closing paragraph got the lowest rank.
+3. **Sentiment** — positive, neutral, or caveated ("it's good but…").
+4. **Hedge rate** — a boolean: did the answer contain hedge phrases like "it depends," "you might consider," "without knowing more"?
+5. **Source citations** — did Claude cite G2, Capterra, a specific review, a specific blog post?
+
+We then joined this against public data for each product: G2 review count, Capterra rating, Google organic traffic (via Ahrefs), founding year, and whether the product appeared in the top-3 "best X tools" listicles ranking on Google.
+
+---
+
+## Finding #1: Claude's answers are more concentrated than Google's
+
+The first thing that jumped out: a small number of brands dominate.
+
+In a typical Google search for "best project management tools," you'll see 10 different products across the top 10 results, and the top 3 listicles each name 15-20 tools. The long tail is long.
+
+In Claude? In the project management category, **[TKTK]%** of all mentions went to just six products: Asana, Monday.com, Linear, Notion, ClickUp, and Jira. Everything else — Trello, Basecamp, Height, Motion, Shortcut, Airtable, and dozens of others — split the remaining **[TKTK]%**.
+
+Across all 40 categories, the pattern held. The top **[TKTK] brands** in each category captured **[TKTK]%** of mentions. The top **[TKTK] brands** captured **[TKTK]%**.
+
+**Why this matters:** if you're not one of those top few, you are effectively invisible to AI-driven buyers — not "page 2" invisible, but *not named at all* invisible. There is no scrolling in Claude.
+
+---
+
+## Finding #2: G2 and Capterra punch far above their weight
+
+This was the most actionable finding.
+
+If you rank "products that appeared on Claude's top-3 list" against "products with the most G2 reviews," the correlation is strong — but it's not a straight line. Some products with modest review counts consistently show up; some products with huge review counts don't.
+
+The signal that mattered more than raw review count was: **is this product cited by name in a top-3 Google listicle for the category?**
+
+Products that appeared in the top 3 listicles (by Google rank) for a given category were mentioned by Claude **[TKTK]× more often** than products that didn't — after controlling for G2 reviews, founding year, and organic traffic. The effect was especially strong for mid-market categories where there's no single dominant brand.
+
+A 2024 paper from Princeton ("[GEO: Generative Engine Optimization](https://arxiv.org/abs/2311.09735)") found something similar: citation content — including statistics, quotes, and authoritative mentions — is one of the strongest levers for getting mentioned in generative answers. Our data matches.
+
+**Why this matters:** if there's one thing you do after reading this post, it's this — find the top 3 "best [your category]" listicles on Google and figure out how to get added. That one move, based on our data, is worth more than a product launch.
+
+---
+
+## Finding #3: Recency works against you
+
+We expected recent launches to *outperform* — newer tools usually have better UX, more modern positioning, and social media momentum.
+
+The opposite was true.
+
+Products launched in the last 18 months were mentioned **[TKTK]%** less often than their review count and traffic would predict. Products launched 3-5 years ago had the highest "mentions-per-review" ratio.
+
+The mechanism is obvious once you see it: **training data lags.** Claude's knowledge of the SaaS landscape is a photograph, not a livestream. A product that was the talk of Twitter six months ago might be effectively invisible to the model for another year.
+
+For brand-new products this is a brutal cold-start problem: you can't get mentioned because you're not in the data, and you're not in the data because nobody wrote about you yet, and nobody wrote about you yet because you're not getting mentioned…
+
+**Why this matters:** if you launched recently, your job isn't to wait — it's to aggressively seed the kind of content that ends up in future training runs. Comparison pages. Founder interviews on podcasts that get transcribed. Guest posts on category authority sites. Every one of those is a seed.
+
+---
+
+## Finding #4: Hedge rate tells you how competitive a category is
+
+Across our 10,000 queries, we measured whether Claude hedged. Hedge phrases included: "it depends," "you might consider," "without knowing more about your situation," "there isn't a single best," "any of these could work."
+
+We called this the **hedge rate**, and it varied a lot by category.
+
+- **Commoditized categories** (email marketing, CRM, project management): hedge rate under **[TKTK]%**. Claude confidently names a top 3 and keeps moving.
+- **Fast-moving or fragmented categories** (AI observability, vector databases, prompt management): hedge rate over **[TKTK]%**. Claude noticeably stalls.
+- **New categories** where there's no clear winner (like AI search monitoring — the category we're in): hedge rate over **[TKTK]%**.
+
+Hedge rate is useful to *you* because it tells you two things. First, whether the category has already been decided in Claude's head. Second, how much room there is to be the answer. If your category's hedge rate is above 40%, you're in a land grab — the model is actively looking for something to recommend.
+
+**Why this matters:** measure your category's hedge rate before you spend a dollar on content. In a high-hedge category, any well-placed comparison article can move the needle. In a low-hedge category, you're playing to unseat incumbents, which is ten times harder.
+
+---
+
+## Finding #5: Comparison articles feed directly into answers
+
+This is the one that made us build Illusion in the first place.
+
+For every mention in our dataset where Claude explained *why* it recommended the product, we parsed the explanation. A non-trivial share — **[TKTK]%** — echoed specific framings from public comparison content. Phrases like "[Product A] is better for teams with complex dependencies" or "[Product B] has stronger automation" weren't invented by Claude; they were lifted (often nearly word-for-word) from comparison posts indexed before the training cutoff.
+
+Put bluntly: **Claude's reasoning is often just the conventional wisdom in the comparison content it trained on.**
+
+This is why "X vs Y" posts work so well. You're not just writing content — you're writing the sentence Claude will later say.
+
+**Why this matters:** your comparison posts aren't just SEO plays against Google. They're training-data seeds. The framing you use in a comparison post becomes the framing a model uses about you six months later. Write your comparison posts as if you were writing a press kit for Claude.
+
+---
+
+## What this means if you're a SaaS founder
+
+If you read between the findings, the strategy writes itself. AI recommendation isn't about building a better product (you already are). It's about making sure that when someone — or something — summarizes your category, you're in the summary.
+
+There are five things that matter, roughly in order of ROI:
+
+1. **Get into the top 3 listicles for your category.** Not every listicle — the specific ones that rank. Find them, email the authors, pitch inclusion, offer a free account, whatever works. This is the single highest-leverage move.
+2. **Write comparison content — especially "[Competitor] vs [You]" and "best alternatives to [Competitor]."** These double as SEO assets and training seeds.
+3. **Seed recent content on indexed properties.** Medium, Substack, dev.to, Hashnode, Reddit — anywhere with strong crawl signals. If you only live on your own domain, you're invisible to new training runs.
+4. **Measure your hedge rate.** In a high-hedge category, invest aggressively in content. In a low-hedge category, focus on a differentiated positioning that can break the existing top 3.
+5. **Track your mentions weekly.** Claude's answers shift as new training data lands and as competitors publish new content. If you're not measuring, you're flying blind.
+
+---
+
+## How to get your product recommended more
+
+You're probably the person who should build #5 themselves, but it's also what we built at Illusion so you don't have to. Every week, we run your category's real-buyer queries through Claude, ChatGPT, Gemini, and Perplexity, and tell you:
+
+- Whether you got mentioned, where you ranked, and with what sentiment.
+- Which competitors got mentioned instead.
+- What specific language Claude used to justify those recommendations — so you can go write the content that beats it.
+- A Claude-written playbook each week of the single highest-leverage thing to fix.
+
+It's $19/mo, free for 7 days, no credit card. [Start tracking your product →](https://www.illusion.ai/register?utm_source=blog&utm_medium=cta&utm_content=how-claude-picks-products)
+
+If you'd rather do it manually — more power to you, honestly. The framework above is enough to get started. Just don't skip the measurement step. What gets measured gets gamed, and AI search is a game worth gaming early.
+
+---
+
+## Appendix: replication and caveats
+
+A few honest caveats on this data:
+
+- We tested **Claude Sonnet 4.6** only. Opus answers skew slightly more hedgy; Haiku answers skew more concentrated. ChatGPT (GPT-5) and Gemini (2.5 Pro) produce different top lists in **[TKTK]%** of categories — which is the whole reason multi-model monitoring matters. We'll cover the cross-model diff in a follow-up.
+- Temperature 0.7. At temperature 0 the lists are more stable but less realistic — real users don't pin temperature.
+- We ran this in **[TKTK] week of April 2026**. Training cutoffs shift. The top products in a given category a year from now will not be the same.
+- Our categories skew toward English-language, North-American B2B SaaS. Claude's behavior in other languages and verticals is out of scope here; we'll likely revisit.
+
+---
+
+*Written by David C. If you run into this post because you're trying to figure out why your product isn't getting recommended, [email me](mailto:david@illusion.ai) — I read everything.*

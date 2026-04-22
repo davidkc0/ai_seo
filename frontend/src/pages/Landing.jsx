@@ -36,6 +36,7 @@ export default function Landing() {
         <div className="nav-links">
           <a href="#features">Features</a>
           <a href="#pricing">Pricing</a>
+          <a href="/blog">Blog</a>
           <Link to="/login">Log in</Link>
           <Link to="/register" className="btn-primary-sm">Start free trial</Link>
         </div>
@@ -200,6 +201,7 @@ export default function Landing() {
       <footer className="footer">
         <div>© 2026 Illusion</div>
         <div className="footer-links">
+          <a href="/blog">Blog</a>
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
           <Link to="/login">Log in</Link>

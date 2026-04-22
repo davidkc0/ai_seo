@@ -11,6 +11,8 @@ backend/.venv/
 node_modules/
 frontend/dist/
 frontend/.vite/
+blog/dist/
+blog/.astro/
 
 # Env / secrets — NEVER commit these
 .env

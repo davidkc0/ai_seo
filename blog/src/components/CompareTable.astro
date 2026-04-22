@@ -1,0 +1,35 @@
+---
+interface Props {
+  rows: { feature: string; cols: string[] }[];
+  headers: string[];
+  highlightCol?: number; // 1-indexed column to highlight (Illusion's column)
+}
+
+const { rows, headers, highlightCol } = Astro.props;
+---
+<div class="compare-table-wrapper">
+  <table class="compare-table">
+    <thead>
+      <tr>
+        {headers.map((h, i) => (
+          <th class={highlightCol && i === highlightCol ? 'highlight' : ''}>{h}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map(row => (
+        <tr>
+          <td>{row.feature}</td>
+          {row.cols.map((val, i) => (
+            <td class:list={[
+              val === '✓' ? 'check' : val === '✗' ? 'cross' : '',
+              highlightCol && i + 1 === highlightCol ? 'highlight' : '',
+            ]}>
+              {val}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

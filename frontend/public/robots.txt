@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Disallow logged-in / app pages from being indexed — they're behind auth
+# anyway, but this keeps them out of search results.
+Disallow: /dashboard
+Disallow: /settings
+
+Sitemap: https://illusion.ai/sitemap.xml

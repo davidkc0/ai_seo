@@ -66,43 +66,6 @@ async def health():
     return {"status": "ok", "version": "1.0.0"}
 
 
-@app.get("/api/debug/scan-test")
-async def debug_scan_test(key: str):
-    """Run a minimal scan inline and return what happens at each step."""
-    if key != app_settings.secret_key:
-        return {"error": "forbidden"}
-    import traceback, time
-    steps = {}
-    try:
-        import monitor
-        steps["openrouter_key_set"] = bool(app_settings.openrouter_api_key)
-        steps["openrouter_key_prefix"] = app_settings.openrouter_api_key[:12] + "..." if app_settings.openrouter_api_key else "EMPTY"
-        steps["serpapi_key_set"] = bool(app_settings.serpapi_api_key)
-
-        # Test ONE query to ONE provider
-        t0 = time.time()
-        resp = monitor.query_provider("claude", "What are the best SEO tools?")
-        steps["single_query"] = f"OK ({time.time()-t0:.1f}s, {len(resp)} chars)"
-    except Exception:
-        steps["single_query_error"] = traceback.format_exc()
-        return steps
-
-    try:
-        t0 = time.time()
-        results = monitor.run_product_scan(
-            product_name="TestProduct",
-            category="SEO",
-            use_case=None,
-            competitors=[],
-            keywords=[],
-            providers=["claude"],  # just 1 provider
-        )
-        steps["mini_scan"] = f"OK ({time.time()-t0:.1f}s, {len(results)} results)"
-    except Exception:
-        steps["mini_scan_error"] = traceback.format_exc()
-
-    return steps
-
 
 # Serve frontend build if it exists
 frontend_build = os.path.join(os.path.dirname(__file__), "../frontend/dist")

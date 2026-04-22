@@ -30,7 +30,9 @@ async def scan_product(product_id: int, db: AsyncSession):
 
     print(f"[Scheduler] Scanning product: {product.name} (id={product_id})")
 
-    scan_results = monitor.run_product_scan(
+    # Run blocking LLM calls in a thread so the event loop stays responsive
+    scan_results = await asyncio.to_thread(
+        monitor.run_product_scan,
         product_name=product.name,
         category=product.category,
         use_case=product.use_case,
@@ -70,7 +72,7 @@ async def scan_product(product_id: int, db: AsyncSession):
         )
         primary_query = serp.pick_primary_query(queries)
         if primary_query:
-            overview = serp.fetch_ai_overview(primary_query)
+            overview = await asyncio.to_thread(serp.fetch_ai_overview, primary_query)
             ai_overview_snapshot = AIOverviewSnapshot(
                 product_id=product.id,
                 query=primary_query,
@@ -96,7 +98,8 @@ async def scan_product(product_id: int, db: AsyncSession):
                 "references": ai_overview_snapshot.references,
             }
 
-        rec = recommendations.generate_recommendations(
+        rec = await asyncio.to_thread(
+            recommendations.generate_recommendations,
             product={
                 "name": product.name,
                 "category": product.category,

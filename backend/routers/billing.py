@@ -166,16 +166,18 @@ async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
     try:
         if event["type"] == "checkout.session.completed":
             session = event["data"]["object"]
-            user_id = int(session.get("metadata", {}).get("user_id", 0))
-            plan = session.get("metadata", {}).get("plan", "starter")
-            print(f"[Webhook] checkout.session.completed — user_id={user_id}, plan={plan}")
+            metadata = dict(session.get("metadata", {}) or {}) if hasattr(session, 'get') else dict(session.metadata or {})
+            user_id = int(metadata.get("user_id", 0))
+            plan = metadata.get("plan", "starter")
+            sub_id = session["subscription"] if "subscription" in session else None
+            print(f"[Webhook] checkout.session.completed — user_id={user_id}, plan={plan}, sub={sub_id}")
 
             if user_id:
                 result = await db.execute(select(User).where(User.id == user_id))
                 user = result.scalar_one_or_none()
                 if user:
                     user.plan = plan
-                    user.stripe_subscription_id = session.get("subscription")
+                    user.stripe_subscription_id = sub_id
                     await db.commit()
                     print(f"[Webhook] Updated user {user_id} to plan={plan}")
                 else:

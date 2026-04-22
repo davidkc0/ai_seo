@@ -102,8 +102,14 @@ async def create_checkout(
         raise HTTPException(status_code=400, detail="Invalid plan")
 
     try:
-        # Get or create Stripe customer
+        # Get or create Stripe customer (handles test→live mode switch)
         customer_id = current_user.stripe_customer_id
+        if customer_id:
+            try:
+                stripe.Customer.retrieve(customer_id)
+            except stripe.InvalidRequestError:
+                customer_id = None  # stale ID from different mode
+
         if not customer_id:
             customer = stripe.Customer.create(email=current_user.email)
             customer_id = customer.id

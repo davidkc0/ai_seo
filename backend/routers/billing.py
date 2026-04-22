@@ -145,32 +145,36 @@ async def create_portal(
 @router.post("/webhook")
 async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
     """Handle Stripe webhooks to update subscription status."""
-    webhook_secret = settings.stripe_webhook_secret.strip() if settings.stripe_webhook_secret else ""
+    import json
+
+    webhook_secret = (settings.stripe_webhook_secret or "").strip()
     if not webhook_secret:
-        print("[Webhook] ERROR: No webhook secret configured")
         raise HTTPException(status_code=503, detail="Webhook secret not configured")
 
     payload = await request.body()
     sig_header = request.headers.get("stripe-signature")
 
+    # Verify signature (security) — but then use raw JSON for data access
     try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, webhook_secret
-        )
+        stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
     except Exception as e:
-        print(f"[Webhook] Signature verification failed: {e}")
         raise HTTPException(status_code=400, detail=f"Sig verify failed: {str(e)}")
 
-    print(f"[Webhook] Received event: {event['type']}")
+    # Parse raw JSON — no StripeObject nonsense
+    data = json.loads(payload)
+    event_type = data.get("type", "")
+    obj = data.get("data", {}).get("object", {})
+
+    print(f"[Webhook] event={event_type}, metadata={obj.get('metadata')}")
 
     try:
-        if event["type"] == "checkout.session.completed":
-            session = event["data"]["object"]
-            metadata = dict(session.get("metadata", {}) or {}) if hasattr(session, 'get') else dict(session.metadata or {})
+        if event_type == "checkout.session.completed":
+            metadata = obj.get("metadata") or {}
             user_id = int(metadata.get("user_id", 0))
             plan = metadata.get("plan", "starter")
-            sub_id = session["subscription"] if "subscription" in session else None
-            print(f"[Webhook] checkout.session.completed — user_id={user_id}, plan={plan}, sub={sub_id}")
+            sub_id = obj.get("subscription")
+
+            print(f"[Webhook] checkout — user_id={user_id}, plan={plan}, sub={sub_id}")
 
             if user_id:
                 result = await db.execute(select(User).where(User.id == user_id))
@@ -179,16 +183,14 @@ async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
                     user.plan = plan
                     user.stripe_subscription_id = sub_id
                     await db.commit()
-                    print(f"[Webhook] Updated user {user_id} to plan={plan}")
+                    print(f"[Webhook] ✅ User {user_id} upgraded to {plan}")
                 else:
-                    print(f"[Webhook] WARNING: user_id={user_id} not found in DB")
+                    print(f"[Webhook] ⚠️ user_id={user_id} not found")
             else:
-                print(f"[Webhook] WARNING: no user_id in metadata")
+                print(f"[Webhook] ⚠️ no user_id in metadata: {metadata}")
 
-        elif event["type"] in ("customer.subscription.deleted", "customer.subscription.paused"):
-            subscription = event["data"]["object"]
-            customer_id = subscription["customer"]
-
+        elif event_type in ("customer.subscription.deleted", "customer.subscription.paused"):
+            customer_id = obj.get("customer")
             result = await db.execute(
                 select(User).where(User.stripe_customer_id == customer_id)
             )
@@ -197,13 +199,11 @@ async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
                 user.plan = "free"
                 user.stripe_subscription_id = None
                 await db.commit()
-                print(f"[Webhook] Downgraded user {user.id} to free (sub deleted)")
+                print(f"[Webhook] ✅ User {user.id} downgraded to free")
 
-        elif event["type"] == "customer.subscription.updated":
-            subscription = event["data"]["object"]
-            customer_id = subscription["customer"]
-            status = subscription["status"]
-
+        elif event_type == "customer.subscription.updated":
+            customer_id = obj.get("customer")
+            status = obj.get("status")
             result = await db.execute(
                 select(User).where(User.stripe_customer_id == customer_id)
             )
@@ -211,12 +211,11 @@ async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
             if user and status not in ("active", "trialing"):
                 user.plan = "free"
                 await db.commit()
-                print(f"[Webhook] User {user.id} sub status={status}, downgraded to free")
+                print(f"[Webhook] User {user.id} status={status}, downgraded")
 
     except Exception as e:
-        print(f"[Webhook] ERROR processing {event['type']}: {e}")
         import traceback
         traceback.print_exc()
-        raise HTTPException(status_code=500, detail=f"Webhook processing error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Webhook error: {str(e)}")
 
     return {"received": True}

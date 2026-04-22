@@ -9,7 +9,7 @@ from auth import get_current_user
 from config import settings
 
 router = APIRouter(prefix="/api/billing", tags=["billing"])
-stripe.api_key = settings.stripe_secret_key
+stripe.api_key = settings.stripe_secret_key.strip() if settings.stripe_secret_key else ""
 
 
 @router.get("/plans")
@@ -145,7 +145,9 @@ async def create_portal(
 @router.post("/webhook")
 async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
     """Handle Stripe webhooks to update subscription status."""
-    if not settings.stripe_webhook_secret:
+    webhook_secret = settings.stripe_webhook_secret.strip() if settings.stripe_webhook_secret else ""
+    if not webhook_secret:
+        print("[Webhook] ERROR: No webhook secret configured")
         raise HTTPException(status_code=503, detail="Webhook secret not configured")
 
     payload = await request.body()
@@ -153,10 +155,13 @@ async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
 
     try:
         event = stripe.Webhook.construct_event(
-            payload, sig_header, settings.stripe_webhook_secret
+            payload, sig_header, webhook_secret
         )
     except Exception as e:
+        print(f"[Webhook] Signature verification failed: {e}")
         raise HTTPException(status_code=400, detail=str(e))
+
+    print(f"[Webhook] Received event: {event['type']}")
 
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]

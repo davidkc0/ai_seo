@@ -12,7 +12,7 @@ import os
 
 from database import init_db
 from scheduler import start_scheduler
-from routers import auth, products, billing, settings as settings_router, unsubscribe
+from routers import auth, products, billing, settings as settings_router, unsubscribe, bot_analytics
 from config import settings as app_settings
 
 
@@ -59,6 +59,7 @@ app.include_router(products.router)
 app.include_router(billing.router)
 app.include_router(settings_router.router)
 app.include_router(unsubscribe.router)
+app.include_router(bot_analytics.router)
 
 
 @app.get("/api/health")

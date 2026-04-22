@@ -11,11 +11,12 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import AsyncSessionLocal
-from models import User, Product, ScanResult, NotificationSettings, AIOverviewSnapshot, Recommendation
+from models import User, Product, ScanResult, NotificationSettings, AIOverviewSnapshot, Recommendation, CdnConnection, BotVisit
 import monitor
 import serp
 import recommendations
 import email_service
+import bot_analytics
 
 
 scheduler = AsyncIOScheduler(timezone="UTC")
@@ -286,8 +287,52 @@ async def send_weekly_digests():
                 )
 
 
+async def sync_bot_traffic():
+    """Daily sync of AI bot traffic from connected CDN accounts (paid users only)."""
+    print("[Scheduler] Starting daily bot traffic sync...")
+    async with AsyncSessionLocal() as db:
+        result = await db.execute(
+            select(CdnConnection).where(CdnConnection.is_active == True)
+        )
+        connections = result.scalars().all()
+
+        for conn in connections:
+            try:
+                since = datetime.now(timezone.utc) - timedelta(days=1)
+                until = datetime.now(timezone.utc)
+
+                visits = await asyncio.to_thread(
+                    bot_analytics.fetch_bot_traffic,
+                    api_token=conn.api_token,
+                    zone_id=conn.zone_id,
+                    since=since,
+                    until=until,
+                )
+
+                for v in visits:
+                    db.add(BotVisit(
+                        cdn_connection_id=conn.id,
+                        user_id=conn.user_id,
+                        bot_name=v["bot_name"],
+                        bot_platform=v["bot_platform"],
+                        bot_category=v["bot_category"],
+                        path=v["path"],
+                        status_code=v["status_code"],
+                        request_count=v["request_count"],
+                        visited_at=v["visited_at"],
+                    ))
+
+                conn.last_synced_at = datetime.now(timezone.utc)
+                await db.commit()
+                print(f"[Scheduler] Bot sync for {conn.zone_name}: {len(visits)} visit groups")
+            except Exception as e:
+                print(f"[Scheduler] Bot sync failed for {conn.zone_name}: {type(e).__name__}: {e}")
+
+
 def start_scheduler():
     """Start the background scheduler."""
+    # Daily bot traffic sync at 5am UTC
+    scheduler.add_job(sync_bot_traffic, "cron", hour=5, minute=0, id="bot_traffic_sync")
     # Daily scans at 6am UTC for paid users
     scheduler.add_job(run_daily_scans, "cron", hour=6, minute=0, id="daily_scans")
     # Weekly scans on Monday at 7am UTC for free users
@@ -295,4 +340,4 @@ def start_scheduler():
     # Weekly digests every Monday at 9am UTC
     scheduler.add_job(send_weekly_digests, "cron", day_of_week="mon", hour=9, minute=0, id="weekly_digests")
     scheduler.start()
-    print("[Scheduler] Started: daily scans at 6am UTC, weekly digests Monday 9am UTC")
+    print("[Scheduler] Started: bot sync 5am, daily scans 6am, weekly digests Mon 9am UTC")

@@ -117,3 +117,40 @@ class Recommendation(Base):
     based_on_scan_count = Column(Integer, default=0)
     model_used = Column(String, default="claude")  # e.g. "claude-sonnet-4-5"
     created_at = Column(DateTime(timezone=True), default=utcnow)
+
+
+class CdnConnection(Base):
+    """A user's linked CDN account (Cloudflare, Vercel, etc)."""
+    __tablename__ = "cdn_connections"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    provider = Column(String, nullable=False)  # "cloudflare", "vercel", "netlify"
+    # Cloudflare-specific: zone_id identifies the website/domain being tracked.
+    zone_id = Column(String, nullable=True)
+    zone_name = Column(String, nullable=True)  # e.g. "illusion.ai"
+    # Encrypted API token (Cloudflare API Token, not Global API Key).
+    api_token = Column(String, nullable=False)
+    is_active = Column(Boolean, default=True)
+    last_synced_at = Column(DateTime(timezone=True), nullable=True)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
+
+
+class BotVisit(Base):
+    """A single AI bot visit captured from CDN logs."""
+    __tablename__ = "bot_visits"
+
+    id = Column(Integer, primary_key=True, index=True)
+    cdn_connection_id = Column(Integer, ForeignKey("cdn_connections.id"), nullable=False, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    # Bot identification
+    bot_name = Column(String, nullable=False)       # "GPTBot", "ClaudeBot", etc.
+    bot_platform = Column(String, nullable=False)    # "openai", "anthropic", "perplexity", "google", "meta"
+    bot_category = Column(String, nullable=False)    # "training", "search", "user_agent"
+    # Request details
+    path = Column(String, nullable=False)            # "/pricing", "/docs", etc.
+    status_code = Column(Integer, nullable=True)
+    request_count = Column(Integer, default=1)       # aggregated count for the time bucket
+    # Timestamp of the visit (from CDN logs, not our capture time)
+    visited_at = Column(DateTime(timezone=True), nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utcnow)

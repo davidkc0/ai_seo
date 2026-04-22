@@ -67,4 +67,12 @@ export const api = {
   // Settings
   getNotifications: () => request('/settings/notifications'),
   updateNotifications: (data) => request('/settings/notifications', { method: 'PUT', body: JSON.stringify(data) }),
+
+  // Bot Analytics
+  getBotConnections: () => request('/bot-analytics/connections'),
+  getBotZones: (apiToken) => request(`/bot-analytics/zones?api_token=${encodeURIComponent(apiToken)}`),
+  connectCloudflare: (data) => request('/bot-analytics/connect', { method: 'POST', body: JSON.stringify(data) }),
+  disconnectCdn: (id) => request(`/bot-analytics/connections/${id}`, { method: 'DELETE' }),
+  syncBotTraffic: (id, days = 7) => request(`/bot-analytics/sync/${id}`, { method: 'POST', body: JSON.stringify({ days }) }),
+  getBotSummary: (days = 30) => request(`/bot-analytics/summary?days=${days}`),
 }

@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { api } from '../api'
-import { Package, Settings, CreditCard, LogOut, Rocket, Search, CheckCircle, XCircle, Loader, Pencil } from 'lucide-react'
+import { Package, Settings, CreditCard, LogOut, Rocket, Search, CheckCircle, XCircle, Loader, Pencil, Globe } from 'lucide-react'
 import ProductModal from '../components/ProductModal'
 import ScanResults from '../components/ScanResults'
 import ScanHistory from '../components/ScanHistory'
 import Recommendations from '../components/Recommendations'
+import BotAnalytics from '../components/BotAnalytics'
 import illusionLogo from '../assets/illusion_logo.svg'
 import { track } from '../analytics'
 import './Dashboard.css'
@@ -32,6 +33,7 @@ export default function Dashboard() {
   const [scanStatus, setScanStatus] = useState('')
   const [scanMessage, setScanMessage] = useState('')
   const [resultsRefreshKey, setResultsRefreshKey] = useState(0)
+  const [activeTab, setActiveTab] = useState('mentions') // 'mentions' | 'bots'
   const [searchParams] = useSearchParams()
 
   const pollRef = useRef(null)
@@ -238,7 +240,29 @@ export default function Dashboard() {
 
       {/* Main content */}
       <main className="main-content">
-        {!selectedProduct && products.length === 0 ? (
+        {/* Tab bar — always visible when products exist */}
+        {products.length > 0 && (
+          <div className="dashboard-tabs">
+            <button
+              className={`dashboard-tab ${activeTab === 'mentions' ? 'active' : ''}`}
+              onClick={() => setActiveTab('mentions')}
+            >
+              <Search size={14} />
+              AI Mentions
+            </button>
+            <button
+              className={`dashboard-tab ${activeTab === 'bots' ? 'active' : ''}`}
+              onClick={() => setActiveTab('bots')}
+            >
+              <Globe size={14} />
+              Bot Traffic
+            </button>
+          </div>
+        )}
+
+        {activeTab === 'bots' && products.length > 0 ? (
+          <BotAnalytics />
+        ) : !selectedProduct && products.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon"><Rocket size={48} strokeWidth={1.5} /></div>
             <h2>Add your first product</h2>

@@ -147,12 +147,19 @@ export default function Dashboard() {
           if (idlePolls >= IDLE_POLLS_TO_STOP) {
             loadSummary(productId)
             setResultsRefreshKey(k => k + 1)
-            stopScanning('success:Scan complete.')
+            stopScanning('success:Scan complete — generating AI recommendations...')
             // Track completion with mention rate
             try {
               const s = await api.getSummary(productId)
               if (s) track.scanCompleted(s.mention_rate)
             } catch {}
+            // Recommendations + AI Overview arrive ~10-20s after LLM results.
+            // Do follow-up refreshes so the user doesn't have to reload.
+            setTimeout(() => {
+              setResultsRefreshKey(k => k + 1)
+              setScanMessage('success:Scan complete.')
+            }, 15000)
+            setTimeout(() => setResultsRefreshKey(k => k + 1), 30000)
           }
         }
       } catch (e) {

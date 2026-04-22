@@ -70,6 +70,19 @@ async def get_plans():
     }
 
 
+@router.get("/debug-config")
+async def debug_config():
+    """Temporary endpoint to verify Stripe config is loaded."""
+    sk = settings.stripe_secret_key
+    return {
+        "has_secret_key": bool(sk) and len(sk) > 10,
+        "key_prefix": sk[:12] + "..." if sk else "EMPTY",
+        "starter_price_id": settings.stripe_starter_price_id[:20] + "..." if settings.stripe_starter_price_id else "EMPTY",
+        "growth_price_id": settings.stripe_growth_price_id[:20] + "..." if settings.stripe_growth_price_id else "EMPTY",
+        "app_url": settings.app_url,
+    }
+
+
 @router.post("/create-checkout")
 async def create_checkout(
     plan: str,
@@ -88,25 +101,30 @@ async def create_checkout(
     if not price_id:
         raise HTTPException(status_code=400, detail="Invalid plan")
 
-    # Get or create Stripe customer
-    customer_id = current_user.stripe_customer_id
-    if not customer_id:
-        customer = stripe.Customer.create(email=current_user.email)
-        customer_id = customer.id
-        current_user.stripe_customer_id = customer_id
-        await db.commit()
+    try:
+        # Get or create Stripe customer
+        customer_id = current_user.stripe_customer_id
+        if not customer_id:
+            customer = stripe.Customer.create(email=current_user.email)
+            customer_id = customer.id
+            current_user.stripe_customer_id = customer_id
+            await db.commit()
 
-    session = stripe.checkout.Session.create(
-        customer=customer_id,
-        payment_method_types=["card"],
-        line_items=[{"price": price_id, "quantity": 1}],
-        mode="subscription",
-        success_url=f"{settings.app_url}/dashboard?upgraded=true",
-        cancel_url=f"{settings.app_url}/pricing",
-        metadata={"user_id": str(current_user.id), "plan": plan},
-    )
+        session = stripe.checkout.Session.create(
+            customer=customer_id,
+            payment_method_types=["card"],
+            line_items=[{"price": price_id.strip(), "quantity": 1}],
+            mode="subscription",
+            success_url=f"{settings.app_url}/dashboard?upgraded=true",
+            cancel_url=f"{settings.app_url}/pricing",
+            metadata={"user_id": str(current_user.id), "plan": plan},
+        )
 
-    return {"checkout_url": session.url}
+        return {"checkout_url": session.url}
+    except stripe.StripeError as e:
+        raise HTTPException(status_code=400, detail=f"Stripe error: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Checkout failed: {str(e)}")
 
 
 @router.post("/portal")

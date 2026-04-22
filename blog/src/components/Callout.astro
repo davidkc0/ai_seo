@@ -1,0 +1,80 @@
+---
+interface Props {
+  type?: 'insight' | 'warning' | 'data';
+  title?: string;
+}
+
+const { type = 'insight', title } = Astro.props;
+
+const icons = {
+  insight: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`,
+  warning: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  data: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+};
+---
+
+<aside class={`callout callout-${type}`}>
+  <div class="callout-header">
+    <span class="callout-icon" set:html={icons[type]} />
+    {title && <strong class="callout-title">{title}</strong>}
+  </div>
+  <div class="callout-body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .callout {
+    margin: 24px 0;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .callout-insight {
+    background: rgba(16, 185, 129, 0.06);
+    border-color: rgba(16, 185, 129, 0.2);
+  }
+
+  .callout-warning {
+    background: rgba(245, 158, 11, 0.06);
+    border-color: rgba(245, 158, 11, 0.2);
+  }
+
+  .callout-data {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: rgba(99, 102, 241, 0.2);
+  }
+
+  .callout-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .callout-icon {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .callout-insight .callout-icon { color: var(--primary-light); }
+  .callout-warning .callout-icon { color: var(--warning); }
+  .callout-data .callout-icon { color: #818cf8; }
+
+  .callout-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .callout-body {
+    color: var(--text-muted);
+  }
+
+  .callout-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

@@ -20,7 +20,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
   day: 'numeric',
 });
 
-const authorInitial = author.charAt(0).toUpperCase();
+const readingTime = '8 min read'; // Could calculate from word count later
 ---
 
 <BaseLayout title={`${title} — Illusion Blog`} description={description} ogImage={ogImage}>
@@ -52,10 +52,10 @@ const authorInitial = author.charAt(0).toUpperCase();
       <h1>{title}</h1>
       <p class="post-description">{description}</p>
       <div class="post-meta">
-        <div class="post-author-avatar">{authorInitial}</div>
+        <img src="/blog/authors/david-c.jpg" alt={author} class="post-author-photo" />
         <div class="post-meta-text">
           <strong>{author}</strong>
-          <span>{formattedDate}</span>
+          <span>{formattedDate} · {readingTime}</span>
         </div>
       </div>
     </header>

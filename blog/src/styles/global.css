@@ -283,18 +283,12 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--text-dim);
 }
 
-.post-author-avatar {
+.post-author-photo {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--surface2);
   border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--primary-light);
+  object-fit: cover;
 }
 
 .post-meta-text strong {

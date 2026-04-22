@@ -1,0 +1,98 @@
+---
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FAQ[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="faq-block">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-list">
+    {items.map(item => (
+      <details class="faq-item">
+        <summary>{item.question}</summary>
+        <p>{item.answer}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<!-- FAQ JSON-LD for Google -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": items.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
+    },
+  })),
+})} />
+
+<style>
+  .faq-block {
+    margin: 48px 0;
+  }
+
+  .faq-block h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+    transition: color var(--transition);
+  }
+
+  .faq-item summary::-webkit-details-marker { display: none; }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-dim);
+    transition: transform 200ms ease;
+  }
+
+  .faq-item[open] summary::after {
+    content: '-';
+  }
+
+  .faq-item summary:hover { color: var(--primary-light); }
+
+  .faq-item p {
+    padding: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+</style>

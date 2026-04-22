@@ -202,6 +202,7 @@ export default function Landing() {
         <div>© 2026 Illusion</div>
         <div className="footer-links">
           <a href="/blog">Blog</a>
+          <a href="mailto:hello@illusion.ai">Contact Us</a>
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
           <Link to="/login">Log in</Link>

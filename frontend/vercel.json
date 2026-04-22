@@ -4,8 +4,8 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/blog/:match*", "destination": "https://ai-seo-6jvg.vercel.app/blog/:match*" },
-    { "source": "/blog", "destination": "https://ai-seo-6jvg.vercel.app/blog" },
+    { "source": "/blog/:match*", "destination": "https://ai-seo-6jvg.vercel.app/:match*" },
+    { "source": "/blog", "destination": "https://ai-seo-6jvg.vercel.app/" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

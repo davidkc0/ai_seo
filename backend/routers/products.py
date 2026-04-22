@@ -171,12 +171,28 @@ async def trigger_scan(
     db: AsyncSession = Depends(get_db)
 ):
     """Manually trigger a scan for a product."""
+    from datetime import datetime, timezone, timedelta
+
     result = await db.execute(
         select(Product).where(Product.id == product_id, Product.user_id == current_user.id)
     )
     product = result.scalar_one_or_none()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
+
+    # Enforce scan frequency by plan
+    if product.last_scanned_at:
+        cooldown = timedelta(days=7) if current_user.plan == "free" else timedelta(hours=24)
+        next_available = product.last_scanned_at + cooldown
+        now = datetime.now(timezone.utc)
+        if now < next_available:
+            remaining = next_available - now
+            hours_left = int(remaining.total_seconds() // 3600)
+            freq = "weekly" if current_user.plan == "free" else "daily"
+            raise HTTPException(
+                status_code=403,
+                detail=f"Your {current_user.plan} plan allows {freq} scans. Next scan available in {hours_left}h."
+            )
 
     async def do_scan():
         from scheduler import scan_product
@@ -186,6 +202,61 @@ async def trigger_scan(
     background_tasks.add_task(do_scan)
     return {"message": "Scan started in background"}
 
+
+@router.get("/{product_id}/scan-history")
+async def get_scan_history(
+    product_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Return scan batches grouped by time window."""
+    from datetime import timedelta
+
+    result = await db.execute(
+        select(Product).where(Product.id == product_id, Product.user_id == current_user.id)
+    )
+    if not result.scalar_one_or_none():
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    scan_result = await db.execute(
+        select(ScanResult)
+        .where(ScanResult.product_id == product_id)
+        .order_by(ScanResult.created_at.desc())
+    )
+    all_scans = scan_result.scalars().all()
+
+    # Group into batches: results within 5 minutes of each other = same scan
+    batches = []
+    current_batch = []
+    for scan in all_scans:
+        if current_batch and (current_batch[0].created_at - scan.created_at) > timedelta(minutes=5):
+            batches.append(current_batch)
+            current_batch = [scan]
+        else:
+            current_batch.append(scan)
+    if current_batch:
+        batches.append(current_batch)
+
+    history = []
+    for batch in batches[:20]:  # Last 20 scans
+        total = len(batch)
+        mentions = sum(1 for s in batch if s.product_mentioned)
+        rate = mentions / total if total else 0
+        sentiments = [s.mention_sentiment for s in batch if s.mention_sentiment]
+        top_sentiment = max(set(sentiments), key=sentiments.count) if sentiments else "neutral"
+        positions = [s.mention_position for s in batch if s.mention_position]
+
+        history.append({
+            "scan_date": batch[0].created_at.isoformat(),
+            "total_queries": total,
+            "mentions": mentions,
+            "mention_rate": round(rate * 100),
+            "top_sentiment": top_sentiment,
+            "best_position": min(positions) if positions else None,
+            "providers": list(set(s.ai_model for s in batch)),
+        })
+
+    return history
 
 @router.get("/{product_id}/results")
 async def get_results(

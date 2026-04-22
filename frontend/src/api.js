@@ -57,6 +57,7 @@ export const api = {
   getSummary: (id) => request(`/products/${id}/summary`),
   getRecommendations: (id) => request(`/products/${id}/recommendations`),
   getAIOverview: (id) => request(`/products/${id}/ai-overview`),
+  getScanHistory: (id) => request(`/products/${id}/scan-history`),
 
   // Billing
   getPlans: () => request('/billing/plans'),

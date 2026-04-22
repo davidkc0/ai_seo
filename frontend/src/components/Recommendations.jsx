@@ -9,19 +9,21 @@ const PRIORITY_META = {
   low:    { label: 'Low', rank: 2 },
 }
 
-export default function Recommendations({ productId, refreshKey = 0, scanning = false }) {
+export default function Recommendations({ productId, refreshKey = 0, scanning = false, plan = 'free' }) {
   const [rec, setRec] = useState(null)
   const [overview, setOverview] = useState(null)
   const [loading, setLoading] = useState(false)
   const [expandedAction, setExpandedAction] = useState(null)
   const [showOverview, setShowOverview] = useState(false)
 
+  const isFree = plan === 'free'
+
   useEffect(() => {
-    if (productId) load(false)
+    if (productId && !isFree) load(false)
   }, [productId])
 
   useEffect(() => {
-    if (productId && refreshKey > 0) load(true)
+    if (productId && refreshKey > 0 && !isFree) load(true)
   }, [refreshKey])
 
   const load = async (silent) => {
@@ -36,6 +38,26 @@ export default function Recommendations({ productId, refreshKey = 0, scanning = 
     } finally {
       if (!silent) setLoading(false)
     }
+  }
+
+  // Free plan — show upgrade card
+  if (isFree) {
+    return (
+      <div className="card recommendations-card" style={{ marginBottom: 24 }}>
+        <div className="card-header">
+          <h3><Sparkles size={14} className="rec-icon" /> SEO Recommendations</h3>
+          <span className="card-hint">Starter plan</span>
+        </div>
+        <div className="rec-upgrade">
+          <div className="rec-upgrade-icon"><Sparkles size={24} /></div>
+          <div className="rec-upgrade-text">
+            <strong>Unlock AI-powered recommendations</strong>
+            <p>Upgrade to Starter to get personalized, Claude-generated SEO action items after every scan — plus Google AI Overview tracking.</p>
+          </div>
+          <a href="/pricing" className="btn-primary" style={{ whiteSpace: 'nowrap' }}>Upgrade →</a>
+        </div>
+      </div>
+    )
   }
 
   if (loading) return <div className="spinner" />

@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { api } from '../api'
-import { Package, Settings, CreditCard, LogOut, Rocket, Search, CheckCircle, XCircle, Loader } from 'lucide-react'
+import { Package, Settings, CreditCard, LogOut, Rocket, Search, CheckCircle, XCircle, Loader, Pencil } from 'lucide-react'
 import ProductModal from '../components/ProductModal'
 import ScanResults from '../components/ScanResults'
+import ScanHistory from '../components/ScanHistory'
 import Recommendations from '../components/Recommendations'
 import illusionLogo from '../assets/illusion_logo.svg'
 import { track } from '../analytics'
@@ -26,6 +27,7 @@ export default function Dashboard() {
   const [summary, setSummary] = useState(null)
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
+  const [editProduct, setEditProduct] = useState(null)
   const [scanning, setScanning] = useState(false)
   const [scanStatus, setScanStatus] = useState('')
   const [scanMessage, setScanMessage] = useState('')
@@ -175,6 +177,12 @@ export default function Dashboard() {
     setShowModal(false)
   }
 
+  const handleProductUpdated = (updated) => {
+    setProducts(prev => prev.map(p => p.id === updated.id ? updated : p))
+    setSelectedProduct(updated)
+    setEditProduct(null)
+  }
+
   const mentionRate = summary ? Math.round((summary.mention_rate || 0) * 100) : 0
   const mentionColor = mentionRate >= 70 ? '#22c55e' : mentionRate >= 40 ? '#f59e0b' : '#6b7280'
 
@@ -244,7 +252,16 @@ export default function Dashboard() {
             {/* Header */}
             <div className="content-header">
               <div>
-                <h1>{selectedProduct?.name}</h1>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <h1>{selectedProduct?.name}</h1>
+                  <button
+                    className="btn-icon-sm"
+                    onClick={() => setEditProduct(selectedProduct)}
+                    title="Edit product"
+                  >
+                    <Pencil size={14} />
+                  </button>
+                </div>
                 <span className="category-tag">{selectedProduct?.category}</span>
               </div>
               <button
@@ -315,6 +332,7 @@ export default function Dashboard() {
                   productId={selectedProduct?.id}
                   refreshKey={resultsRefreshKey}
                   scanning={scanning}
+                  plan={user?.plan || 'free'}
                 />
 
                 {/* Competitors */}
@@ -362,6 +380,9 @@ export default function Dashboard() {
                 </div>
 
                 <ScanResults productId={selectedProduct?.id} refreshKey={resultsRefreshKey} />
+
+                {/* Scan History Timeline */}
+                <ScanHistory productId={selectedProduct?.id} refreshKey={resultsRefreshKey} />
               </>
             ) : (
               <div className="empty-state">
@@ -378,6 +399,15 @@ export default function Dashboard() {
         <ProductModal
           onClose={() => setShowModal(false)}
           onCreated={handleProductCreated}
+          plan={user?.plan}
+        />
+      )}
+
+      {editProduct && (
+        <ProductModal
+          product={editProduct}
+          onClose={() => setEditProduct(null)}
+          onUpdated={handleProductUpdated}
           plan={user?.plan}
         />
       )}

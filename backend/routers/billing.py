@@ -40,10 +40,13 @@ async def get_plans():
                     "1 product",
                     "5 keywords",
                     "Daily AI scan",
+                    "AI-generated recommendations",
+                    "Google AI Overview tracking",
                     "Weekly email digest",
                     "Competitor tracking",
                 ],
                 "limits": {"products": 1, "keywords": 5},
+                "popular": True,
             },
             {
                 "id": "growth",
@@ -55,12 +58,13 @@ async def get_plans():
                     "3 products",
                     "20 keywords",
                     "Daily AI scan",
+                    "AI-generated recommendations",
+                    "Google AI Overview tracking",
                     "Weekly email digest",
                     "Instant mention alerts",
                     "Competitor comparison",
                 ],
                 "limits": {"products": 3, "keywords": 20},
-                "popular": True,
             },
         ]
     }

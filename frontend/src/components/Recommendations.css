@@ -281,3 +281,52 @@
   max-width: 440px;
   margin: 0 auto;
 }
+
+/* ─── Upgrade CTA ──────────────────────────────────────────── */
+.rec-upgrade {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.rec-upgrade-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
+.rec-upgrade-text {
+  flex: 1;
+}
+
+.rec-upgrade-text strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.rec-upgrade-text p {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .rec-upgrade {
+    flex-direction: column;
+    text-align: center;
+  }
+}

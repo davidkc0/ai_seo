@@ -58,8 +58,18 @@ async def scan_product(product_id: int, db: AsyncSession):
     product.last_scanned_at = datetime.now(timezone.utc)
     await db.commit()
 
+    # Look up user plan to gate premium features
+    user_result = await db.execute(select(User).where(User.id == product.user_id))
+    user = user_result.scalar_one_or_none()
+    user_plan = user.plan if user else "free"
+
+    # Skip AI Overview + Recommendations for free-tier users
+    if user_plan == "free":
+        print(f"[Scheduler] Done scanning {product.name}: {len(new_results)} queries (free plan — skipping recs)")
+        return
+
     # ────────────────────────────────────────────────────────────────
-    # AI Overview + Recommendations (best-effort, never fails the scan)
+    # AI Overview + Recommendations (paid plans only, best-effort)
     # ────────────────────────────────────────────────────────────────
     ai_overview_snapshot = None
     try:

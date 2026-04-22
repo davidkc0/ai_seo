@@ -157,7 +157,8 @@ export default function Landing() {
             </ul>
             <Link to="/register" className="plan-btn">Start free →</Link>
           </div>
-          <div className="pricing-card">
+          <div className="pricing-card popular">
+            <div className="popular-badge">Most Popular</div>
             <div className="plan-name">Starter</div>
             <div className="plan-price">$19 <span>/month</span></div>
             <ul>
@@ -165,13 +166,13 @@ export default function Landing() {
               <li>✓ 5 keywords</li>
               <li>✓ Daily AI scan</li>
               <li>✓ AI-generated recommendations</li>
+              <li>✓ Google AI Overview tracking</li>
               <li>✓ Weekly email digest</li>
               <li>✓ Competitor tracking</li>
             </ul>
-            <Link to="/register" className="plan-btn">Get started →</Link>
+            <Link to="/register" className="plan-btn plan-btn-primary">Get started →</Link>
           </div>
-          <div className="pricing-card popular">
-            <div className="popular-badge">Most Popular</div>
+          <div className="pricing-card">
             <div className="plan-name">Growth</div>
             <div className="plan-price">$39 <span>/month</span></div>
             <ul>
@@ -182,8 +183,9 @@ export default function Landing() {
               <li>✓ Google AI Overview tracking</li>
               <li>✓ Weekly email digest</li>
               <li>✓ Competitor comparison</li>
+              <li>✓ Instant mention alerts</li>
             </ul>
-            <Link to="/register" className="plan-btn plan-btn-primary">Get started →</Link>
+            <Link to="/register" className="plan-btn">Get started →</Link>
           </div>
         </div>
       </section>

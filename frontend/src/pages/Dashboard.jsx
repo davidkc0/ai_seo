@@ -351,7 +351,7 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {/* Recommendations (Claude-generated) */}
+                {/* Smart Summary & Recommendations */}
                 <Recommendations
                   productId={selectedProduct?.id}
                   refreshKey={resultsRefreshKey}

@@ -52,7 +52,7 @@ export default function Recommendations({ productId, refreshKey = 0, scanning = 
           <div className="rec-upgrade-icon"><Sparkles size={24} /></div>
           <div className="rec-upgrade-text">
             <strong>Unlock AI-powered recommendations</strong>
-            <p>Upgrade to Starter to get personalized, Claude-generated SEO action items after every scan — plus Google AI Overview tracking.</p>
+            <p>Upgrade to Starter to get personalized, AI-powered action items after every scan — plus Google AI Overview tracking and bot traffic analysis.</p>
           </div>
           <a href="/pricing" className="btn-primary" style={{ whiteSpace: 'nowrap' }}>Upgrade →</a>
         </div>
@@ -72,7 +72,7 @@ export default function Recommendations({ productId, refreshKey = 0, scanning = 
         </div>
         <div className="rec-empty">
           <div className="rec-empty-text">
-            Claude is analyzing your scan results + Google AI Overview citations. This usually
+            We're analyzing your scan results + Google AI Overview citations. This usually
             takes 10–15 seconds after the scan finishes.
           </div>
         </div>

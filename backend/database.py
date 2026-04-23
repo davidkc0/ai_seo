@@ -31,6 +31,11 @@ async def init_db():
     an existing table. We handle the small number of columns we've added post-v1
     with targeted ADD COLUMN statements + a data backfill pass.
     """
+    # Ensure every model is registered with Base.metadata before create_all.
+    # Without this import, tables for models only imported elsewhere (e.g.
+    # Recommendation, AIOverviewSnapshot) may silently not get created.
+    import models as _models  # noqa: F401
+
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
         await conn.run_sync(_ensure_user_unsubscribe_token_column)

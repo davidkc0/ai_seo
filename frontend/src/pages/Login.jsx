@@ -33,7 +33,7 @@ export default function Login() {
         <h1>Welcome back</h1>
         <p className="auth-sub">Log in to your account</p>
 
-        {error && <div className="error-msg">{error}</div>}
+        {error && <div className="auth-error"><span className="auth-error-icon">!</span> {error}</div>}
 
         <form onSubmit={submit}>
           <div className="form-group">
@@ -61,6 +61,10 @@ export default function Login() {
             {loading ? 'Logging in...' : 'Log in →'}
           </button>
         </form>
+
+        <div className="auth-forgot">
+          <Link to="/forgot-password">Forgot your password?</Link>
+        </div>
 
         <div className="auth-footer">
           Don't have an account? <Link to="/register">Start free trial</Link>

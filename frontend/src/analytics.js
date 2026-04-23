@@ -25,6 +25,7 @@ export const track = {
   // ── Auth ──────────────────────────────────────────────────────
   registerStarted: () => capture('register_started'),
   registerCompleted: (segment) => capture('register_completed', { segment }),
+  registerFailed: (reason) => capture('register_failed', { reason }),
   loginCompleted: () => capture('login_completed'),
 
   // ── Core product ──────────────────────────────────────────────

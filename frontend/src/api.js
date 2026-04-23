@@ -28,6 +28,12 @@ export const api = {
   register: (email, password) =>
     request('/auth/register', { method: 'POST', body: JSON.stringify({ email, password }) }),
 
+  forgotPassword: (email) =>
+    request('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),
+
+  resetPassword: (token, password) =>
+    request('/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, password }) }),
+
   login: (email, password) => {
     const form = new URLSearchParams()
     form.append('username', email)

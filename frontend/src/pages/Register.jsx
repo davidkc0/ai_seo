@@ -31,6 +31,7 @@ export default function Register() {
       navigate('/dashboard')
     } catch (err) {
       setError(err.message)
+      track.registerFailed(err.message)
     } finally {
       setLoading(false)
     }
@@ -43,7 +44,7 @@ export default function Register() {
         <h1>Start your free trial</h1>
         <p className="auth-sub">7 days free · No credit card required</p>
 
-        {error && <div className="error-msg">{error}</div>}
+        {error && <div className="auth-error"><span className="auth-error-icon">!</span> {error}</div>}
 
         <form onSubmit={submit}>
           <div className="form-group">

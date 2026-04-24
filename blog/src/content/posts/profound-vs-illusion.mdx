@@ -12,7 +12,7 @@ import CompareTable from '../../components/CompareTable.astro';
 
 ## TL;DR
 
-- **Profound** is an enterprise AI visibility platform backed by $58M in funding. It offers deep analytics, content generation, and shopping visibility — but recently removed self-serve pricing in favor of custom enterprise deals.
+- **Profound** is an enterprise AI visibility platform backed by $58M in funding. It offers deep analytics, content generation, and shopping visibility — with plans starting at $99/month (billed yearly) that only track ChatGPT.
 - **Illusion** is a focused AI search tracker built for startups and growing SaaS companies. It monitors ChatGPT, Claude, Gemini, and Perplexity from day one, with plans starting at $19/month.
 - Both tools solve the same core problem: *does AI recommend your product?* The difference is scope, audience, and how much you'll pay to answer that question.
 - If you're a founder or growth-stage team that needs clear answers without a sales process, Illusion is the better fit. If you're an enterprise brand with a dedicated SEO team and six-figure tool budgets, Profound might be worth the conversation.
@@ -36,22 +36,22 @@ This isn't a hit piece. Profound builds good software. But their product is desi
 <CompareTable
   headers={['Feature', 'Illusion', 'Profound']}
   rows={[
-    { feature: 'AI models tracked', cols: ['ChatGPT, Claude, Gemini, Perplexity (all plans)', 'ChatGPT only on Starter; more on Growth/Enterprise'] },
+    { feature: 'AI models tracked', cols: ['ChatGPT, Claude, Gemini, Perplexity (even the free trial)', 'ChatGPT only on Starter ($99/mo); 3 engines on Growth ($399/mo)'] },
     { feature: 'Google AI Overview tracking', cols: ['Yes (Starter and Growth)', 'Yes (Growth and Enterprise)'] },
     { feature: 'AI bot traffic analysis', cols: ['Yes — Cloudflare CDN integration', 'Yes — Google Analytics integration'] },
     { feature: 'Smart Summary after each scan', cols: ['Yes — AI-generated action plan', 'Yes — actionable recommendations'] },
     { feature: 'Content generation agents', cols: ['No', 'Yes (Growth and Enterprise)'] },
     { feature: 'Prompt volume data', cols: ['No', 'Yes'] },
     { feature: 'Shopping visibility', cols: ['No', 'Yes (Enterprise)'] },
-    { feature: 'Self-serve signup', cols: ['Yes — scan in under 60 seconds', 'No — sales conversation required'] },
-    { feature: 'Free trial', cols: ['7 days, no credit card', 'Not available'] },
+    { feature: 'Self-serve signup', cols: ['Yes — scan in under 60 seconds', 'Yes, but demo-focused'] },
+    { feature: 'Free trial', cols: ['7 days, no credit card', 'Not listed'] },
     { feature: 'SOC 2 Type II', cols: ['No', 'Yes'] },
   ]}
 />
 
 A few things stand out:
 
-**Illusion tracks four AI models on every plan.** Profound's lowest tier only covers ChatGPT. If you want to know what Claude, Gemini, or Perplexity say about your product, you're paying for a higher tier — or you're flying blind on 75% of the market.
+**Illusion tracks four AI models on every plan — including the free trial.** Profound's Starter plan costs $99/month and only covers ChatGPT. If you want to know what Claude, Gemini, or Perplexity say about your product, you need their $399/month Growth tier. With Illusion, you get all four models before you ever enter a credit card.
 
 **Illusion uses Cloudflare server logs for bot traffic. Profound uses Google Analytics.** This matters because GA4 is JavaScript-based, and AI crawlers don't execute JavaScript. GA4 systematically undercounts bot visits. Server-side log analysis catches what GA4 misses.
 
@@ -66,17 +66,17 @@ This is where the two products diverge most.
 <CompareTable
   headers={['', 'Illusion', 'Profound']}
   rows={[
-    { feature: 'Entry price', cols: ['$19/month (Starter)', '$99/month (Starter) — when it was available'] },
-    { feature: 'Mid-tier', cols: ['$39/month (Growth)', '$399/month (Growth)'] },
+    { feature: 'Entry price', cols: ['$19/month (Starter)', '$99/month (Starter, billed yearly)'] },
+    { feature: 'Mid-tier', cols: ['$39/month (Growth)', '$399/month (Growth, billed yearly)'] },
     { feature: 'Enterprise', cols: ['Not yet', 'Custom pricing'] },
-    { feature: 'Free trial', cols: ['7 days', 'None'] },
-    { feature: 'Self-serve purchase', cols: ['Yes', 'No — removed in favor of sales-led'] },
-    { feature: 'Credit card required to start', cols: ['No', 'N/A (sales process)'] },
+    { feature: 'Models at entry price', cols: ['ChatGPT, Claude, Gemini, Perplexity', 'ChatGPT only'] },
+    { feature: 'Free trial', cols: ['7 days, no credit card', 'Not listed'] },
+    { feature: 'Credit card required to start', cols: ['No', 'Yes'] },
   ]}
 />
 
 <Callout type="insight" title="The pricing gap in context">
-  Illusion's Growth plan ($39/month) gives you 3 products, 20 keywords, daily scans across 4 AI models, Google AI Overview tracking, bot traffic analysis, and an AI-generated action plan after every scan. Profound's Growth plan was $399/month — 10x the price — and didn't include Claude or Gemini tracking.
+  Illusion's Growth plan ($39/month) gives you 3 products, 20 keywords, daily scans across 4 AI models, Google AI Overview tracking, bot traffic analysis, and an AI-generated action plan after every scan. Profound's Growth plan is $399/month (billed yearly) — 10x the price — and tracks only 3 AI engines.
 </Callout>
 
 ### Why the gap exists — and what it means
@@ -87,7 +87,7 @@ Illusion is a lean product built by a small team. We don't have a partner progra
 
 **This isn't cheaper because it's less capable at the core job.** It's cheaper because we don't charge you for features designed for 50-person marketing departments. If you're a founder, a solo marketer, or a small growth team, you're paying enterprise overhead for capabilities you'll never touch.
 
-Think of it this way: Profound is Salesforce. Illusion is the CRM that actually fits in your workflow.
+Think of it this way: Profound is Jira — powerful, configurable, built for large orgs. Illusion is [Linear](https://linear.app) — faster, leaner, and designed for teams that want to ship instead of configure.
 
 ---
 

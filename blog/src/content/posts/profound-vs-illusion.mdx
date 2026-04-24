@@ -1,0 +1,185 @@
+---
+title: "Profound vs Illusion: Which AI Visibility Tool Actually Fits Your Budget?"
+description: "Profound raised $58M and built an enterprise platform. Illusion tracks the same AI models for a fraction of the price. We break down features, pricing, and who each tool is actually built for."
+author: David C
+date: 2026-04-24
+tags: [comparison, profound, ai-search]
+draft: false
+---
+import FAQBlock from '../../components/FAQBlock.astro';
+import Callout from '../../components/Callout.astro';
+import CompareTable from '../../components/CompareTable.astro';
+
+## TL;DR
+
+- **Profound** is an enterprise AI visibility platform backed by $58M in funding. It offers deep analytics, content generation, and shopping visibility — but recently removed self-serve pricing in favor of custom enterprise deals.
+- **Illusion** is a focused AI search tracker built for startups and growing SaaS companies. It monitors ChatGPT, Claude, Gemini, and Perplexity from day one, with plans starting at $19/month.
+- Both tools solve the same core problem: *does AI recommend your product?* The difference is scope, audience, and how much you'll pay to answer that question.
+- If you're a founder or growth-stage team that needs clear answers without a sales process, Illusion is the better fit. If you're an enterprise brand with a dedicated SEO team and six-figure tool budgets, Profound might be worth the conversation.
+
+---
+
+## Why this comparison matters
+
+A year ago, nobody was tracking whether ChatGPT mentioned their product. Today there's a real category forming around AI visibility — and two very different philosophies for how to approach it.
+
+Profound has raised $58 million across three rounds and is building a full-stack enterprise platform: prompt analytics, content agents, shopping visibility, partner programs, SOC 2 compliance. They're going after the Walmarts and Docusigns of the world.
+
+Illusion takes a different approach. We believe most companies don't need a 12-feature platform to answer a simple question: *are AI models recommending my product, and if not, what do I do about it?*
+
+This isn't a hit piece. Profound builds good software. But their product is designed for a different buyer — and their pricing reflects it. This post breaks down where each tool wins so you can decide which one fits your actual needs.
+
+---
+
+## Feature comparison
+
+<CompareTable
+  headers={['Feature', 'Illusion', 'Profound']}
+  rows={[
+    { feature: 'AI models tracked', cols: ['ChatGPT, Claude, Gemini, Perplexity (all plans)', 'ChatGPT only on Starter; more on Growth/Enterprise'] },
+    { feature: 'Google AI Overview tracking', cols: ['Yes (Starter and Growth)', 'Yes (Growth and Enterprise)'] },
+    { feature: 'AI bot traffic analysis', cols: ['Yes — Cloudflare CDN integration', 'Yes — Google Analytics integration'] },
+    { feature: 'Smart Summary after each scan', cols: ['Yes — AI-generated action plan', 'Yes — actionable recommendations'] },
+    { feature: 'Content generation agents', cols: ['No', 'Yes (Growth and Enterprise)'] },
+    { feature: 'Prompt volume data', cols: ['No', 'Yes'] },
+    { feature: 'Shopping visibility', cols: ['No', 'Yes (Enterprise)'] },
+    { feature: 'Self-serve signup', cols: ['Yes — scan in under 60 seconds', 'No — sales conversation required'] },
+    { feature: 'Free trial', cols: ['7 days, no credit card', 'Not available'] },
+    { feature: 'SOC 2 Type II', cols: ['No', 'Yes'] },
+  ]}
+/>
+
+A few things stand out:
+
+**Illusion tracks four AI models on every plan.** Profound's lowest tier only covers ChatGPT. If you want to know what Claude, Gemini, or Perplexity say about your product, you're paying for a higher tier — or you're flying blind on 75% of the market.
+
+**Illusion uses Cloudflare server logs for bot traffic. Profound uses Google Analytics.** This matters because GA4 is JavaScript-based, and AI crawlers don't execute JavaScript. GA4 systematically undercounts bot visits. Server-side log analysis catches what GA4 misses.
+
+**Profound has features Illusion doesn't.** Content generation, prompt volume data, and shopping visibility are real capabilities. Whether you need them depends on your team size and stage. A 5-person startup probably doesn't need an AI content agent — they need to know if their existing content is working.
+
+---
+
+## Pricing
+
+This is where the two products diverge most.
+
+<CompareTable
+  headers={['', 'Illusion', 'Profound']}
+  rows={[
+    { feature: 'Entry price', cols: ['$19/month (Starter)', '$99/month (Starter) — when it was available'] },
+    { feature: 'Mid-tier', cols: ['$39/month (Growth)', '$399/month (Growth)'] },
+    { feature: 'Enterprise', cols: ['Not yet', 'Custom pricing'] },
+    { feature: 'Free trial', cols: ['7 days', 'None'] },
+    { feature: 'Self-serve purchase', cols: ['Yes', 'No — removed in favor of sales-led'] },
+    { feature: 'Credit card required to start', cols: ['No', 'N/A (sales process)'] },
+  ]}
+/>
+
+<Callout type="insight" title="The pricing gap in context">
+  Illusion's Growth plan ($39/month) gives you 3 products, 20 keywords, daily scans across 4 AI models, Google AI Overview tracking, bot traffic analysis, and an AI-generated action plan after every scan. Profound's Growth plan was $399/month — 10x the price — and didn't include Claude or Gemini tracking.
+</Callout>
+
+### Why the gap exists — and what it means
+
+Profound raised $58 million in venture capital. They have enterprise sales teams, SOC 2 compliance infrastructure, partner programs, and a content generation engine. All of that costs money to build and maintain, and it gets passed through to the customer.
+
+Illusion is a lean product built by a small team. We don't have a partner program. We don't have a sales team. We don't generate blog posts for you. What we do is monitor the four major AI models, tell you exactly where you stand, and give you a prioritized action plan — at a price point that doesn't require budget approval from your CFO.
+
+**This isn't cheaper because it's less capable at the core job.** It's cheaper because we don't charge you for features designed for 50-person marketing departments. If you're a founder, a solo marketer, or a small growth team, you're paying enterprise overhead for capabilities you'll never touch.
+
+Think of it this way: Profound is Salesforce. Illusion is the CRM that actually fits in your workflow.
+
+---
+
+## Who Profound is built for
+
+Give credit where it's due. Profound has built real enterprise infrastructure:
+
+- **SOC 2 Type II compliance** — if your procurement team requires it, you need it. Illusion doesn't have this yet.
+- **Content generation agents** — if you have a content team that needs to produce AI-optimized articles at scale, Profound's agent workflow is a real time-saver.
+- **Shopping visibility** — if you sell physical products and need to track ChatGPT Shopping results, Profound is one of the few tools that does this.
+- **Prompt volume data** — knowing *how many people* ask a given query is valuable for prioritization. Illusion doesn't offer this yet.
+- **Brand customers** — Profound lists Indeed, Docusign, LG, and Walmart as customers. If you're operating at that scale with dedicated AEO teams, their platform makes sense.
+
+If you're spending $10K+/month on SEO tooling already, Profound's pricing isn't a stretch. It's another line item in an existing budget.
+
+---
+
+## Who Illusion is built for
+
+Illusion exists because we looked at the AI visibility market and saw a gap: every tool was priced for enterprise, but the teams that needed the data most urgently — startups, bootstrapped SaaS companies, early-stage growth teams — were priced out.
+
+Here's what Illusion does well:
+
+- **Four AI models from day one.** You don't need to upgrade to track Claude or Gemini. Every plan queries ChatGPT, Claude, Gemini, and Perplexity.
+- **Scan and get answers in 90 seconds.** No sales call, no onboarding meeting, no 2-week trial negotiation. Sign up, add your product, run a scan.
+- **AI-generated action plan after every scan.** Each scan produces a Smart Summary — an AI-powered diagnosis of your strengths, gaps, and exactly what to fix next, prioritized by impact.
+- **AI bot traffic analysis.** Connect your Cloudflare account and see which AI crawlers visit your site, which pages they read, and how often. This is the server-side data that GA4 misses entirely.
+- **Google AI Overview tracking.** We scrape the AI Overview box for your primary query so you know whether Google is citing you — and who it cites instead.
+- **$19/month.** Not $19/month for a stripped-down version. $19/month for the full scanning engine across all four models.
+
+<Callout type="insight" title="The real question">
+  You don't need to track 100 prompts across 10 AI engines to know if your product shows up in AI search. You need to track the 5-10 queries your customers actually ask — and know what the answer is. That's what Illusion does.
+</Callout>
+
+---
+
+## What Illusion doesn't do (yet)
+
+Transparency matters in a comparison post. Here's what Profound offers that Illusion doesn't:
+
+- **Prompt volume data.** Illusion doesn't tell you how many people ask a given query. You bring the queries you care about; we tell you what AI says.
+- **Content generation.** Illusion doesn't write blog posts or optimize your existing content. We show you what to fix; you (or your writer) fix it.
+- **Shopping visibility.** If you sell physical products through ChatGPT Shopping, Illusion doesn't track that.
+- **SOC 2 compliance.** If your company requires SOC 2 from every vendor, Illusion isn't there yet.
+- **Enterprise features.** No custom deployments, no on-premises options, no dedicated account managers.
+
+If these are dealbreakers for your team, Profound is the better choice. We'd rather be honest about that than oversell.
+
+---
+
+## The bottom line
+
+| If you are... | Use... |
+|---|---|
+| A startup founder who needs to know if AI recommends your product | **Illusion** |
+| A solo marketer or small growth team at a SaaS company | **Illusion** |
+| A bootstrapped company that can't justify $99-$399/month for monitoring | **Illusion** |
+| An enterprise brand with a dedicated AEO/SEO team and existing tool budgets | **Profound** |
+| A team that needs AI-generated content at scale | **Profound** |
+| A company whose procurement requires SOC 2 compliance | **Profound** |
+
+Both tools solve the same fundamental problem. The difference is who they're designed for and what you'll pay to get started.
+
+Profound built the enterprise platform. Illusion built the tool that everyone else can actually afford to use.
+
+---
+
+<FAQBlock
+  items={[
+    {
+      question: "Can I switch from Profound to Illusion?",
+      answer: "Yes. Illusion tracks the same core data — mention rate, ranking position, sentiment, competitor mentions — across all four major AI models. You can sign up for a free trial and compare the output side by side before canceling your Profound subscription."
+    },
+    {
+      question: "Does Illusion track the same AI models as Profound?",
+      answer: "Illusion tracks ChatGPT, Claude, Gemini, and Perplexity on every plan. Profound's lowest tier only tracks ChatGPT; you need their Growth or Enterprise plan for additional models."
+    },
+    {
+      question: "Is Illusion's lower price because it has fewer features?",
+      answer: "Illusion's core scanning engine covers the same four AI models and produces the same actionable data. The price difference comes from scope: Illusion focuses on monitoring and diagnostics, while Profound bundles content generation, shopping visibility, and enterprise compliance into a larger (and more expensive) platform."
+    },
+    {
+      question: "Does Illusion offer an enterprise plan?",
+      answer: "Not yet. If you need SOC 2 compliance, custom deployments, or dedicated support, Profound is the better fit today. Illusion is built for startups and growth-stage teams."
+    },
+    {
+      question: "What is AI bot traffic analysis?",
+      answer: "AI models send crawlers (like GPTBot, ClaudeBot, PerplexityBot) to read your website before they can cite it in responses. Illusion connects to your Cloudflare account to show you exactly which bots visit, which pages they read, and how often. Google Analytics misses most of this traffic because AI crawlers don't execute JavaScript."
+    },
+  ]}
+/>
+
+---
+
+*Ready to see where your product stands in AI search? [Start your free trial](https://www.illusion.ai/register?utm_source=blog&utm_medium=cta&utm_content=profound-vs-illusion) — 7 days free, no credit card required.*

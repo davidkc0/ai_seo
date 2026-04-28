@@ -40,6 +40,8 @@ async def init_db():
         await conn.run_sync(Base.metadata.create_all)
         await conn.run_sync(_ensure_user_unsubscribe_token_column)
         await conn.run_sync(_ensure_notification_marketing_column)
+        await conn.run_sync(_ensure_user_email_verified_column)
+        await conn.run_sync(_ensure_cdn_connection_vercel_columns)
 
     # Backfill any null tokens (new column on existing rows).
     await _backfill_unsubscribe_tokens()
@@ -71,6 +73,56 @@ def _ensure_notification_marketing_column(sync_conn):
             "ALTER TABLE notification_settings "
             "ADD COLUMN marketing_emails BOOLEAN DEFAULT TRUE"
         ))
+
+
+def _ensure_user_email_verified_column(sync_conn):
+    """Add users.email_verified if missing, then backfill TRUE for every existing
+    row so we don't lock current customers out of scans on rollout. Idempotent.
+
+    SQLite stores booleans as INT, Postgres has a real BOOLEAN type — emit the
+    appropriate literals for each dialect.
+    """
+    inspector = inspect(sync_conn)
+    if "users" not in inspector.get_table_names():
+        return  # brand-new install — create_all will build it with the column
+    cols = {c["name"] for c in inspector.get_columns("users")}
+    if "email_verified" not in cols:
+        print("[Migration] Adding users.email_verified column (+ backfill TRUE)")
+        dialect = sync_conn.dialect.name
+        default_lit = "0" if dialect == "sqlite" else "FALSE"
+        true_lit = "1" if dialect == "sqlite" else "TRUE"
+        sync_conn.execute(text(
+            f"ALTER TABLE users ADD COLUMN email_verified BOOLEAN NOT NULL DEFAULT {default_lit}"
+        ))
+        # Every row that exists right now is a real customer — flip them all
+        # to verified so the new gate doesn't suddenly block paying users.
+        sync_conn.execute(text(f"UPDATE users SET email_verified = {true_lit}"))
+
+
+def _ensure_cdn_connection_vercel_columns(sync_conn):
+    """Add Vercel-specific columns to cdn_connections if missing.
+
+    Vercel uses push-based Log Drains, which need three extra fields:
+      - project_id     → Vercel project we registered the drain for
+      - drain_id       → Vercel's ID for the drain (used to delete on disconnect)
+      - webhook_secret → HMAC secret for verifying drain payloads
+
+    All three are nullable so existing Cloudflare rows are unaffected.
+    """
+    inspector = inspect(sync_conn)
+    if "cdn_connections" not in inspector.get_table_names():
+        return  # brand-new install, create_all will build it with the columns
+    cols = {c["name"] for c in inspector.get_columns("cdn_connections")}
+    for col_name, col_type in (
+        ("project_id", "VARCHAR"),
+        ("drain_id", "VARCHAR"),
+        ("webhook_secret", "VARCHAR"),
+    ):
+        if col_name not in cols:
+            print(f"[Migration] Adding cdn_connections.{col_name} column")
+            sync_conn.execute(text(
+                f"ALTER TABLE cdn_connections ADD COLUMN {col_name} {col_type}"
+            ))
 
 
 async def _backfill_unsubscribe_tokens():

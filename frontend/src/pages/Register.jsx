@@ -6,16 +6,40 @@ import illusionLogo from '../assets/illusion_logo.svg'
 import './Auth.css'
 import { track } from '../analytics'
 
+// If unset, the Turnstile widget doesn't render and the backend skips
+// captcha checks (dev-mode escape hatch). Set in Vercel envs for prod.
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || ''
+
 export default function Register() {
   const [searchParams] = useSearchParams()
   const [email, setEmail] = useState(searchParams.get('email') || '')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState('')
   const { register } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => { track.registerStarted() }, [])
+
+  // Inject the Turnstile script + window callback once on mount. We use a
+  // global callback (rather than @marsidev/react-turnstile or similar) so
+  // we don't pull a new dependency for ~30 lines of glue.
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY) return
+    window.onTurnstileSuccess = (token) => setTurnstileToken(token)
+    const existing = document.querySelector('script[data-turnstile]')
+    if (existing) return
+    const s = document.createElement('script')
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
+    s.async = true
+    s.defer = true
+    s.dataset.turnstile = '1'
+    document.body.appendChild(s)
+    return () => {
+      delete window.onTurnstileSuccess
+    }
+  }, [])
 
   const submit = async (e) => {
     e.preventDefault()
@@ -24,9 +48,13 @@ export default function Register() {
       setError('Password must be at least 8 characters')
       return
     }
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setError('Please complete the captcha to continue.')
+      return
+    }
     setLoading(true)
     try {
-      await register(email, password)
+      await register(email, password, turnstileToken)
       track.registerCompleted('organic')
       navigate('/dashboard')
     } catch (err) {
@@ -68,6 +96,16 @@ export default function Register() {
               required
             />
           </div>
+          {TURNSTILE_SITE_KEY && (
+            <div className="form-group" style={{ display: 'flex', justifyContent: 'center' }}>
+              <div
+                className="cf-turnstile"
+                data-sitekey={TURNSTILE_SITE_KEY}
+                data-callback="onTurnstileSuccess"
+                data-theme="dark"
+              />
+            </div>
+          )}
           <button type="submit" className="btn-primary auth-submit" disabled={loading}>
             {loading ? 'Creating account...' : 'Create account →'}
           </button>

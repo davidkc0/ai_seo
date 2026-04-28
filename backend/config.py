@@ -35,6 +35,11 @@ class Settings(BaseSettings):
     backend_url: str = "http://localhost:8000"
     database_url: str = "sqlite+aiosqlite:///./ai_mention_tracker.db"
 
+    # Cloudflare Turnstile (anti-bot on /register). When unset, verification is
+    # skipped — safe for local dev, and harmless if Railway hasn't been wired yet.
+    turnstile_secret_key: str = ""
+    turnstile_site_key: str = ""
+
     class Config:
         env_file = ".env"
         extra = "ignore"

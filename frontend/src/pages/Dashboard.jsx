@@ -35,6 +35,9 @@ export default function Dashboard() {
   const [resultsRefreshKey, setResultsRefreshKey] = useState(0)
   const [activeTab, setActiveTab] = useState('mentions') // 'mentions' | 'bots'
   const [searchParams] = useSearchParams()
+  const [verifyBannerNote, setVerifyBannerNote] = useState('')
+  const [verifyResending, setVerifyResending] = useState(false)
+  const [verifyResent, setVerifyResent] = useState(false)
 
   const pollRef = useRef(null)
   const statusRotateRef = useRef(null)
@@ -172,6 +175,20 @@ export default function Dashboard() {
     }, POLL_INTERVAL_MS)
   }
 
+  const handleResendVerification = async () => {
+    setVerifyResending(true)
+    setVerifyBannerNote('')
+    try {
+      await api.resendVerification()
+      setVerifyResent(true)
+      setVerifyBannerNote('Verification email sent — check your inbox.')
+    } catch (e) {
+      setVerifyBannerNote(e.message || 'Could not resend. Try again in a minute.')
+    } finally {
+      setVerifyResending(false)
+    }
+  }
+
   const handleProductCreated = (product) => {
     track.firstProductAdded()
     setProducts(prev => [...prev, product])
@@ -240,6 +257,33 @@ export default function Dashboard() {
 
       {/* Main content */}
       <main className="main-content">
+        {/* Email-verification banner. Shown until the user clicks the link in
+            their inbox. Backend gates scans on email_verified, so the message
+            here matches the 403 they'd otherwise hit on "Run scan now". */}
+        {user && user.email_verified === false && (
+          <div className="verify-banner">
+            <div className="verify-banner-text">
+              <strong>Verify your email</strong>
+              <span>
+                {verifyResent
+                  ? 'Sent. Check your inbox to unlock AI scans.'
+                  : 'Click the link in your inbox to unlock AI scans.'}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="verify-banner-btn"
+              onClick={handleResendVerification}
+              disabled={verifyResending || verifyResent}
+            >
+              {verifyResending ? 'Sending...' : verifyResent ? 'Sent ✓' : 'Resend link'}
+            </button>
+          </div>
+        )}
+        {verifyBannerNote && user && user.email_verified === false && (
+          <div className="verify-banner-note">{verifyBannerNote}</div>
+        )}
+
         {/* Tab bar — always visible when products exist */}
         {products.length > 0 && (
           <div className="dashboard-tabs">

@@ -15,7 +15,9 @@ from typing import Optional
 from database import get_db
 from models import User, CdnConnection, BotVisit
 from auth import get_current_user
+from config import settings as app_settings
 import bot_analytics
+import vercel_analytics
 
 router = APIRouter(prefix="/api/bot-analytics", tags=["bot-analytics"])
 
@@ -26,6 +28,12 @@ class ConnectCloudflareRequest(BaseModel):
     api_token: str
     zone_id: str
     zone_name: str
+
+
+class ConnectVercelRequest(BaseModel):
+    api_token: str
+    project_id: str
+    project_name: str
 
 
 class SyncRequest(BaseModel):
@@ -103,6 +111,119 @@ async def list_zones(
     return zones
 
 
+@router.get("/vercel-projects")
+async def list_vercel_projects(
+    api_token: str,
+    current_user: User = Depends(get_current_user),
+):
+    """List available Vercel projects for a given API token.
+
+    Also verifies the token first so the UI can show a meaningful error if
+    the token is invalid or the account is missing scope.
+    """
+    _require_paid(current_user)
+
+    check = await asyncio.to_thread(vercel_analytics.verify_token, api_token)
+    if not check["valid"]:
+        raise HTTPException(status_code=400, detail=f"Invalid Vercel token: {check['error']}")
+
+    projects = await asyncio.to_thread(vercel_analytics.list_projects, api_token)
+    if not projects:
+        raise HTTPException(
+            status_code=400,
+            detail="No projects found for this token. Check that the token has access to your team and that at least one project exists.",
+        )
+    return projects
+
+
+@router.post("/connect-vercel")
+async def connect_vercel(
+    body: ConnectVercelRequest,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Connect a Vercel project for bot traffic analysis via Log Drains.
+
+    Flow:
+      1. Verify the token.
+      2. Check we don't already have an active drain for this project.
+      3. Create the CdnConnection row first so we can use its primary key
+         in the webhook URL.
+      4. Register the Log Drain on Vercel pointing at our public webhook.
+      5. Persist the returned drain_id (used later for cleanup on disconnect).
+
+    Note: requires Vercel Pro or Enterprise — Log Drains are unavailable on
+    Hobby. Vercel returns a 4xx in that case which we surface to the user.
+    """
+    _require_paid(current_user)
+
+    # Verify token before doing any DB writes
+    check = await asyncio.to_thread(vercel_analytics.verify_token, body.api_token)
+    if not check["valid"]:
+        raise HTTPException(status_code=400, detail=f"Invalid Vercel token: {check['error']}")
+
+    # Reject duplicate active connection to the same project
+    existing = await db.execute(
+        select(CdnConnection).where(
+            CdnConnection.user_id == current_user.id,
+            CdnConnection.provider == "vercel",
+            CdnConnection.project_id == body.project_id,
+            CdnConnection.is_active == True,
+        )
+    )
+    if existing.scalar_one_or_none():
+        raise HTTPException(status_code=409, detail="This Vercel project is already connected.")
+
+    # Create the row first so we have an ID for the webhook URL
+    webhook_secret = vercel_analytics.generate_webhook_secret()
+    conn = CdnConnection(
+        user_id=current_user.id,
+        provider="vercel",
+        project_id=body.project_id,
+        zone_name=body.project_name,  # re-use zone_name as human-readable label
+        api_token=body.api_token,
+        webhook_secret=webhook_secret,
+        is_active=True,
+    )
+    db.add(conn)
+    await db.commit()
+    await db.refresh(conn)
+
+    # Build the public webhook URL Vercel will POST to
+    base = app_settings.backend_url.rstrip("/")
+    webhook_url = f"{base}/api/webhooks/vercel-logs/{conn.id}"
+
+    # Register the drain on Vercel
+    drain = await asyncio.to_thread(
+        vercel_analytics.register_drain,
+        api_token=body.api_token,
+        project_id=body.project_id,
+        webhook_url=webhook_url,
+        webhook_secret=webhook_secret,
+    )
+
+    if not drain["success"]:
+        # Roll back the row so the user can retry cleanly
+        await db.delete(conn)
+        await db.commit()
+        raise HTTPException(
+            status_code=400,
+            detail=f"Failed to register Vercel Log Drain: {drain['error']}. "
+                   f"Note: Log Drains require a Vercel Pro or Enterprise plan.",
+        )
+
+    conn.drain_id = drain["drain_id"]
+    await db.commit()
+
+    return {
+        "id": conn.id,
+        "provider": conn.provider,
+        "zone_name": conn.zone_name,
+        "drain_id": conn.drain_id,
+        "message": "Connected successfully. Bot traffic will start streaming in within a few minutes.",
+    }
+
+
 @router.get("/connections")
 async def list_connections(
     current_user: User = Depends(get_current_user),
@@ -121,6 +242,7 @@ async def list_connections(
             "id": c.id,
             "provider": c.provider,
             "zone_name": c.zone_name,
+            "project_id": c.project_id,
             "last_synced_at": c.last_synced_at,
             "created_at": c.created_at,
         }
@@ -134,7 +256,13 @@ async def disconnect_cdn(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    """Disconnect a CDN integration."""
+    """Disconnect a CDN integration.
+
+    For Vercel connections we also delete the Log Drain on Vercel's side so
+    we stop receiving webhook traffic and don't leak drains under the user's
+    account. We only soft-delete the row (is_active=False) — keeps historical
+    bot_visits queryable.
+    """
     result = await db.execute(
         select(CdnConnection).where(
             CdnConnection.id == connection_id,
@@ -144,6 +272,17 @@ async def disconnect_cdn(
     conn = result.scalar_one_or_none()
     if not conn:
         raise HTTPException(status_code=404, detail="Connection not found.")
+
+    # Best-effort: tear down the Vercel Log Drain so Vercel stops pushing logs.
+    # We don't fail the disconnect if the API call fails — the user wants out
+    # regardless and the drain can be cleaned up manually from Vercel's UI.
+    if conn.provider == "vercel" and conn.drain_id:
+        try:
+            await asyncio.to_thread(
+                vercel_analytics.delete_drain, conn.api_token, conn.drain_id
+            )
+        except Exception as e:
+            print(f"[bot_analytics] Failed to delete Vercel drain {conn.drain_id}: {e}")
 
     conn.is_active = False
     await db.commit()
@@ -170,6 +309,16 @@ async def sync_bot_traffic(
     conn = result.scalar_one_or_none()
     if not conn:
         raise HTTPException(status_code=404, detail="Connection not found.")
+
+    # Vercel is push-based via Log Drains — there's nothing to pull. The
+    # webhook handler in routers/vercel_webhook.py inserts visits as Vercel
+    # streams them, so a manual sync is a no-op.
+    if conn.provider == "vercel":
+        return {
+            "synced": 0,
+            "period_days": body.days,
+            "message": "Vercel uses real-time Log Drains — bot traffic streams in automatically.",
+        }
 
     since = datetime.now(timezone.utc) - timedelta(days=body.days)
     until = datetime.now(timezone.utc)

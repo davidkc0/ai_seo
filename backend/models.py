@@ -25,6 +25,10 @@ class User(Base):
     # Signed random token used for one-click unsubscribe links. Nullable so older
     # rows don't break the ADD COLUMN migration; backfilled on startup.
     unsubscribe_token = Column(String(64), unique=True, index=True, nullable=True)
+    # Has the user clicked the verification link in their inbox? Gates AI scans
+    # so bot signups can't burn through LLM API budget. Existing rows are
+    # backfilled to True in the migration to avoid locking out current customers.
+    email_verified = Column(Boolean, default=False, nullable=False, server_default="0")
     created_at = Column(DateTime(timezone=True), default=utcnow)
 
     products = relationship("Product", back_populates="owner", cascade="all, delete-orphan")
@@ -125,11 +129,15 @@ class CdnConnection(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
-    provider = Column(String, nullable=False)  # "cloudflare", "vercel", "netlify"
+    provider = Column(String, nullable=False)  # "cloudflare", "vercel"
     # Cloudflare-specific: zone_id identifies the website/domain being tracked.
     zone_id = Column(String, nullable=True)
     zone_name = Column(String, nullable=True)  # e.g. "illusion.ai"
-    # Encrypted API token (Cloudflare API Token, not Global API Key).
+    # Vercel-specific
+    project_id = Column(String, nullable=True)   # Vercel project ID
+    drain_id = Column(String, nullable=True)     # Vercel Log Drain ID (for cleanup on disconnect)
+    webhook_secret = Column(String, nullable=True)  # HMAC secret for verifying incoming drain payloads
+    # Encrypted API token (Cloudflare API Token or Vercel API Token).
     api_token = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
     last_synced_at = Column(DateTime(timezone=True), nullable=True)

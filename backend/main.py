@@ -10,9 +10,13 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
 
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+
 from database import init_db
 from scheduler import start_scheduler
-from routers import auth, products, billing, settings as settings_router, unsubscribe, bot_analytics
+from rate_limit import limiter
+from routers import auth, products, billing, settings as settings_router, unsubscribe, bot_analytics, vercel_webhook
 from config import settings as app_settings
 
 
@@ -33,6 +37,12 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
 )
+
+# slowapi rate limiting — protects /register and /resend-verification from
+# scripted abuse. The limiter itself is defined in rate_limit.py so routers
+# can import it without circular dependencies.
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # CORS — allow frontend dev server and production
 # In prod on Railway, set ALLOWED_ORIGINS env var (comma-separated) OR just set APP_URL.
@@ -60,6 +70,9 @@ app.include_router(billing.router)
 app.include_router(settings_router.router)
 app.include_router(unsubscribe.router)
 app.include_router(bot_analytics.router)
+# Public webhook receiver for Vercel Log Drains — secured via per-connection
+# HMAC signature, NOT auth middleware (Vercel calls this, not our users).
+app.include_router(vercel_webhook.router)
 
 
 @app.get("/api/health")

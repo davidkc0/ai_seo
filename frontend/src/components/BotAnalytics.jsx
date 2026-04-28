@@ -40,9 +40,12 @@ export default function BotAnalytics() {
   const [loading, setLoading] = useState(true)
   const [syncing, setSyncing] = useState(false)
   const [showConnect, setShowConnect] = useState(false)
+  const [provider, setProvider] = useState('cloudflare')  // 'cloudflare' | 'vercel'
   const [connectToken, setConnectToken] = useState('')
-  const [zones, setZones] = useState([])
+  const [zones, setZones] = useState([])              // CF zones
+  const [vercelProjects, setVercelProjects] = useState([])  // Vercel projects
   const [loadingZones, setLoadingZones] = useState(false)
+  const [connecting, setConnecting] = useState(false)
   const [connectError, setConnectError] = useState('')
   const [days, setDays] = useState(30)
 
@@ -76,8 +79,13 @@ export default function BotAnalytics() {
     setLoadingZones(true)
     setConnectError('')
     try {
-      const z = await api.getBotZones(connectToken)
-      setZones(z)
+      if (provider === 'vercel') {
+        const projects = await api.getVercelProjects(connectToken)
+        setVercelProjects(projects)
+      } else {
+        const z = await api.getBotZones(connectToken)
+        setZones(z)
+      }
     } catch (e) {
       setConnectError(e.message)
     } finally {
@@ -85,17 +93,25 @@ export default function BotAnalytics() {
     }
   }
 
+  const resetConnectFlow = () => {
+    setShowConnect(false)
+    setConnectToken('')
+    setZones([])
+    setVercelProjects([])
+    setConnectError('')
+    setConnecting(false)
+  }
+
   const handleConnect = async (zone) => {
     setConnectError('')
+    setConnecting(true)
     try {
       await api.connectCloudflare({
         api_token: connectToken,
         zone_id: zone.id,
         zone_name: zone.name,
       })
-      setShowConnect(false)
-      setConnectToken('')
-      setZones([])
+      resetConnectFlow()
       // Do initial sync
       const conns = await api.getBotConnections()
       setConnections(conns)
@@ -107,6 +123,26 @@ export default function BotAnalytics() {
       }
     } catch (e) {
       setConnectError(e.message)
+      setConnecting(false)
+    }
+  }
+
+  const handleConnectVercel = async (project) => {
+    setConnectError('')
+    setConnecting(true)
+    try {
+      await api.connectVercel({
+        api_token: connectToken,
+        project_id: project.id,
+        project_name: project.name,
+      })
+      resetConnectFlow()
+      // Vercel is push-based — no sync, but reload connections + summary so
+      // the dashboard reflects the new connection immediately.
+      await loadData()
+    } catch (e) {
+      setConnectError(e.message)
+      setConnecting(false)
     }
   }
 
@@ -160,9 +196,9 @@ export default function BotAnalytics() {
       <div className="bot-empty">
         <Globe size={32} />
         <h3>Connect Your CDN</h3>
-        <p>Link your Cloudflare account to see which AI bots are crawling your website, which pages they visit, and how often.</p>
+        <p>Link your Cloudflare or Vercel account to see which AI bots are crawling your website, which pages they visit, and how often.</p>
         <button className="bot-connect-btn" onClick={() => setShowConnect(true)}>
-          <Plus size={16} /> Connect Cloudflare
+          <Plus size={16} /> Connect a provider
         </button>
       </div>
     )
@@ -170,17 +206,48 @@ export default function BotAnalytics() {
 
   // ── Connect flow ──────────────────────────────────────────────────
   if (showConnect) {
+    const isVercel = provider === 'vercel'
     return (
       <div className="bot-connect-flow">
-        <h3>Connect Cloudflare</h3>
-        <p className="bot-connect-desc">
-          Create an API token at <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" rel="noopener noreferrer">dash.cloudflare.com <ArrowUpRight size={12} /></a> with <strong>Zone:Read</strong> and <strong>Analytics:Read</strong> permissions.
-        </p>
+        <h3>Connect a CDN</h3>
+
+        {/* Provider toggle */}
+        <div className="bot-provider-tabs">
+          <button
+            className={`bot-provider-tab ${!isVercel ? 'active' : ''}`}
+            onClick={() => { setProvider('cloudflare'); setConnectError(''); setZones([]); setVercelProjects([]) }}
+          >
+            Cloudflare
+          </button>
+          <button
+            className={`bot-provider-tab ${isVercel ? 'active' : ''}`}
+            onClick={() => { setProvider('vercel'); setConnectError(''); setZones([]); setVercelProjects([]) }}
+          >
+            Vercel
+          </button>
+        </div>
+
+        {!isVercel && (
+          <p className="bot-connect-desc">
+            Create an API token at <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" rel="noopener noreferrer">dash.cloudflare.com <ArrowUpRight size={12} /></a> with <strong>Zone:Read</strong> and <strong>Analytics:Read</strong> permissions.
+          </p>
+        )}
+
+        {isVercel && (
+          <>
+            <p className="bot-connect-desc">
+              Create an API token at <a href="https://vercel.com/account/tokens" target="_blank" rel="noopener noreferrer">vercel.com/account/tokens <ArrowUpRight size={12} /></a>. We'll register a Log Drain on your project to stream bot traffic in real-time.
+            </p>
+            <p className="bot-warning">
+              <strong>Requires Vercel Pro or Enterprise.</strong> Log Drains are not available on the Hobby plan.
+            </p>
+          </>
+        )}
 
         <div className="bot-connect-input-row">
           <input
             type="password"
-            placeholder="Paste your Cloudflare API token"
+            placeholder={isVercel ? 'Paste your Vercel API token' : 'Paste your Cloudflare API token'}
             value={connectToken}
             onChange={e => setConnectToken(e.target.value)}
             className="bot-input"
@@ -190,26 +257,49 @@ export default function BotAnalytics() {
             onClick={handleLookupZones}
             disabled={loadingZones || !connectToken.trim()}
           >
-            {loadingZones ? <Loader size={14} className="spin" /> : 'Find zones'}
+            {loadingZones ? <Loader size={14} className="spin" /> : (isVercel ? 'Find projects' : 'Find zones')}
           </button>
         </div>
 
         {connectError && <p className="bot-error">{connectError}</p>}
 
-        {zones.length > 0 && (
+        {!isVercel && zones.length > 0 && (
           <div className="bot-zones-list">
             <p className="bot-zones-label">Select a zone to connect:</p>
             {zones.map(z => (
-              <button key={z.id} className="bot-zone-item" onClick={() => handleConnect(z)}>
+              <button
+                key={z.id}
+                className="bot-zone-item"
+                onClick={() => handleConnect(z)}
+                disabled={connecting}
+              >
                 <Globe size={14} />
                 <span>{z.name}</span>
-                <ArrowUpRight size={12} />
+                {connecting ? <Loader size={12} className="spin" /> : <ArrowUpRight size={12} />}
               </button>
             ))}
           </div>
         )}
 
-        <button className="bot-cancel-btn" onClick={() => { setShowConnect(false); setZones([]); setConnectError(''); }}>
+        {isVercel && vercelProjects.length > 0 && (
+          <div className="bot-zones-list">
+            <p className="bot-zones-label">Select a project to connect:</p>
+            {vercelProjects.map(p => (
+              <button
+                key={p.id}
+                className="bot-zone-item"
+                onClick={() => handleConnectVercel(p)}
+                disabled={connecting}
+              >
+                <Globe size={14} />
+                <span>{p.name}{p.framework ? ` · ${p.framework}` : ''}</span>
+                {connecting ? <Loader size={12} className="spin" /> : <ArrowUpRight size={12} />}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <button className="bot-cancel-btn" onClick={resetConnectFlow}>
           Cancel
         </button>
       </div>
@@ -244,14 +334,18 @@ export default function BotAnalytics() {
             <div key={c.id} className="bot-connection-tag">
               <Globe size={12} />
               <span>{c.zone_name}</span>
-              <button
-                className="bot-sync-btn"
-                onClick={() => handleSync(c.id)}
-                disabled={syncing}
-                title="Sync now"
-              >
-                <RefreshCw size={12} className={syncing ? 'spin' : ''} />
-              </button>
+              <span className="bot-provider-chip">{c.provider === 'vercel' ? 'Vercel' : 'Cloudflare'}</span>
+              {/* Vercel is push-based — sync is a no-op, hide the button. */}
+              {c.provider !== 'vercel' && (
+                <button
+                  className="bot-sync-btn"
+                  onClick={() => handleSync(c.id)}
+                  disabled={syncing}
+                  title="Sync now"
+                >
+                  <RefreshCw size={12} className={syncing ? 'spin' : ''} />
+                </button>
+              )}
               <button
                 className="bot-disconnect-btn"
                 onClick={() => handleDisconnect(c.id)}
@@ -362,7 +456,13 @@ export default function BotAnalytics() {
 
       {(!summary || summary.total_requests === 0) && (
         <div className="bot-no-data">
-          <p>No bot traffic data yet. Hit the sync button to pull data from Cloudflare.</p>
+          {connections.some(c => c.provider === 'vercel') && !connections.some(c => c.provider === 'cloudflare') ? (
+            <p>No bot traffic yet. Vercel streams logs in real-time — data will appear here as soon as an AI bot hits a page on your project.</p>
+          ) : connections.some(c => c.provider === 'vercel') ? (
+            <p>No bot traffic yet. For Cloudflare, hit the sync button to pull data; Vercel data streams in automatically.</p>
+          ) : (
+            <p>No bot traffic data yet. Hit the sync button to pull data from Cloudflare.</p>
+          )}
         </div>
       )}
     </div>

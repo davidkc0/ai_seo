@@ -110,6 +110,58 @@
 
 .bot-error { color: var(--danger); font-size: 12px; margin-bottom: 12px; }
 
+.bot-warning {
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin: -8px 0 16px;
+}
+.bot-warning strong { color: var(--text); }
+
+/* Provider toggle */
+.bot-provider-tabs {
+  display: inline-flex;
+  gap: 0;
+  margin-bottom: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+}
+.bot-provider-tab {
+  padding: 6px 16px;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 150ms ease;
+}
+.bot-provider-tab:hover { color: var(--text-muted); }
+.bot-provider-tab.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Provider chip on connection tag */
+.bot-provider-chip {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: var(--font-mono);
+  padding: 2px 6px;
+  background: var(--surface2);
+  border-radius: 4px;
+  color: var(--text-dim);
+}
+
 .bot-zones-list { margin-top: 16px; }
 .bot-zones-label { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
 

@@ -163,7 +163,11 @@ async def scan_product(product_id: int, db: AsyncSession):
 
 
 async def run_daily_scans():
-    """Run scans for all active paid products (daily cadence)."""
+    """Run scans for all active paid products (daily cadence).
+
+    Filters out users who haven't verified their email — keeps bot/scam
+    accounts from costing us LLM spend on the cron path too.
+    """
     async with AsyncSessionLocal() as db:
         result = await db.execute(
             select(Product)
@@ -172,6 +176,7 @@ async def run_daily_scans():
                 Product.is_active == True,
                 User.plan.in_(["starter", "growth"]),
                 User.is_active == True,
+                User.email_verified == True,
             )
         )
         products = result.scalars().all()
@@ -184,7 +189,10 @@ async def run_daily_scans():
 
 
 async def run_weekly_scans():
-    """Run scans for free-tier products (weekly cadence)."""
+    """Run scans for free-tier products (weekly cadence).
+
+    Same email-verified gate as the daily job — see run_daily_scans() above.
+    """
     async with AsyncSessionLocal() as db:
         result = await db.execute(
             select(Product)
@@ -193,6 +201,7 @@ async def run_weekly_scans():
                 Product.is_active == True,
                 User.plan == "free",
                 User.is_active == True,
+                User.email_verified == True,
             )
         )
         products = result.scalars().all()

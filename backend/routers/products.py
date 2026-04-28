@@ -180,6 +180,14 @@ async def trigger_scan(
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
 
+    # Anti-fraud gate: bots and tourists never click the verify link, so this
+    # is the line that stops ~95% of scam-driven LLM spend.
+    if not current_user.email_verified:
+        raise HTTPException(
+            status_code=403,
+            detail="Verify your email before running scans. Check your inbox for the verification link.",
+        )
+
     # Enforce scan frequency by plan
     if product.last_scanned_at:
         cooldown = timedelta(days=7) if current_user.plan == "free" else timedelta(hours=24)

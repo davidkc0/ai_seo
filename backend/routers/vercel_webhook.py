@@ -16,7 +16,7 @@ from fastapi import APIRouter, Request, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
-from database import async_session_factory
+from database import AsyncSessionLocal
 from models import CdnConnection, BotVisit
 from vercel_analytics import parse_log_entry
 
@@ -41,7 +41,7 @@ async def receive_vercel_logs(connection_id: int, request: Request):
     body = await request.body()
 
     # Look up the connection and its webhook secret
-    async with async_session_factory() as db:
+    async with AsyncSessionLocal() as db:
         result = await db.execute(
             select(CdnConnection).where(
                 CdnConnection.id == connection_id,

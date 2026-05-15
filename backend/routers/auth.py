@@ -6,7 +6,7 @@ import resend
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import func, select
 from datetime import datetime, timedelta, timezone
 from pydantic import BaseModel, EmailStr
 from jose import JWTError, jwt
@@ -189,9 +189,66 @@ async def admin_list_users(key: str, db: AsyncSession = Depends(get_db)):
             "plan": u.plan,
             "trial_ends_at": str(u.trial_ends_at) if u.trial_ends_at else None,
             "created_at": str(u.created_at),
+            "email_verified": u.email_verified,
         }
         for u in users
     ]
+
+
+@router.get("/admin/verification-stats")
+async def admin_verification_stats(key: str, db: AsyncSession = Depends(get_db)):
+    """At-a-glance signup health — `?key=<SECRET_KEY>` for access.
+
+    Use this to monitor whether the email-verification gate is doing its
+    job: if `last_7d_unverified` is climbing but
+    `unverified_older_than_7d_purgeable` keeps returning to 0 after the
+    daily purge, the gate is working as intended (bots fail to verify
+    and get cleaned up). If `last_7d_unverified` is low and steady, the
+    upstream defenses (Turnstile + rate limit + disposable block) are
+    catching them before they ever land.
+    """
+    if key != settings.secret_key:
+        raise HTTPException(status_code=403, detail="Forbidden")
+
+    cutoff_7d = datetime.now(timezone.utc) - timedelta(days=7)
+
+    total = (await db.execute(
+        select(func.count()).select_from(User)
+    )).scalar() or 0
+
+    verified = (await db.execute(
+        select(func.count()).select_from(User).where(User.email_verified == True)
+    )).scalar() or 0
+
+    last_7d = (await db.execute(
+        select(func.count()).select_from(User).where(User.created_at >= cutoff_7d)
+    )).scalar() or 0
+
+    last_7d_unverified = (await db.execute(
+        select(func.count()).select_from(User).where(
+            User.created_at >= cutoff_7d,
+            User.email_verified == False,
+        )
+    )).scalar() or 0
+
+    # Defensive triple filter mirrors the purge job so the count is
+    # exactly what the next purge run will delete.
+    purgeable = (await db.execute(
+        select(func.count()).select_from(User).where(
+            User.email_verified == False,
+            User.created_at < cutoff_7d,
+            User.plan == "free",
+        )
+    )).scalar() or 0
+
+    return {
+        "total": total,
+        "verified": verified,
+        "unverified": total - verified,
+        "last_7d_signups": last_7d,
+        "last_7d_unverified": last_7d_unverified,
+        "unverified_older_than_7d_purgeable": purgeable,
+    }
 
 
 class ForgotPasswordRequest(BaseModel):

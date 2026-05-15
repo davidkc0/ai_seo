@@ -1,0 +1,288 @@
+---
+title: "The 7 Best AI Search Monitoring Tools in 2026"
+description: "Your customers are asking ChatGPT and Perplexity for product recommendations. These 7 tools track whether AI names your brand in the answer — compared by price, models covered, and who each one is built for."
+author: David C
+date: 2026-05-15
+tags: [tools, ai-search, geo, comparison]
+draft: false
+---
+import Callout from '../../components/Callout.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+
+## TL;DR
+
+- **AI search monitoring** is the practice of tracking whether ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews mention your product when users ask buying questions.
+- A year ago, this category barely existed. Now there are dedicated tools, enterprise platforms, and bolt-on features from legacy SEO suites all competing for your budget.
+- The tools differ mostly on **price**, **number of AI models tracked**, and **whether they're built for startups or enterprise teams**. Some charge $19/month. Others require a sales call.
+- This guide covers 7 options — from purpose-built GEO platforms to DIY approaches — so you can pick the one that matches your stage and budget.
+
+---
+
+## Why this category matters now
+
+When someone types "what's the best invoicing tool for freelancers?" into ChatGPT, the model doesn't show ten blue links. It names 3–5 products and moves on. If you're not one of the products named, you don't exist in that buyer's world.
+
+This is a fundamentally different distribution channel than Google organic. There's no "page 2" to scroll to. There's no ad unit to buy. Either the model recommends you, or it doesn't.
+
+AI search monitoring tools answer a simple question: **does AI recommend your product, and if not, what do you do about it?**
+
+The category has exploded. Here's every serious option worth considering in 2026.
+
+---
+
+## Quick comparison
+
+<CompareTable
+  headers={['Tool', 'Starting price', 'AI models tracked', 'Best for']}
+  highlightCol={1}
+  rows={[
+    { feature: 'Illusion', cols: ['$19/mo', 'ChatGPT, Claude, Gemini, Perplexity (all plans)', 'Startups and solo founders'] },
+    { feature: 'Otterly AI', cols: ['$29/mo', 'ChatGPT, Google AIO, Perplexity, Copilot', 'SMBs wanting Semrush integration'] },
+    { feature: 'Nightwatch', cols: ['$32/mo', 'ChatGPT, Claude, Gemini, Perplexity, Google AIO', 'Teams already using it for SEO'] },
+    { feature: 'Peec AI', cols: ['$95/mo', 'ChatGPT, Perplexity, Google AIO + add-ons', 'Agencies managing multiple clients'] },
+    { feature: 'Profound', cols: ['$99/mo', 'ChatGPT only (Starter); 3 engines on Growth', 'Enterprise brands (Walmart, Docusign)'] },
+    { feature: 'AthenaHQ', cols: ['$295/mo', 'Up to 8 AI platforms', 'E-commerce with revenue attribution'] },
+    { feature: 'DIY (API + scripts)', cols: ['~$50/mo in API costs', 'Whatever you build', 'Developers who want full control'] },
+  ]}
+/>
+
+Now let's break each one down.
+
+---
+
+## 1. Illusion
+
+**Price:** $19/month (Starter) · $39/month (Growth) · 7-day free trial, no credit card  
+**Models:** ChatGPT, Claude, Gemini, Perplexity — on every plan including the free trial  
+**Best for:** Startup founders, solo marketers, bootstrapped SaaS teams
+
+Illusion is the tool we build, so take this with appropriate bias — but the reason we built it is the same reason it's first on the list: everything else was priced for enterprise when the people who needed the data most urgently were founders.
+
+**What it does well:**
+- **Four AI models on every plan.** No tier-gating. Even during the free trial you're scanning ChatGPT, Claude, Gemini, and Perplexity for your product.
+- **Smart Summary after each scan.** An AI-generated action plan that tells you what to fix next, prioritized by impact. Not just data — a diagnosis.
+- **Google AI Overview tracking.** Scrapes the AI Overview box for your primary query so you know if Google is citing you, and who it cites instead.
+- **AI bot traffic analysis.** Connect your Cloudflare account and see exactly which AI crawlers (GPTBot, ClaudeBot, PerplexityBot) visit your site — server-side data that Google Analytics misses because AI bots don't execute JavaScript.
+- **$19/month.** Not a stripped-down version. The full scanning engine across all four models.
+
+**What it doesn't do:**
+- No content generation or optimization agents
+- No prompt volume data (how many people ask a given query)
+- No SOC 2 compliance (yet)
+- No shopping/e-commerce visibility tracking
+
+**Bottom line:** If you need to know whether AI recommends your product and you don't want to spend $100+/month to find out, Illusion is the fastest path to an answer. Sign up, add your product, run a scan in 90 seconds.
+
+[Start free trial →](https://www.illusion.ai/register?utm_source=blog&utm_medium=cta&utm_content=best-tools-list)
+
+---
+
+## 2. Otterly AI
+
+**Price:** $29/month (Lite, 15 prompts) · $189/month (Standard, 100 prompts) · $489/month (Premium, 400 prompts) · 14-day free trial  
+**Models:** ChatGPT, Google AI Overviews, Perplexity, Microsoft Copilot (Gemini available as paid add-on)  
+**Best for:** SMBs who want GEO data inside their existing Semrush workflow
+
+Otterly is one of the more established players in the space, and their Semrush App Center integration is a genuine differentiator. If your marketing team already lives in Semrush, Otterly plugs AI visibility data directly into that workflow.
+
+**What it does well:**
+- **Semrush integration.** If you already pay for Semrush, adding Otterly through their App Center means one fewer tab and consolidated reporting.
+- **Citation tracking.** Shows which of your URLs are actually getting cited by AI engines — useful for understanding what content drives mentions.
+- **GEO audits.** SWOT-style reports that identify content gaps and recommend what to write or fix.
+- **Looker Studio connector** on Standard plans and above for custom dashboards.
+
+**What to watch for:**
+- **Prompt-based pricing.** The $29/month Lite plan only gets you 15 prompts. If you're tracking 5 products across 5 queries each, you're already at 25 — past the limit. Most real usage requires the $189/month Standard plan.
+- **Gemini costs extra.** It's a paid add-on, not included by default. In a market where models shift share quarterly, leaving one out narrows your view.
+- **No Claude tracking** listed in their standard coverage. If Anthropic's models matter to your audience, you'll want to confirm current support.
+
+**Bottom line:** Strong choice if you're a Semrush shop and want to keep your stack consolidated. The $29 entry point is attractive, but the prompt ceiling pushes most teams to the $189 tier fast.
+
+---
+
+## 3. Nightwatch
+
+**Price:** ~$32/month (annual) · scales to $559/month for high-volume · 14-day free trial  
+**Models:** ChatGPT, Claude, Gemini, Perplexity, Google AI Overviews  
+**Best for:** Teams already using Nightwatch for rank tracking who want to add AI monitoring without switching tools
+
+Nightwatch started as a traditional rank-tracking tool and has expanded into AI visibility. Their "dual-layer" approach — tracking both the AI-generated response and the web searches the AI runs behind the scenes — is a clever angle.
+
+**What it does well:**
+- **Hybrid SEO + AI monitoring.** If you still care about Google organic rankings (you should), Nightwatch does both in one platform.
+- **AI Visibility Score and Share of Voice** metrics give you a single number to track week over week.
+- **Citation-level sentiment analysis.** Not just "were you mentioned?" but "how did the model talk about you?"
+- **NightOwl AI agent.** Built-in assistant for competitive analysis and keyword discovery.
+- **Broad model coverage.** Five AI engines tracked on all paid plans.
+
+**What to watch for:**
+- **It's a bolt-on, not the core product.** Nightwatch is fundamentally a rank tracker. AI monitoring is a feature, not the mission. That can mean slower iteration on GEO-specific capabilities.
+- **Keyword-volume pricing.** Costs scale based on tracked keywords. If you're primarily using it for AI monitoring, you may be paying for rank-tracking capacity you don't need.
+
+**Bottom line:** If you already use Nightwatch or want one tool for both traditional SEO and AI monitoring, it's a pragmatic choice. If AI visibility is your primary concern, a purpose-built tool will likely evolve faster.
+
+---
+
+## 4. Peec AI
+
+**Price:** $95/month (Starter, 50 prompts) · $245/month (Pro, 150 prompts) · $495/month (Advanced, 350 prompts) · Enterprise custom  
+**Models:** ChatGPT, Perplexity, Google AIO + add-on models ($35–$165/month each)  
+**Best for:** Agencies managing multiple client accounts
+
+Peec differentiates on methodology: they use UI scraping instead of API calls. The argument is that API responses can differ from what real users see in the chat interface, so scraping the actual UI captures the "truth" a customer experiences.
+
+**What it does well:**
+- **UI scraping methodology.** If you've noticed that ChatGPT's API and web UI sometimes give different answers, Peec's approach captures the web UI version.
+- **Suggested prompts.** Analyzes your website and auto-generates the queries worth tracking — useful if you're not sure what to monitor.
+- **Agency pricing model.** Credit-based system designed for managing multiple client projects. Unlimited user seats on all plans.
+- **Looker Studio connector.** Custom reporting for client presentations.
+- **Grok tracking.** One of the few tools that includes xAI's model.
+
+**What to watch for:**
+- **Add-on model pricing.** Base plans include only 3 AI models. Want to track Claude, Gemini, and Copilot too? That's $35–$165 per model per month on top of your plan. A fully-loaded setup can double the base cost.
+- **Entry price is $95/month.** That's competitive for agencies but steep for a solo founder who just wants to know if ChatGPT mentions their product.
+
+**Bottom line:** Purpose-built for agencies with the multi-client workflow to prove it. The UI scraping approach is a genuine differentiator. But the add-on model pricing means the sticker price understates the real cost.
+
+---
+
+## 5. Profound
+
+**Price:** $99/month (Starter, billed yearly) · $399/month (Growth, billed yearly) · Enterprise custom  
+**Models:** ChatGPT only on Starter; 3 engines on Growth; up to 10 on Enterprise  
+**Best for:** Enterprise brands with dedicated AEO/SEO teams and six-figure tool budgets
+
+Profound is the most well-funded player in the space at $58M raised. They're building the full-stack enterprise platform: prompt analytics, content generation agents, shopping visibility, partner programs, SOC 2 compliance. Their customer logos include Indeed, Docusign, LG, and Walmart.
+
+**What it does well:**
+- **Prompt volume data.** Knows how many people actually ask a given query — useful for prioritizing which prompts to optimize for.
+- **Content generation agents.** Can draft AI-optimized articles at scale.
+- **Shopping visibility.** Tracks ChatGPT Shopping results — critical for e-commerce brands.
+- **SOC 2 Type II.** If your procurement team requires it, Profound has it.
+- **Enterprise infrastructure.** Multi-market, multi-language support for global brands.
+
+**What to watch for:**
+- **$99/month Starter only tracks ChatGPT.** One model. To get Claude, Gemini, or Perplexity, you need the $399/month Growth plan or above.
+- **Increasingly sales-led.** The website pushes "Get a Demo" over self-serve signup. If you want to scan in 5 minutes, you may be waiting for a sales call.
+- **Priced for enterprise overhead.** The $399/month Growth plan costs 10× what comparable self-serve tools charge for similar core monitoring. You're paying for content agents, partner programs, and compliance infrastructure — whether you use them or not.
+
+We wrote a [detailed Profound vs Illusion comparison](/blog/profound-vs-illusion) if you want the full breakdown.
+
+**Bottom line:** If you're an enterprise brand with a dedicated AEO team, Profound is the Salesforce of AI visibility. If you're a startup, you're paying for infrastructure you'll never touch.
+
+---
+
+## 6. AthenaHQ
+
+**Price:** $295/month (Self-serve) · $2,000+/month (Enterprise) · No free tier, occasional $95 first-month promo  
+**Models:** Up to 8 AI platforms including ChatGPT, Perplexity, Gemini, Claude, Copilot  
+**Best for:** E-commerce brands that need revenue attribution from AI citations
+
+AthenaHQ's angle is connecting AI visibility directly to revenue. Their Shopify and GA4 integrations attribute actual sales to AI citations — not just "were you mentioned?" but "did that mention generate revenue?"
+
+**What it does well:**
+- **Revenue attribution.** The GA4 and Shopify integrations that link AI citations to conversions are unique in this space.
+- **Athena Citation Engine (ACE).** Enterprise-only tool that actively works to improve your citation rates, not just measure them.
+- **8 AI platforms.** Broadest model coverage at the high end.
+- **Multi-region/multi-language.** Tracks AI responses across geographies — critical for global brands.
+- **SOC 2 Type 1 and 2, GDPR, NIST.** Heavy compliance credentials.
+
+**What to watch for:**
+- **$295/month entry price.** The most expensive self-serve plan on this list by a significant margin. And the credit-based model means heavy usage can push costs higher.
+- **No free tier.** You can occasionally find a $95 first-month promo, but there's no free trial to evaluate the product before committing.
+- **Overkill for most startups.** Revenue attribution is powerful if you're an established e-commerce brand. If you're pre-product-market-fit, you don't have enough conversion data for it to matter.
+
+**Bottom line:** The right tool if you're a D2C brand that needs to prove AI search ROI to your CFO. For everyone else, the price-to-value ratio is hard to justify before you have meaningful traffic.
+
+---
+
+## 7. DIY (API calls + custom scripts)
+
+**Price:** ~$20–$80/month in API costs (depending on query volume and models)  
+**Models:** Whatever you query — full control  
+**Best for:** Developers who want complete customization and own the data
+
+The manual approach: write a script that sends your target queries to each AI model's API, parses the response for product mentions, and logs the results to a spreadsheet or database. It's what many founders did before purpose-built tools existed.
+
+**What it does well:**
+- **Total control.** Query any model, any prompt, any frequency. No vendor decides what you can track.
+- **No vendor lock-in.** Your data lives in your database. You choose the storage, the schema, the retention policy.
+- **Cheapest for light usage.** If you're tracking 5 queries across 4 models once a week, API costs are under $10/month.
+
+**What to watch for:**
+- **Maintenance burden.** AI APIs change their response formats, rate limits, and pricing regularly. Your script breaks; you fix it. Repeat.
+- **No analysis layer.** You get raw responses. Building sentiment analysis, trend tracking, competitor extraction, and actionable recommendations on top is a second project.
+- **Google AI Overviews aren't available via API.** You'll need a separate scraping solution or skip Google entirely.
+- **Time cost is real.** The time you spend maintaining scripts is time not spent on your actual product.
+
+**Bottom line:** Great for a quick proof-of-concept. Unsustainable as a long-term workflow unless you're willing to build and maintain what is effectively your own monitoring product.
+
+---
+
+## How to choose
+
+The decision tree is simpler than the comparison table makes it look:
+
+| Your situation | Best fit |
+|---|---|
+| Startup founder or solo marketer, budget-conscious | **Illusion** ($19/mo, all 4 models, no credit card to start) |
+| SMB already using Semrush for SEO | **Otterly AI** ($29/mo for light use, or $189/mo for real volume) |
+| Team that needs SEO + AI monitoring in one tool | **Nightwatch** ($32/mo, hybrid approach) |
+| Agency managing multiple client accounts | **Peec AI** ($95/mo+, credit-based multi-client system) |
+| Enterprise brand with dedicated AEO team | **Profound** ($99–$399/mo, content agents, SOC 2) |
+| E-commerce brand needing revenue attribution | **AthenaHQ** ($295/mo+, GA4/Shopify integration) |
+| Developer who wants total control | **DIY** (~$50/mo in API costs + your time) |
+
+<Callout type="insight" title="The question that matters most">
+  Every tool on this list answers the same core question: *does AI recommend your product?* The difference is how much you'll pay to get that answer, how many models you'll cover, and how much analysis comes built in. Start with the tool that fits your budget today — you can always upgrade later.
+</Callout>
+
+---
+
+## What to look for in any AI monitoring tool
+
+Regardless of which tool you choose, make sure it covers these basics:
+
+1. **Multi-model coverage from day one.** ChatGPT is the biggest, but Claude, Gemini, and Perplexity collectively represent a significant and growing share of AI-assisted product research. Tracking one model gives you a partial picture.
+
+2. **Competitor tracking.** Knowing you were mentioned is half the insight. Knowing *who was mentioned instead of you* is the other half.
+
+3. **Sentiment, not just mentions.** "Mentioned" and "recommended" are different things. A model can name your product while saying "but it's been unreliable lately." Sentiment analysis catches this.
+
+4. **Actionable output.** Data without a recommendation is just noise. The best tools tell you what to *do* — which content to write, which listicles to target, which claims to rebut.
+
+5. **Reasonable pricing for your stage.** A $300/month monitoring tool doesn't make sense when your total MRR is $500. Start lean, upgrade when the data justifies the cost.
+
+For a deeper dive on the strategy behind AI search visibility, read our [Complete Guide to Generative Engine Optimization](/blog/generative-engine-optimization-guide).
+
+---
+
+<FAQBlock
+  items={[
+    {
+      question: "What is AI search monitoring?",
+      answer: "AI search monitoring tracks whether AI models like ChatGPT, Claude, Gemini, and Perplexity mention your product when users ask buying-related questions. It's the AI equivalent of tracking your Google search rankings — except instead of page position, you're measuring whether you get named at all."
+    },
+    {
+      question: "Why can't I just use Google Analytics to track AI traffic?",
+      answer: "Google Analytics is JavaScript-based, and most AI crawlers (GPTBot, ClaudeBot, PerplexityBot) don't execute JavaScript. GA4 systematically undercounts AI bot visits. For accurate AI bot traffic data, you need server-side log analysis — tools like Illusion integrate with Cloudflare to capture this data directly from CDN logs."
+    },
+    {
+      question: "How many AI models should I track?",
+      answer: "At minimum, track ChatGPT and one other model (Claude or Perplexity). Ideally, track all four major models plus Google AI Overviews. Market share among AI assistants shifts quarterly, and a product that shows up in ChatGPT but not Claude is missing a growing segment of AI-assisted buyers."
+    },
+    {
+      question: "Is AI search monitoring worth it for early-stage startups?",
+      answer: "Yes — arguably more so than for established brands. Established brands usually already appear in AI responses because they dominate the training data. Early-stage startups face a cold-start problem: AI models don't know they exist. Monitoring tells you whether your content seeding efforts are working, and what to fix if they're not."
+    },
+    {
+      question: "What's the difference between AI search monitoring and GEO?",
+      answer: "AI search monitoring is the measurement side — tracking whether and how AI models mention your brand. Generative Engine Optimization (GEO) is the strategy side — the actions you take to improve your visibility. Monitoring without GEO is just watching. GEO without monitoring is optimizing blind. You need both."
+    },
+  ]}
+/>
+
+---
+
+*Want to see where your product stands in AI search today? [Try Illusion free for 7 days](https://www.illusion.ai/register?utm_source=blog&utm_medium=cta&utm_content=best-tools-list) — no credit card, all four AI models, results in 90 seconds.*

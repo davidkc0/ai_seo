@@ -65,6 +65,13 @@ const resolvedCanonical = canonical || Astro.url.href;
       <div class="logo-divider"></div>
       <span class="logo-label">Blog</span>
     </a>
+    <!-- Mobile hamburger (CSS-only, no JS) -->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+    <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
     <div class="blog-nav-links">
       <a href="https://www.illusion.ai/#features">Features</a>
       <a href="https://www.illusion.ai/#pricing">Pricing</a>

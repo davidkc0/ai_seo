@@ -39,7 +39,7 @@
 }
 
 .analyze-main {
-  max-width: 980px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 70px 24px 100px;
 }
@@ -67,7 +67,7 @@
 }
 
 .analyze-hero h1 {
-  max-width: 820px;
+  max-width: 940px;
   font-size: clamp(36px, 6vw, 64px);
   line-height: 1.05;
   letter-spacing: -0.04em;
@@ -75,7 +75,7 @@
 }
 
 .analyze-hero p {
-  max-width: 650px;
+  max-width: 720px;
   color: var(--text-muted);
   font-size: 17px;
   line-height: 1.65;
@@ -84,7 +84,7 @@
 
 .analyze-form {
   display: flex;
-  width: min(680px, 100%);
+  width: min(760px, 100%);
   padding: 5px;
   background: var(--surface);
   border: 1px solid var(--border);

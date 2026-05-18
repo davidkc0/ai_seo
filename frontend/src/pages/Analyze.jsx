@@ -146,10 +146,10 @@ export default function Analyze() {
       <main className="analyze-main">
         <section className="analyze-hero">
           <div className="analyze-badge"><SearchCheck size={14} /> Free AI website analyzer</div>
-          <h1>Find the fixes your website needs before an agency sells them to you.</h1>
+          <h1>Audit your website for AI search.</h1>
           <p>
             Get a plain-English audit for customers, Google, and AI answer engines.
-            Built for startups and local businesses that need clarity, not enterprise theater.
+            Built for startups and small businesses that need clarity, not enterprise theater.
           </p>
           <form className="analyze-form" onSubmit={submit}>
             <input

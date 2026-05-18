@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, BarChart2, Zap, Sparkles, Globe, SearchCheck } from 'lucide-react'
+import { Search, BarChart2, Zap, Sparkles, Globe } from 'lucide-react'
 import doughnut from '../assets/doughnut.jpg'
 import cube from '../assets/cube.jpg'
 import diamond from '../assets/diamond.jpg'
@@ -9,7 +9,6 @@ import './Landing.css'
 import { track } from '../analytics'
 
 const features = [
-  { icon: <SearchCheck size={24} />, title: 'Free AI Website Analyzer', desc: 'Audit any small-business site for UX, SEO, local trust signals, schema, and AI-search readiness before paying an agency.' },
   { icon: <Search size={24} />, title: 'Multi-AI Query Monitoring', desc: 'We ask ChatGPT, Claude, Gemini, and Perplexity the category questions your customers are already typing.' },
   { icon: <BarChart2 size={24} />, title: 'Mention Analytics', desc: 'See if your product gets mentioned, at what rank, and with what sentiment — compared to competitors.' },
   { icon: <Zap size={24} />, title: 'Competitor Tracking', desc: 'See exactly which competitors AI recommends instead of you — and spot patterns you can act on.' },

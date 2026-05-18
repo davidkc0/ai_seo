@@ -119,6 +119,10 @@ img { max-width: 100%; height: auto; display: block; }
   text-decoration: none;
 }
 
+.mobile-nav-link {
+  display: none;
+}
+
 /* ─── Mobile Menu Toggle ──────────────────────────────────── */
 .nav-toggle {
   display: none; /* hidden on desktop */
@@ -672,6 +676,14 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 15px;
     color: var(--text);
     border-bottom: 1px solid var(--border);
+  }
+
+  .blog-nav-links .desktop-nav-link {
+    display: none;
+  }
+
+  .blog-nav-links .mobile-nav-link {
+    display: block;
   }
 
   .blog-nav-links a:last-child {

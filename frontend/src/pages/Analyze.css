@@ -134,8 +134,12 @@
     padding: 0 16px;
   }
 
-  .analyze-nav-links a:not(.btn-primary-sm) {
-    display: none;
+  .analyze-register-link {
+    display: none !important;
+  }
+
+  .analyze-nav-links {
+    gap: 4px;
   }
 
   .analyze-main {

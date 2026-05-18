@@ -139,7 +139,7 @@ export default function Analyze() {
         <div className="analyze-nav-links">
           <a href="/blog">Blog</a>
           <Link to="/login">Log in</Link>
-          <Link to="/register" className="btn-primary-sm">Start free</Link>
+          <Link to="/register" className="btn-primary-sm analyze-register-link">Start free</Link>
         </div>
       </nav>
 

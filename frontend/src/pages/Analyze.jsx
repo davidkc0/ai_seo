@@ -137,7 +137,7 @@ export default function Analyze() {
       <nav className="analyze-nav">
         <Link to="/" className="analyze-logo"><img src={illusionLogo} alt="Illusion" /></Link>
         <div className="analyze-nav-links">
-          <Link to="/pricing">Pricing</Link>
+          <a href="/blog">Blog</a>
           <Link to="/login">Log in</Link>
           <Link to="/register" className="btn-primary-sm">Start free</Link>
         </div>

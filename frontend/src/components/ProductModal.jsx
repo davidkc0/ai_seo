@@ -17,6 +17,7 @@ export default function ProductModal({ onClose, onCreated, onUpdated, plan = 'fr
     name: product?.name || '',
     category: product?.category || '',
     use_case: product?.use_case || '',
+    website_url: product?.website_url || '',
   })
   const [keywords, setKeywords] = useState(product?.keywords || [])
   const [competitors, setCompetitors] = useState(product?.competitors || [])
@@ -83,6 +84,7 @@ export default function ProductModal({ onClose, onCreated, onUpdated, plan = 'fr
       name: form.name,
       category: form.category,
       use_case: form.use_case || undefined,
+      website_url: form.website_url.trim(),
       keywords,
       competitors,
     }
@@ -145,6 +147,16 @@ export default function ProductModal({ onClose, onCreated, onUpdated, plan = 'fr
               onChange={e => setForm(f => ({ ...f, use_case: e.target.value }))}
               placeholder="e.g. small business sales teams, remote teams"
             />
+          </div>
+
+          <div className="form-group">
+            <label>Website URL (optional)</label>
+            <input
+              value={form.website_url}
+              onChange={e => setForm(f => ({ ...f, website_url: e.target.value }))}
+              placeholder="https://example.com"
+            />
+            <div className="field-hint">Used for website audits and more specific AI-search recommendations.</div>
           </div>
 
           {/* Keywords — pill input */}

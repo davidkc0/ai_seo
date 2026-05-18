@@ -12,6 +12,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || ''
 
 export default function Register() {
   const [searchParams] = useSearchParams()
+  const source = searchParams.get('source')
   const [email, setEmail] = useState(searchParams.get('email') || '')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -55,8 +56,8 @@ export default function Register() {
     setLoading(true)
     try {
       await register(email, password, turnstileToken)
-      track.registerCompleted('organic')
-      navigate('/dashboard')
+      track.registerCompleted(source === 'audit' ? 'audit' : 'organic')
+      navigate(source === 'audit' ? '/dashboard?tab=audit' : '/dashboard')
     } catch (err) {
       setError(err.message)
       track.registerFailed(err.message)
@@ -69,8 +70,10 @@ export default function Register() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-logo"><img src={illusionLogo} alt="Illusion" /></div>
-        <h1>Start your free trial</h1>
-        <p className="auth-sub">7 days free · No credit card required</p>
+        <h1>{source === 'audit' ? 'Save your website audit' : 'Start your free trial'}</h1>
+        <p className="auth-sub">
+          {source === 'audit' ? 'Create a free account to keep the report' : '7 days free · No credit card required'}
+        </p>
 
         {error && <div className="auth-error"><span className="auth-error-icon">!</span> {error}</div>}
 

@@ -16,7 +16,7 @@ from slowapi.errors import RateLimitExceeded
 from database import init_db
 from scheduler import start_scheduler
 from rate_limit import limiter
-from routers import auth, products, billing, settings as settings_router, unsubscribe, bot_analytics, vercel_webhook
+from routers import auth, products, billing, settings as settings_router, unsubscribe, bot_analytics, vercel_webhook, website_audits
 from config import settings as app_settings
 
 
@@ -70,6 +70,7 @@ app.include_router(billing.router)
 app.include_router(settings_router.router)
 app.include_router(unsubscribe.router)
 app.include_router(bot_analytics.router)
+app.include_router(website_audits.router)
 # Public webhook receiver for Vercel Log Drains — secured via per-connection
 # HMAC signature, NOT auth middleware (Vercel calls this, not our users).
 app.include_router(vercel_webhook.router)

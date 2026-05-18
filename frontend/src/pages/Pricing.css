@@ -39,6 +39,14 @@
   margin-bottom: 16px;
 }
 
+.pricing-analyzer-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--primary-light);
+}
+
 .pricing-annual-note {
   display: inline-flex;
   align-items: center;

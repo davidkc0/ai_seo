@@ -44,7 +44,8 @@ export default function Pricing() {
 
       <div className="pricing-page-header">
         <h1>Simple pricing</h1>
-        <p>Start free. No credit card required for trial.</p>
+        <p>Start with a free website audit. Upgrade when you want daily AI visibility tracking.</p>
+        <Link to="/analyze" className="pricing-analyzer-link">Run the free AI website analyzer →</Link>
         <div className="pricing-annual-note">
           <Lightbulb size={14} /> Annual plans save 2 months — coming soon
         </div>

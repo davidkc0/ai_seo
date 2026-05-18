@@ -18,7 +18,7 @@ export default function Login() {
     setLoading(true)
     try {
       await login(email, password)
-      navigate('/dashboard')
+      navigate(localStorage.getItem('pendingWebsiteAudit') ? '/dashboard?tab=audit' : '/dashboard')
     } catch (err) {
       setError(err.message)
     } finally {

@@ -11,7 +11,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import AsyncSessionLocal
-from models import User, Product, ScanResult, NotificationSettings, AIOverviewSnapshot, Recommendation, CdnConnection, BotVisit
+from models import User, Product, ScanResult, NotificationSettings, AIOverviewSnapshot, Recommendation, CdnConnection, BotVisit, WebsiteAudit
 import monitor
 import serp
 import recommendations
@@ -109,17 +109,43 @@ async def scan_product(product_id: int, db: AsyncSession):
                 "references": ai_overview_snapshot.references,
             }
 
+        website_audit_payload = None
+        audit_result = await db.execute(
+            select(WebsiteAudit)
+            .where(
+                WebsiteAudit.product_id == product.id,
+                WebsiteAudit.status == "completed",
+            )
+            .order_by(WebsiteAudit.completed_at.desc())
+            .limit(1)
+        )
+        latest_audit = audit_result.scalar_one_or_none()
+        if latest_audit:
+            website_audit_payload = {
+                "normalized_url": latest_audit.normalized_url,
+                "executive_summary": latest_audit.executive_summary,
+                "scores": {
+                    "overall": latest_audit.overall_score,
+                    "ux": latest_audit.ux_score,
+                    "seo": latest_audit.seo_score,
+                    "ai": latest_audit.ai_score,
+                },
+                "findings": latest_audit.findings or [],
+            }
+
         rec = await asyncio.to_thread(
             recommendations.generate_recommendations,
             product={
                 "name": product.name,
                 "category": product.category,
                 "use_case": product.use_case,
+                "website_url": product.website_url,
                 "competitors": product.competitors or [],
                 "keywords": product.keywords or [],
             },
             scan_results=new_results,
             ai_overview=ai_overview_payload,
+            website_audit=website_audit_payload,
         )
         db_rec = Recommendation(
             product_id=product.id,

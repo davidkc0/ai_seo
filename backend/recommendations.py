@@ -6,6 +6,7 @@ After a scan completes we pass Claude:
   2. Aggregated LLM mention stats across Claude/GPT/Gemini/Perplexity
   3. A handful of representative LLM response excerpts
   4. Google AI Overview text + cited sources for the primary query
+  5. The latest saved website audit, when available
 
 Claude returns a structured JSON diagnosis + prioritized action list that the
 frontend renders on the dashboard. We call Anthropic directly (not OpenRouter)
@@ -52,6 +53,8 @@ Guidance:
 over vague advice ("improve content quality").
 - When Google AI Overview cites competitors or third-party publications, suggest getting \
 featured in those same publications rather than just outranking them.
+- When a website audit is provided, include the highest-impact website fixes when they \
+explain why the product is hard for humans, Google, or AI systems to understand.
 - Reference the ACTUAL numbers / competitor names from the data.
 - If data is thin (few scans, no AI Overview returned), say so in the summary and keep \
 actions conservative.
@@ -139,7 +142,43 @@ def _format_ai_overview(ai_overview: Optional[dict]) -> str:
     return "\n".join(lines)
 
 
-def build_prompt(product: dict, scan_results: list[dict], ai_overview: Optional[dict]) -> str:
+def _format_website_audit(website_audit: Optional[dict]) -> str:
+    """Format the latest website audit for recommendation context."""
+    if not website_audit:
+        return "No saved website audit is available for this product."
+
+    scores = website_audit.get("scores") or {}
+    lines = [
+        f"URL: {website_audit.get('normalized_url') or website_audit.get('url') or '(unknown)'}",
+        (
+            "Scores: "
+            f"overall {scores.get('overall', 'n/a')}, "
+            f"UX {scores.get('ux', 'n/a')}, "
+            f"SEO/local {scores.get('seo', 'n/a')}, "
+            f"AI search {scores.get('ai', 'n/a')}"
+        ),
+    ]
+    summary = website_audit.get("executive_summary")
+    if summary:
+        lines.extend(["", f"Audit summary: {summary}"])
+
+    findings = website_audit.get("findings") or []
+    if findings:
+        lines.extend(["", "Top website findings:"])
+        for f in findings[:6]:
+            lines.append(
+                f"- [{f.get('severity', 'medium')}] {f.get('title', 'Fix website issue')}: "
+                f"{f.get('fix') or f.get('evidence') or ''}"
+            )
+    return "\n".join(lines)
+
+
+def build_prompt(
+    product: dict,
+    scan_results: list[dict],
+    ai_overview: Optional[dict],
+    website_audit: Optional[dict] = None,
+) -> str:
     """Assemble the user-turn prompt Claude will analyze."""
     competitors = product.get("competitors") or []
     keywords = product.get("keywords") or []
@@ -148,6 +187,7 @@ def build_prompt(product: dict, scan_results: list[dict], ai_overview: Optional[
         f"Name: {product['name']}",
         f"Category: {product['category']}",
         f"Use case: {product.get('use_case') or '(not specified)'}",
+        f"Website URL: {product.get('website_url') or '(not specified)'}",
         f"Competitors: {', '.join(competitors) if competitors else '(none listed)'}",
         f"Keywords: {', '.join(keywords) if keywords else '(none listed)'}",
         "",
@@ -159,6 +199,9 @@ def build_prompt(product: dict, scan_results: list[dict], ai_overview: Optional[
         "",
         "## Google AI Overview (primary query)",
         _format_ai_overview(ai_overview),
+        "",
+        "## Latest website audit",
+        _format_website_audit(website_audit),
         "",
         "Produce the JSON per the schema in your system instructions.",
     ]
@@ -188,6 +231,7 @@ def generate_recommendations(
     product: dict,
     scan_results: list[dict],
     ai_overview: Optional[dict],
+    website_audit: Optional[dict] = None,
 ) -> dict:
     """
     Returns a dict with the Recommendation model fields. Never raises —
@@ -208,7 +252,7 @@ def generate_recommendations(
             model,
         )
 
-    user_prompt = build_prompt(product, scan_results, ai_overview)
+    user_prompt = build_prompt(product, scan_results, ai_overview, website_audit)
 
     try:
         client = anthropic.Anthropic(api_key=settings.anthropic_api_key)

@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { api } from '../api'
-import { Package, Settings, CreditCard, LogOut, Rocket, Search, CheckCircle, XCircle, Loader, Pencil, Globe } from 'lucide-react'
+import { Package, Settings, CreditCard, LogOut, Rocket, Search, Loader, Pencil, Globe, SearchCheck } from 'lucide-react'
 import ProductModal from '../components/ProductModal'
 import ScanResults from '../components/ScanResults'
 import ScanHistory from '../components/ScanHistory'
 import Recommendations from '../components/Recommendations'
 import BotAnalytics from '../components/BotAnalytics'
+import WebsiteAudits from '../components/WebsiteAudits'
 import illusionLogo from '../assets/illusion_logo.svg'
 import { track } from '../analytics'
 import './Dashboard.css'
@@ -33,7 +34,7 @@ export default function Dashboard() {
   const [scanStatus, setScanStatus] = useState('')
   const [scanMessage, setScanMessage] = useState('')
   const [resultsRefreshKey, setResultsRefreshKey] = useState(0)
-  const [activeTab, setActiveTab] = useState('mentions') // 'mentions' | 'bots'
+  const [activeTab, setActiveTab] = useState('mentions') // 'mentions' | 'bots' | 'audit'
   const [searchParams] = useSearchParams()
   const [verifyBannerNote, setVerifyBannerNote] = useState('')
   const [verifyResending, setVerifyResending] = useState(false)
@@ -44,9 +45,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadProducts()
+    if (searchParams.get('tab') === 'audit') {
+      setActiveTab('audit')
+    }
     if (searchParams.get('upgraded') === 'true') {
       setScanMessage('Plan upgraded successfully! Your new limits are now active.')
     }
+    claimPendingAudit()
   }, [])
 
   useEffect(() => {
@@ -72,6 +77,35 @@ export default function Dashboard() {
       console.error(e)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const claimPendingAudit = async () => {
+    const raw = localStorage.getItem('pendingWebsiteAudit')
+    if (!raw) return
+    try {
+      const pending = JSON.parse(raw)
+      if (!pending?.audit_id || !pending?.public_token) return
+      const existingProducts = await api.getProducts().catch(() => [])
+      let productName = ''
+      try {
+        productName = new URL(pending.url).hostname.replace(/^www\./, '')
+      } catch {
+        productName = 'My website'
+      }
+      await api.claimWebsiteAudit(pending.audit_id, {
+        public_token: pending.public_token,
+        create_product: existingProducts.length === 0,
+        product_name: productName,
+        category: 'local service business',
+        use_case: 'small business customers',
+      })
+      localStorage.removeItem('pendingWebsiteAudit')
+      setActiveTab('audit')
+      track.auditClaimed()
+      loadProducts()
+    } catch (e) {
+      console.error(e)
     }
   }
 
@@ -284,8 +318,8 @@ export default function Dashboard() {
           <div className="verify-banner-note">{verifyBannerNote}</div>
         )}
 
-        {/* Tab bar — always visible when products exist */}
-        {products.length > 0 && (
+        {/* Tab bar — visible when there is product data or an audit flow */}
+        {(products.length > 0 || activeTab === 'audit') && (
           <div className="dashboard-tabs">
             <button
               className={`dashboard-tab ${activeTab === 'mentions' ? 'active' : ''}`}
@@ -293,6 +327,13 @@ export default function Dashboard() {
             >
               <Search size={14} />
               AI Mentions
+            </button>
+            <button
+              className={`dashboard-tab ${activeTab === 'audit' ? 'active' : ''}`}
+              onClick={() => setActiveTab('audit')}
+            >
+              <SearchCheck size={14} />
+              Website Audit
             </button>
             <button
               className={`dashboard-tab ${activeTab === 'bots' ? 'active' : ''}`}
@@ -304,7 +345,9 @@ export default function Dashboard() {
           </div>
         )}
 
-        {activeTab === 'bots' && products.length > 0 ? (
+        {activeTab === 'audit' ? (
+          <WebsiteAudits product={selectedProduct} refreshProducts={loadProducts} />
+        ) : activeTab === 'bots' && products.length > 0 ? (
           <BotAnalytics />
         ) : !selectedProduct && products.length === 0 ? (
           <div className="empty-state">

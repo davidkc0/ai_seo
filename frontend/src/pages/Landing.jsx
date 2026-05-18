@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, BarChart2, Zap, Sparkles, Globe } from 'lucide-react'
+import { Search, BarChart2, Zap, Sparkles, Globe, SearchCheck } from 'lucide-react'
 import doughnut from '../assets/doughnut.jpg'
 import cube from '../assets/cube.jpg'
 import diamond from '../assets/diamond.jpg'
@@ -9,6 +9,7 @@ import './Landing.css'
 import { track } from '../analytics'
 
 const features = [
+  { icon: <SearchCheck size={24} />, title: 'Free AI Website Analyzer', desc: 'Audit any small-business site for UX, SEO, local trust signals, schema, and AI-search readiness before paying an agency.' },
   { icon: <Search size={24} />, title: 'Multi-AI Query Monitoring', desc: 'We ask ChatGPT, Claude, Gemini, and Perplexity the category questions your customers are already typing.' },
   { icon: <BarChart2 size={24} />, title: 'Mention Analytics', desc: 'See if your product gets mentioned, at what rank, and with what sentiment — compared to competitors.' },
   { icon: <Zap size={24} />, title: 'Competitor Tracking', desc: 'See exactly which competitors AI recommends instead of you — and spot patterns you can act on.' },
@@ -35,6 +36,7 @@ export default function Landing() {
         </div>
         <div className="nav-links">
           <a href="#features">Features</a>
+          <Link to="/analyze">Free analyzer</Link>
           <a href="#pricing">Pricing</a>
           <a href="/blog">Blog</a>
           <Link to="/login">Log in</Link>
@@ -45,11 +47,11 @@ export default function Landing() {
       {/* Hero */}
       <section className="hero">
         <div className="hero-left">
-          <div className="hero-badge">New: AI bot traffic analysis →</div>
+          <Link to="/analyze" className="hero-badge">New: Free AI website analyzer →</Link>
           <h1>Does AI recommend<br /><span className="gradient-text">your product</span>?</h1>
           <p className="hero-sub">
             Your customers ask ChatGPT, Claude, Gemini, and Perplexity for tool recommendations.
-            Illusion shows you exactly what those AIs say — and tells you how to get mentioned more.
+            Illusion shows you exactly what those AIs say, audits your website, and tells you what to fix next.
           </p>
           <form className="hero-cta" onSubmit={e => { e.preventDefault(); const email = e.target.email.value; window.location.href = `/register?email=${encodeURIComponent(email)}`; }}>
             <div className="hero-input-group">
@@ -58,6 +60,9 @@ export default function Landing() {
             </div>
             <span className="cta-hint">7 days free · No credit card required</span>
           </form>
+          <Link to="/analyze" className="hero-analyzer-link">
+            Audit your website first - no account required →
+          </Link>
           {/* Hero demo card */}
           <div className="hero-demo">
             <div className="demo-label">Live example — "What are the best project management tools?"</div>

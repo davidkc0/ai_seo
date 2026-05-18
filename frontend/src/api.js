@@ -74,6 +74,19 @@ export const api = {
   getAIOverview: (id) => request(`/products/${id}/ai-overview`),
   getScanHistory: (id) => request(`/products/${id}/scan-history`),
 
+  // Website Audits
+  startPublicWebsiteAudit: (data) =>
+    request('/website-audits/public', { method: 'POST', body: JSON.stringify(data) }),
+  getPublicWebsiteAudit: (id, token) =>
+    request(`/website-audits/public/${id}?token=${encodeURIComponent(token)}`),
+  claimWebsiteAudit: (id, data) =>
+    request(`/website-audits/${id}/claim`, { method: 'POST', body: JSON.stringify(data) }),
+  listWebsiteAudits: (productId) =>
+    request(`/website-audits/${productId ? `?product_id=${productId}` : ''}`),
+  getWebsiteAudit: (id) => request(`/website-audits/${id}`),
+  rerunWebsiteAudit: (data) =>
+    request('/website-audits/rerun', { method: 'POST', body: JSON.stringify(data) }),
+
   // Billing
   getPlans: () => request('/billing/plans'),
   createCheckout: (plan) => request(`/billing/create-checkout?plan=${plan}`, { method: 'POST' }),

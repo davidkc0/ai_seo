@@ -16,6 +16,7 @@ class ProductCreate(BaseModel):
     name: str
     category: str
     use_case: Optional[str] = None
+    website_url: Optional[str] = None
     keywords: List[str] = []
     competitors: List[str] = []
 
@@ -24,6 +25,7 @@ class ProductUpdate(BaseModel):
     name: Optional[str] = None
     category: Optional[str] = None
     use_case: Optional[str] = None
+    website_url: Optional[str] = None
     keywords: Optional[List[str]] = None
     competitors: Optional[List[str]] = None
 
@@ -51,6 +53,7 @@ async def list_products(
             "name": p.name,
             "category": p.category,
             "use_case": p.use_case,
+            "website_url": p.website_url,
             "keywords": p.keywords,
             "competitors": p.competitors,
             "last_scanned_at": p.last_scanned_at,
@@ -91,6 +94,7 @@ async def create_product(
         name=req.name,
         category=req.category,
         use_case=req.use_case,
+        website_url=req.website_url,
         keywords=req.keywords,
         competitors=req.competitors,
     )
@@ -103,6 +107,7 @@ async def create_product(
         "name": product.name,
         "category": product.category,
         "use_case": product.use_case,
+        "website_url": product.website_url,
         "keywords": product.keywords,
         "competitors": product.competitors,
         "created_at": product.created_at,
@@ -136,6 +141,8 @@ async def update_product(
         product.category = req.category
     if req.use_case is not None:
         product.use_case = req.use_case
+    if req.website_url is not None:
+        product.website_url = req.website_url
     if req.keywords is not None:
         product.keywords = req.keywords
     if req.competitors is not None:
@@ -329,7 +336,7 @@ async def get_summary(
 
     if not scans:
         return {
-            "product": {"id": product.id, "name": product.name, "category": product.category},
+            "product": {"id": product.id, "name": product.name, "category": product.category, "website_url": product.website_url},
             "total_queries": 0,
             "mentions": 0,
             "mention_rate": 0,
@@ -357,7 +364,7 @@ async def get_summary(
     competitors_seen = list(set(all_competitors))
 
     return {
-        "product": {"id": product.id, "name": product.name, "category": product.category},
+        "product": {"id": product.id, "name": product.name, "category": product.category, "website_url": product.website_url},
         "total_queries": total,
         "mentions": mentions,
         "mention_rate": mention_rate,

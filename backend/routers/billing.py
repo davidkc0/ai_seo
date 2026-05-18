@@ -23,6 +23,7 @@ async def get_plans():
                 "price": 0,
                 "period": "7 days",
                 "features": [
+                    "Free AI website audit",
                     "1 product",
                     "3 keywords",
                     "Weekly AI scan",
@@ -37,6 +38,7 @@ async def get_plans():
                 "period": "month",
                 "stripe_price_id": settings.stripe_starter_price_id,
                 "features": [
+                    "Free AI website audit + saved history",
                     "1 product",
                     "5 keywords",
                     "Daily AI scan",
@@ -56,6 +58,7 @@ async def get_plans():
                 "period": "month",
                 "stripe_price_id": settings.stripe_growth_price_id,
                 "features": [
+                    "Free AI website audit + saved history",
                     "3 products",
                     "20 keywords",
                     "Daily AI scan",

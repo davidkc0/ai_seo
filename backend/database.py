@@ -41,6 +41,7 @@ async def init_db():
         await conn.run_sync(_ensure_user_unsubscribe_token_column)
         await conn.run_sync(_ensure_notification_marketing_column)
         await conn.run_sync(_ensure_user_email_verified_column)
+        await conn.run_sync(_ensure_product_website_url_column)
         await conn.run_sync(_ensure_cdn_connection_vercel_columns)
 
     # Backfill any null tokens (new column on existing rows).
@@ -97,6 +98,17 @@ def _ensure_user_email_verified_column(sync_conn):
         # Every row that exists right now is a real customer — flip them all
         # to verified so the new gate doesn't suddenly block paying users.
         sync_conn.execute(text(f"UPDATE users SET email_verified = {true_lit}"))
+
+
+def _ensure_product_website_url_column(sync_conn):
+    """Add products.website_url if it doesn't exist."""
+    inspector = inspect(sync_conn)
+    if "products" not in inspector.get_table_names():
+        return
+    cols = {c["name"] for c in inspector.get_columns("products")}
+    if "website_url" not in cols:
+        print("[Migration] Adding products.website_url column")
+        sync_conn.execute(text("ALTER TABLE products ADD COLUMN website_url VARCHAR"))
 
 
 def _ensure_cdn_connection_vercel_columns(sync_conn):

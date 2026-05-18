@@ -36,6 +36,15 @@ export const track = {
     capture('scan_completed', { mention_rate: mentionRate }),
   recommendationViewed: () => capture('recommendation_viewed'),
 
+  // ── Website audit ───────────────────────────────────────────
+  auditStarted: (source) => capture('website_audit_started', { source }),
+  auditCompleted: (score) => capture('website_audit_completed', { score }),
+  auditClaimed: () => capture('website_audit_claimed'),
+  auditRerun: () => capture('website_audit_rerun'),
+  findingExpanded: (category, severity) =>
+    capture('website_audit_finding_expanded', { category, severity }),
+  signupFromAudit: () => capture('signup_from_audit'),
+
   // ── Monetisation ──────────────────────────────────────────────
   checkoutStarted: (plan) => capture('checkout_started', { plan }),
   checkoutCompleted: (plan) => capture('checkout_completed', { plan }),

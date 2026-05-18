@@ -42,6 +42,7 @@ class Product(Base):
     name = Column(String, nullable=False)
     category = Column(String, nullable=False)
     use_case = Column(String, nullable=True)
+    website_url = Column(String, nullable=True)
     keywords = Column(JSON, default=list)  # list of keyword strings
     competitors = Column(JSON, default=list)  # list of competitor names
     is_active = Column(Boolean, default=True)
@@ -121,6 +122,37 @@ class Recommendation(Base):
     based_on_scan_count = Column(Integer, default=0)
     model_used = Column(String, default="claude")  # e.g. "claude-sonnet-4-5"
     created_at = Column(DateTime(timezone=True), default=utcnow)
+
+
+class WebsiteAudit(Base):
+    """Website UX / SEO / AI-search audit for a public URL.
+
+    Audits can start anonymously from the public analyzer, then later be
+    claimed into an account and optionally linked to a tracked product.
+    """
+    __tablename__ = "website_audits"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True, index=True)
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=True, index=True)
+    public_token = Column(String(96), unique=True, index=True, nullable=False)
+    original_url = Column(Text, nullable=False)
+    normalized_url = Column(Text, nullable=False)
+    domain = Column(String, nullable=False, index=True)
+    status = Column(String, default="queued", index=True)  # queued, running, completed, failed
+    overall_score = Column(Integer, nullable=True)
+    ux_score = Column(Integer, nullable=True)
+    seo_score = Column(Integer, nullable=True)
+    ai_score = Column(Integer, nullable=True)
+    executive_summary = Column(Text, nullable=True)
+    findings = Column(JSON, default=list)
+    crawled_pages = Column(JSON, default=list)
+    extracted_signals = Column(JSON, default=dict)
+    model_used = Column(String, nullable=True)
+    error = Column(Text, nullable=True)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
+    updated_at = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
+    completed_at = Column(DateTime(timezone=True), nullable=True)
 
 
 class CdnConnection(Base):

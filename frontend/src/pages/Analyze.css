@@ -131,10 +131,9 @@
 }
 
 .answer-platforms-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
-  gap: 28px;
-  align-items: end;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   margin-bottom: 24px;
 }
 
@@ -155,10 +154,11 @@
 }
 
 .answer-platforms-header p {
+  max-width: 820px;
   margin: 0;
   color: var(--text-muted);
-  font-size: 15px;
-  line-height: 1.65;
+  font-size: 16px;
+  line-height: 1.7;
 }
 
 .answer-platforms-grid {
@@ -232,12 +232,6 @@
 }
 
 @media (max-width: 900px) {
-  .answer-platforms-header {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    align-items: start;
-  }
-
   .answer-platforms-grid {
     grid-template-columns: 1fr;
   }

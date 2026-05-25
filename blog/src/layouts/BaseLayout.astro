@@ -11,6 +11,13 @@ interface Props {
 const { title, description, ogImage, canonical, ogType = 'website', sectionLabel = 'Blog' } = Astro.props;
 const resolvedOG = ogImage || 'https://www.illusion.ai/OG.png';
 const resolvedCanonical = canonical || Astro.url.href;
+const footerResources = [
+  { title: 'Free AI Website Analyzer', href: 'https://www.illusion.ai/ai-website-analyzer' },
+  { title: 'Best AI Search Monitoring Tools', href: '/blog/best-ai-search-monitoring-tools' },
+  { title: 'Generative Engine Optimization Guide', href: '/blog/generative-engine-optimization-guide' },
+  { title: 'Profound vs Illusion', href: '/blog/profound-vs-illusion' },
+  { title: 'Improve Your Website for AI Search', href: '/blog/improve-website-for-ai-search' },
+];
 ---
 
 <!doctype html>
@@ -86,12 +93,47 @@ const resolvedCanonical = canonical || Astro.url.href;
 
   <!-- Footer -->
   <footer class="blog-footer">
-    <div>&copy; 2026 Illusion</div>
-    <div class="blog-footer-links">
-      <a href="https://www.illusion.ai/">Home</a>
-      <a href="/blog">Blog</a>
-      <a href="mailto:hello@illusion.ai">Contact Us</a>
-      <a href="https://www.illusion.ai/login">Log in</a>
+    <div class="blog-footer-main">
+      <div class="blog-footer-brand">
+        <img src="/blog/illusion_logo.svg" alt="Illusion" />
+        <p>Affordable AI search visibility for founders, startups, and small businesses.</p>
+      </div>
+
+      <div class="blog-footer-column">
+        <h3>Get in Touch</h3>
+        <a href="mailto:hello@illusion.ai" class="blog-footer-contact">Contact Us</a>
+      </div>
+
+      <div class="blog-footer-column">
+        <h3>Socials</h3>
+        <a href="https://x.com/TryIllusionAI" target="_blank" rel="noreferrer">X.com</a>
+        <a href="/blog">Blog</a>
+      </div>
+
+      <div class="blog-footer-column">
+        <h3>Company</h3>
+        <a href="https://www.illusion.ai/#features">About Us</a>
+        <a href="/blog">Case Studies</a>
+        <a href="https://www.illusion.ai/login">Login</a>
+      </div>
+
+      <div class="blog-footer-column blog-footer-resources">
+        <h3>Resources</h3>
+        {footerResources.map(resource => (
+          <a href={resource.href}>{resource.title}</a>
+        ))}
+      </div>
+
+      <div class="blog-footer-column">
+        <h3>Legal</h3>
+        <a href="https://www.illusion.ai/terms">Terms</a>
+        <a href="https://www.illusion.ai/privacy">Privacy</a>
+      </div>
+    </div>
+
+    <div class="blog-footer-bottom">
+      <span>Copyright 2026 Illusion.ai</span>
+      <span>Created in Santa Monica</span>
     </div>
   </footer>
 </body>

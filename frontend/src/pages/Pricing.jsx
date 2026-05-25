@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { api } from '../api'
+import Seo from '../components/Seo'
 import { CheckCircle, Lightbulb } from 'lucide-react'
 import './Pricing.css'
 import { track } from '../analytics'
@@ -40,6 +41,11 @@ export default function Pricing() {
 
   return (
     <div className="pricing-page">
+      <Seo
+        title="Illusion Pricing — Affordable AI Search Tracking"
+        description="Simple pricing for AI search tracking, website audits, Google AI Overview monitoring, AI bot traffic, and competitor visibility."
+        path="/pricing"
+      />
       <Link to="/" className="pricing-back">← Back</Link>
 
       <div className="pricing-page-header">

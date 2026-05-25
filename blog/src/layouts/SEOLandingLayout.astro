@@ -1,0 +1,50 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  eyebrow: string;
+  heading: string;
+  intro: string;
+  primaryHref?: string;
+  primaryLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  eyebrow,
+  heading,
+  intro,
+  primaryHref = 'https://www.illusion.ai/register?utm_source=seo_page&utm_medium=cta',
+  primaryLabel = 'Start tracking free',
+  secondaryHref = 'https://www.illusion.ai/analyze?utm_source=seo_page&utm_medium=cta',
+  secondaryLabel = 'Run free website audit',
+  schema,
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="website" sectionLabel="Resources">
+  {schema && (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  )}
+  <main class="seo-page">
+    <section class="seo-hero">
+      <div class="seo-eyebrow">{eyebrow}</div>
+      <h1>{heading}</h1>
+      <p>{intro}</p>
+      <div class="seo-actions">
+        <a class="seo-btn seo-btn-primary" href={primaryHref}>{primaryLabel} →</a>
+        <a class="seo-btn seo-btn-secondary" href={secondaryHref}>{secondaryLabel} →</a>
+      </div>
+    </section>
+    <slot />
+  </main>
+</BaseLayout>

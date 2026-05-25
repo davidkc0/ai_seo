@@ -4,11 +4,11 @@ interface Props {
   description: string;
   ogImage?: string;
   canonical?: string;
-  slug?: string;
-  tags?: string[];
+  ogType?: 'website' | 'article';
+  sectionLabel?: string;
 }
 
-const { title, description, ogImage, canonical, slug, tags } = Astro.props;
+const { title, description, ogImage, canonical, ogType = 'website', sectionLabel = 'Blog' } = Astro.props;
 const resolvedOG = ogImage || 'https://www.illusion.ai/OG.png';
 const resolvedCanonical = canonical || Astro.url.href;
 ---
@@ -30,7 +30,7 @@ const resolvedCanonical = canonical || Astro.url.href;
   <meta name="theme-color" content="#10b981" />
 
   <!-- OG -->
-  <meta property="og:type" content="article" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:site_name" content="Illusion" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
@@ -63,7 +63,7 @@ const resolvedCanonical = canonical || Astro.url.href;
     <a class="logo" href="https://www.illusion.ai/">
       <img src="/blog/illusion_logo.svg" alt="Illusion" />
       <div class="logo-divider"></div>
-      <span class="logo-label">Blog</span>
+      <span class="logo-label">{sectionLabel}</span>
     </a>
     <!-- Mobile hamburger (CSS-only, no JS) -->
     <input type="checkbox" id="nav-toggle" class="nav-toggle" />

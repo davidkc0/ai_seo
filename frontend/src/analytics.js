@@ -21,6 +21,7 @@ export const track = {
   // ── Landing / top of funnel ───────────────────────────────────
   landingViewed: () => capture('landing_viewed'),
   pricingViewed: () => capture('pricing_viewed'),
+  resourceClicked: (resource) => capture('resource_clicked', { resource }),
 
   // ── Auth ──────────────────────────────────────────────────────
   registerStarted: () => capture('register_started'),

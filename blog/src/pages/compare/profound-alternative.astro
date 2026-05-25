@@ -1,0 +1,86 @@
+---
+import SEOLandingLayout from '../../layouts/SEOLandingLayout.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+
+const canonical = 'https://www.illusion.ai/compare/profound-alternative';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Profound Alternative',
+  url: canonical,
+  description: 'Compare Illusion as an affordable Profound alternative for AI search visibility tracking.',
+};
+---
+
+<SEOLandingLayout
+  title="Profound Alternative for Affordable AI Search Tracking"
+  description="Looking for a Profound alternative? Illusion tracks AI mentions, competitors, Google AI Overviews, bot traffic, and website fixes without enterprise pricing."
+  canonical={canonical}
+  eyebrow="Profound alternative"
+  heading="A Profound alternative for teams that want answers, not an enterprise rollout."
+  intro="Profound is building a broad AI visibility platform for large brands. Illusion is the leaner alternative for founders, startups, agencies, and small businesses that need to know whether AI recommends them."
+  primaryHref="https://www.illusion.ai/register?utm_source=comparison_page&utm_medium=cta&utm_content=profound-alternative"
+  primaryLabel="Try Illusion"
+  secondaryHref="https://www.illusion.ai/analyze?utm_source=comparison_page&utm_medium=cta&utm_content=profound-alternative"
+  secondaryLabel="Run free website audit"
+  schema={schema}
+>
+  <section class="seo-section">
+    <h2>Illusion vs Profound at a glance</h2>
+    <CompareTable
+      headers={['Need', 'Illusion', 'Profound']}
+      highlightCol={1}
+      rows={[
+        { feature: 'Best fit', cols: ['Startups, founders, agencies, small businesses', 'Enterprise and larger marketing teams'] },
+        { feature: 'Core workflow', cols: ['Track AI mentions, audit site, get fixes', 'Broad AI visibility and content platform'] },
+        { feature: 'Free website analyzer', cols: ['✓', 'Not the main wedge'] },
+        { feature: 'Self-serve pricing', cols: ['✓', 'More enterprise-oriented'] },
+        { feature: 'Google AI Overview tracking', cols: ['✓', '✓'] },
+        { feature: 'AI bot traffic context', cols: ['✓', 'Available in platform context'] },
+      ]}
+    />
+  </section>
+
+  <section class="seo-section seo-split">
+    <div>
+      <h2>Why teams choose Illusion instead</h2>
+      <p>Most small teams do not need a huge AI SEO platform on day one. They need to know if AI mentions them, which competitors win the answer, and what concrete changes will improve their odds.</p>
+      <ul class="seo-list">
+        <li>All-in-one visibility workflow for mention tracking, website audits, Google AI Overview citations, and bot traffic context.</li>
+        <li>Plain-English recommendations instead of a dashboard that requires an SEO team to interpret.</li>
+        <li>Pricing and onboarding designed for teams that want to try the product today.</li>
+      </ul>
+    </div>
+    <div class="seo-card">
+      <h3>Fair read</h3>
+      <p>If you are a large enterprise brand with procurement requirements, a dedicated AEO team, and a need for a broader platform, Profound may be a better fit. Illusion is intentionally focused on the practical workflow for everyone else.</p>
+    </div>
+  </section>
+
+  <section class="seo-section">
+    <h2>Keep comparing</h2>
+    <div class="seo-link-list">
+      <a href="/blog/profound-vs-illusion">Profound vs Illusion full comparison <span>→</span></a>
+      <a href="/compare/athenahq-alternative">AthenaHQ alternative <span>→</span></a>
+      <a href="/compare/profound-vs-athenahq-vs-illusion">Profound vs AthenaHQ vs Illusion <span>→</span></a>
+    </div>
+  </section>
+
+  <FAQBlock
+    items={[
+      {
+        question: 'What is the best Profound alternative for startups?',
+        answer: 'Illusion is a strong Profound alternative for startups that want AI mention tracking, competitor visibility, website audits, and practical recommendations without enterprise pricing.',
+      },
+      {
+        question: 'Does Illusion replace everything Profound does?',
+        answer: 'No. Illusion focuses on AI search monitoring, website audits, Google AI Overview tracking, AI bot traffic context, and recommendations. Profound has broader enterprise platform features that some large teams may need.',
+      },
+      {
+        question: 'Can I try Illusion before paying?',
+        answer: 'Yes. You can run the free AI website analyzer without an account and start a trial for AI search monitoring.',
+      },
+    ]}
+  />
+</SEOLandingLayout>

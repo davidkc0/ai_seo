@@ -1,0 +1,43 @@
+# Illusion
+
+Illusion is an affordable AI search visibility platform for startups, agencies, founders, local service businesses, and small businesses.
+
+Illusion helps teams understand whether AI systems recommend them when customers ask buying-intent questions. It tracks AI mentions across ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews, compares competitor mentions, analyzes AI bot traffic context, audits websites for AI-search readiness, and produces plain-English recommendations.
+
+Canonical site: https://www.illusion.ai/
+
+## Primary URLs
+
+- Homepage: https://www.illusion.ai/
+- Free AI Website Analyzer: https://www.illusion.ai/analyze
+- AI Website Analyzer information: https://www.illusion.ai/ai-website-analyzer
+- AI SEO Tools: https://www.illusion.ai/ai-seo-tools
+- AI Search Monitoring: https://www.illusion.ai/ai-search-monitoring
+- Pricing: https://www.illusion.ai/pricing
+- Blog: https://www.illusion.ai/blog
+
+## Comparison URLs
+
+- Profound alternative: https://www.illusion.ai/compare/profound-alternative
+- AthenaHQ alternative: https://www.illusion.ai/compare/athenahq-alternative
+- Profound vs AthenaHQ vs Illusion: https://www.illusion.ai/compare/profound-vs-athenahq-vs-illusion
+- Profound vs Illusion: https://www.illusion.ai/blog/profound-vs-illusion
+- AthenaHQ vs Illusion: https://www.illusion.ai/blog/athenahq-vs-illusion
+
+## Core Guides
+
+- Best AI Search Monitoring Tools: https://www.illusion.ai/blog/best-ai-search-monitoring-tools
+- Generative Engine Optimization Guide: https://www.illusion.ai/blog/generative-engine-optimization-guide
+- How to Improve Your Website for AI Search: https://www.illusion.ai/blog/improve-website-for-ai-search
+- AI Search Monitoring for Startups: https://www.illusion.ai/blog/ai-search-monitoring-for-startups
+- Free AI Website Analyzer: What It Checks: https://www.illusion.ai/blog/free-ai-website-analyzer-what-it-checks
+
+## Pricing Summary
+
+- Free trial and free public website analyzer.
+- Starter plan starts at $19/month.
+- Growth plan starts at $39/month.
+
+## Positioning
+
+Illusion is the practical, self-serve alternative to enterprise AI SEO and AI visibility platforms. It is designed for teams that need to know whether AI recommends them, who appears instead, and what to fix next without enterprise pricing or a sales process.

@@ -1,0 +1,103 @@
+---
+import SEOLandingLayout from '../layouts/SEOLandingLayout.astro';
+import FAQBlock from '../components/FAQBlock.astro';
+
+const canonical = 'https://www.illusion.ai/ai-website-analyzer';
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Illusion AI Website Analyzer',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    url: canonical,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'A free AI website analyzer that audits customer clarity, SEO, local SEO, and AI search readiness.',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Free AI Website Analyzer',
+    url: canonical,
+    description: 'Audit your website for customers, Google, and AI answer engines.',
+  },
+];
+---
+
+<SEOLandingLayout
+  title="Free AI Website Analyzer for AI Search, SEO, and Local Business Visibility"
+  description="Run a free AI website audit that shows what to fix for customers, Google, local SEO, and AI answer engines like ChatGPT, Claude, Gemini, and Perplexity."
+  canonical={canonical}
+  eyebrow="Free AI website audit"
+  heading="Find the website fixes AI search tools usually hide in expensive decks."
+  intro="Illusion analyzes your homepage and key pages, then returns a plain-English report showing what to fix for customer clarity, SEO, local trust, and AI answer engines."
+  primaryHref="https://www.illusion.ai/analyze?utm_source=seo_page&utm_medium=cta&utm_content=ai-website-analyzer"
+  primaryLabel="Run the free analyzer"
+  secondaryHref="https://www.illusion.ai/register?utm_source=seo_page&utm_medium=cta&utm_content=ai-website-analyzer"
+  secondaryLabel="Track AI mentions"
+  schema={schema}
+>
+  <section class="seo-section">
+    <h2>Built for founders and small businesses, not enterprise theater</h2>
+    <p>Most AI SEO audits are either too shallow to help or bundled into expensive platforms built for enterprise marketing teams. Illusion starts with the practical question: can customers, Google, and AI answer engines quickly understand what your business does and why it should be trusted?</p>
+    <div class="seo-grid">
+      <div class="seo-card">
+        <h3>Customer clarity</h3>
+        <p>Checks whether the site explains the service, audience, location, CTA, and trust signals without forcing visitors to decode vague copy.</p>
+      </div>
+      <div class="seo-card">
+        <h3>SEO and local SEO</h3>
+        <p>Reviews title tags, meta descriptions, headings, internal links, service pages, NAP signals, testimonials, and crawlability.</p>
+      </div>
+      <div class="seo-card">
+        <h3>AI-search readiness</h3>
+        <p>Looks for structured data, FAQ content, answerable copy, AI crawler access, and the signals models need to cite your business confidently.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="seo-section seo-split">
+    <div>
+      <h2>What the audit checks</h2>
+      <p>The analyzer crawls the homepage plus key internal pages, then scores the site across overall quality, user experience, SEO/local SEO, and AI-search readiness.</p>
+      <ul class="seo-list">
+        <li>Homepage title, meta description, H1, headings, canonical, and crawlability.</li>
+        <li>Service, pricing, about, contact, FAQ, blog, and location-page signals.</li>
+        <li>LocalBusiness, ProfessionalService, Organization, Product, SoftwareApplication, and FAQ schema.</li>
+        <li>Reviews, testimonials, contact details, CTAs, Google Business trust signals, and business proof.</li>
+        <li>Robots.txt and common AI crawler rules for GPTBot, ClaudeBot, PerplexityBot, and related crawlers.</li>
+      </ul>
+    </div>
+    <div class="seo-card">
+      <h3>Best first use case</h3>
+      <p>Run the audit before paying for AI SEO, GEO, or answer-engine optimization. If the site is unclear, thin, blocked, or missing trust signals, expensive monitoring will mostly tell you what the free audit already found.</p>
+    </div>
+  </section>
+
+  <section class="seo-section">
+    <h2>From free audit to ongoing AI visibility</h2>
+    <p>The analyzer shows what to fix on your site. Illusion’s paid plans then track whether ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews actually start mentioning you after those fixes ship.</p>
+    <div class="seo-link-list">
+      <a href="/ai-search-monitoring">AI search monitoring <span>→</span></a>
+      <a href="/ai-seo-tools">AI SEO tools <span>→</span></a>
+      <a href="/blog/improve-website-for-ai-search">Website improvement guide <span>→</span></a>
+    </div>
+  </section>
+
+  <FAQBlock
+    items={[
+      {
+        question: 'Is the AI website analyzer free?',
+        answer: 'Yes. The public analyzer is free to run and does not require an account. You can save the audit into an Illusion account if you want to keep history or rerun it later.',
+      },
+      {
+        question: 'What does the analyzer score?',
+        answer: 'It scores overall quality, user experience, SEO/local SEO, and AI-search readiness. Findings include evidence, suggested fixes, expected impact, and effort.',
+      },
+      {
+        question: 'Is this the same as a Lighthouse audit?',
+        answer: 'No. Version one focuses on HTML, metadata, crawlability, business clarity, local trust signals, schema, FAQs, and AI crawler access rather than screenshot or performance testing.',
+      },
+    ]}
+  />
+</SEOLandingLayout>

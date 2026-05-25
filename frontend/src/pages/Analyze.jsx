@@ -4,6 +4,7 @@ import { ArrowRight, Loader, SearchCheck } from 'lucide-react'
 import { api } from '../api'
 import { useAuth } from '../AuthContext'
 import WebsiteAuditReport from '../components/WebsiteAuditReport'
+import Seo from '../components/Seo'
 import illusionLogo from '../assets/illusion_logo.svg'
 import { track } from '../analytics'
 import './Analyze.css'
@@ -80,7 +81,8 @@ export default function Analyze() {
     setLoading(true)
     try {
       const start = await api.startPublicWebsiteAudit({ url, turnstile_token: turnstileToken || null })
-      track.auditStarted('public')
+      const params = new URLSearchParams(window.location.search)
+      track.auditStarted(params.get('utm_content') || params.get('utm_source') || 'public')
       setPublicToken(start.public_token)
       const initial = await api.getPublicWebsiteAudit(start.audit_id, start.public_token)
       setAudit(initial)
@@ -134,6 +136,11 @@ export default function Analyze() {
 
   return (
     <div className="analyze-page">
+      <Seo
+        title="Free AI Website Analyzer for AI Search, SEO, and Local Business Visibility"
+        description="Run a free AI website audit for customer clarity, SEO, local SEO, and AI search readiness. Built for startups and small businesses."
+        path="/analyze"
+      />
       <nav className="analyze-nav">
         <Link to="/" className="analyze-logo"><img src={illusionLogo} alt="Illusion" /></Link>
         <div className="analyze-nav-links">

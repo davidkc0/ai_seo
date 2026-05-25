@@ -1,9 +1,21 @@
 User-agent: *
 Allow: /
+Allow: /analyze
+Allow: /ai-website-analyzer
+Allow: /ai-seo-tools
+Allow: /ai-search-monitoring
+Allow: /compare/
+Allow: /blog/
+Allow: /llms.txt
 
 # Disallow logged-in / app pages from being indexed — they're behind auth
 # anyway, but this keeps them out of search results.
 Disallow: /dashboard
 Disallow: /settings
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /verify-email
 
 Sitemap: https://www.illusion.ai/sitemap.xml

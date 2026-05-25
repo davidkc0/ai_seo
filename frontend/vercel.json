@@ -4,6 +4,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
+    { "source": "/ai-website-analyzer", "destination": "https://ai-seo-6jvg.vercel.app/ai-website-analyzer" },
+    { "source": "/ai-seo-tools", "destination": "https://ai-seo-6jvg.vercel.app/ai-seo-tools" },
+    { "source": "/ai-search-monitoring", "destination": "https://ai-seo-6jvg.vercel.app/ai-search-monitoring" },
+    { "source": "/compare/:match*", "destination": "https://ai-seo-6jvg.vercel.app/compare/:match*" },
     { "source": "/blog/:match*", "destination": "https://ai-seo-6jvg.vercel.app/:match*" },
     { "source": "/blog", "destination": "https://ai-seo-6jvg.vercel.app/" },
     { "source": "/(.*)", "destination": "/index.html" }

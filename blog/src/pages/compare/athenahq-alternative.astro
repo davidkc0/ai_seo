@@ -1,0 +1,87 @@
+---
+import SEOLandingLayout from '../../layouts/SEOLandingLayout.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+
+const canonical = 'https://www.illusion.ai/compare/athenahq-alternative';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'AthenaHQ Alternative',
+  url: canonical,
+  description: 'Compare Illusion as an AthenaHQ alternative for startups and small businesses.',
+};
+---
+
+<SEOLandingLayout
+  title="AthenaHQ Alternative for Startups and Small Businesses"
+  description="Looking for an AthenaHQ alternative? Illusion provides AI search monitoring, website audits, AI Overview tracking, and competitor visibility for lean teams."
+  canonical={canonical}
+  eyebrow="AthenaHQ alternative"
+  heading="An AthenaHQ alternative for teams that need AI visibility without the enterprise tax."
+  intro="AthenaHQ is built for ambitious AI search programs. Illusion is built for founders, startups, agencies, and small businesses that want practical monitoring and website fixes today."
+  primaryHref="https://www.illusion.ai/register?utm_source=comparison_page&utm_medium=cta&utm_content=athenahq-alternative"
+  primaryLabel="Try Illusion"
+  secondaryHref="https://www.illusion.ai/analyze?utm_source=comparison_page&utm_medium=cta&utm_content=athenahq-alternative"
+  secondaryLabel="Run free website audit"
+  schema={schema}
+>
+  <section class="seo-section">
+    <h2>Illusion vs AthenaHQ at a glance</h2>
+    <CompareTable
+      headers={['Need', 'Illusion', 'AthenaHQ']}
+      highlightCol={1}
+      rows={[
+        { feature: 'Best fit', cols: ['Startups, local businesses, agencies, lean teams', 'Larger teams building formal AI search programs'] },
+        { feature: 'Website-first workflow', cols: ['✓', 'More platform-led'] },
+        { feature: 'Free analyzer', cols: ['✓', 'Not the core offer'] },
+        { feature: 'AI search monitoring', cols: ['✓', '✓'] },
+        { feature: 'Small-business positioning', cols: ['✓', 'Less focused here'] },
+        { feature: 'Self-serve feel', cols: ['✓', 'More mature platform motion'] },
+      ]}
+    />
+  </section>
+
+  <section class="seo-section seo-split">
+    <div>
+      <h2>Why teams choose Illusion instead</h2>
+      <p>Illusion is for the team that wants to start with the basics: is the website clear, does AI recommend us, who wins instead, and what do we fix next?</p>
+      <ul class="seo-list">
+        <li>Free public analyzer that turns website issues into prioritized fixes.</li>
+        <li>AI mention tracking across major answer engines and competitor responses.</li>
+        <li>Google AI Overview and AI bot traffic context without a heavy implementation cycle.</li>
+        <li>Messaging and pricing aimed at startups and small businesses, not only larger brands.</li>
+      </ul>
+    </div>
+    <div class="seo-card">
+      <h3>Fair read</h3>
+      <p>If you are running a larger, mature AI-search program with revenue attribution, content operations, and a dedicated growth team, AthenaHQ may be worth evaluating. Illusion is the practical wedge for smaller teams.</p>
+    </div>
+  </section>
+
+  <section class="seo-section">
+    <h2>Keep comparing</h2>
+    <div class="seo-link-list">
+      <a href="/blog/athenahq-vs-illusion">AthenaHQ vs Illusion full comparison <span>→</span></a>
+      <a href="/compare/profound-alternative">Profound alternative <span>→</span></a>
+      <a href="/compare/profound-vs-athenahq-vs-illusion">Profound vs AthenaHQ vs Illusion <span>→</span></a>
+    </div>
+  </section>
+
+  <FAQBlock
+    items={[
+      {
+        question: 'What is the best AthenaHQ alternative for startups?',
+        answer: 'Illusion is a strong AthenaHQ alternative for startups and small businesses that want AI mention tracking, a free website analyzer, competitor visibility, and practical recommendations.',
+      },
+      {
+        question: 'Does Illusion track AI search visibility?',
+        answer: 'Yes. Illusion tracks how major AI engines answer buying questions about your product, competitors, and category.',
+      },
+      {
+        question: 'Can local businesses use Illusion?',
+        answer: 'Yes. The website analyzer is especially useful for local service businesses that need clear service pages, local trust signals, contact paths, and AI-search readiness.',
+      },
+    ]}
+  />
+</SEOLandingLayout>

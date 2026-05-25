@@ -23,6 +23,39 @@ const testimonials = [
   { name: 'Priya M.', role: 'CEO @ DeskSync', text: 'The weekly digest lands in my inbox every Monday and tells me more about AI search visibility than anything else.' },
 ]
 
+const resources = [
+  {
+    type: 'Free tool',
+    title: 'Free AI Website Analyzer',
+    desc: 'Audit your site for customer clarity, SEO, local SEO, and AI answer engines before spending a dollar.',
+    href: '/ai-website-analyzer',
+  },
+  {
+    type: 'Guide',
+    title: 'Best AI Search Monitoring Tools',
+    desc: 'A practical comparison of the tools tracking ChatGPT, Claude, Gemini, Perplexity, and AI Overviews.',
+    href: '/blog/best-ai-search-monitoring-tools',
+  },
+  {
+    type: 'Guide',
+    title: 'Generative Engine Optimization Guide',
+    desc: 'The full playbook for getting your brand mentioned in AI-generated answers.',
+    href: '/blog/generative-engine-optimization-guide',
+  },
+  {
+    type: 'Comparison',
+    title: 'Profound vs Illusion',
+    desc: 'A direct comparison for teams that want AI visibility without enterprise software theater.',
+    href: '/blog/profound-vs-illusion',
+  },
+  {
+    type: 'Guide',
+    title: 'Improve Your Website for AI Search',
+    desc: 'The small-business checklist for making your site easier for customers, Google, and AI engines to understand.',
+    href: '/blog/improve-website-for-ai-search',
+  },
+]
+
 export default function Landing() {
   useEffect(() => { track.landingViewed() }, [])
 
@@ -102,6 +135,32 @@ export default function Landing() {
               <p>{f.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="resources-section" id="resources">
+        <h2>Resources</h2>
+        <p className="section-sub">Start with the practical guides and audits that make AI search less mysterious.</p>
+        <div className="resources-grid">
+          {resources.map(resource => (
+            <a
+              key={resource.title}
+              href={resource.href}
+              className="resource-card"
+              onClick={() => track.resourceClicked(resource.title)}
+            >
+              <span className="resource-kicker">{resource.type}</span>
+              <h3>{resource.title}</h3>
+              <p>{resource.desc}</p>
+              <span className="resource-link">Read more →</span>
+            </a>
+          ))}
+        </div>
+        <div className="resources-more">
+          <a href="/ai-seo-tools">AI SEO tools</a>
+          <a href="/ai-search-monitoring">AI search monitoring</a>
+          <a href="/compare/profound-alternative">Profound alternative</a>
+          <a href="/compare/athenahq-alternative">AthenaHQ alternative</a>
         </div>
       </section>
 

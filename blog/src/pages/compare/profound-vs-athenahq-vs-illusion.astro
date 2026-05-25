@@ -1,0 +1,91 @@
+---
+import SEOLandingLayout from '../../layouts/SEOLandingLayout.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import FAQBlock from '../../components/FAQBlock.astro';
+
+const canonical = 'https://www.illusion.ai/compare/profound-vs-athenahq-vs-illusion';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Profound vs AthenaHQ vs Illusion',
+  url: canonical,
+  description: 'Compare Profound, AthenaHQ, and Illusion for AI search visibility, AI SEO, and answer-engine optimization.',
+};
+---
+
+<SEOLandingLayout
+  title="Profound vs AthenaHQ vs Illusion: AI SEO Tools Compared"
+  description="Compare Profound, AthenaHQ, and Illusion for AI search tracking, AI SEO, website audits, pricing fit, and team size."
+  canonical={canonical}
+  eyebrow="AI SEO comparison"
+  heading="Profound vs AthenaHQ vs Illusion: which AI search tool fits your stage?"
+  intro="Profound and AthenaHQ are serious platforms for larger AI visibility programs. Illusion is the affordable, self-serve option for startups, agencies, founders, and small businesses that need clarity before complexity."
+  primaryHref="https://www.illusion.ai/register?utm_source=comparison_page&utm_medium=cta&utm_content=three-way-comparison"
+  primaryLabel="Try Illusion"
+  secondaryHref="https://www.illusion.ai/analyze?utm_source=comparison_page&utm_medium=cta&utm_content=three-way-comparison"
+  secondaryLabel="Run free website audit"
+  schema={schema}
+>
+  <section class="seo-section">
+    <h2>Quick comparison</h2>
+    <CompareTable
+      headers={['Criteria', 'Illusion', 'Profound', 'AthenaHQ']}
+      highlightCol={1}
+      rows={[
+        { feature: 'Best for', cols: ['Startups, small businesses, agencies', 'Enterprise brands and larger teams', 'Mature AI search and growth teams'] },
+        { feature: 'Core wedge', cols: ['Monitoring plus website fixes', 'Broad AI visibility platform', 'AI search program platform'] },
+        { feature: 'Free website analyzer', cols: ['✓', 'Not primary wedge', 'Not primary wedge'] },
+        { feature: 'AI mention tracking', cols: ['✓', '✓', '✓'] },
+        { feature: 'Google AI Overview context', cols: ['✓', '✓', '✓'] },
+        { feature: 'Small-business fit', cols: ['Strong', 'Limited', 'Limited'] },
+        { feature: 'Enterprise fit', cols: ['Developing', 'Strong', 'Strong'] },
+      ]}
+    />
+  </section>
+
+  <section class="seo-section">
+    <h2>How to choose</h2>
+    <div class="seo-grid">
+      <div class="seo-card">
+        <h3>Choose Illusion if</h3>
+        <p>You want affordable AI mention tracking, competitor visibility, a free website analyzer, and concrete fixes without a sales process.</p>
+      </div>
+      <div class="seo-card">
+        <h3>Choose Profound if</h3>
+        <p>You are a larger brand that wants a broad platform, enterprise motion, and a deeper AI visibility program.</p>
+      </div>
+      <div class="seo-card">
+        <h3>Choose AthenaHQ if</h3>
+        <p>You have a mature growth program and want a more expansive AI-search platform workflow.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="seo-section">
+    <h2>The strategic difference</h2>
+    <p>Illusion is not trying to be the biggest AI SEO platform. It is trying to make AI visibility understandable and affordable for the teams being priced out of the category.</p>
+    <p>If your first question is “does AI recommend me and what do I fix?”, Illusion is the cleaner starting point. If your first question is “how do I operationalize AI search across a large marketing org?”, Profound or AthenaHQ may be closer to what you need.</p>
+    <div class="seo-link-list">
+      <a href="/compare/profound-alternative">Profound alternative <span>→</span></a>
+      <a href="/compare/athenahq-alternative">AthenaHQ alternative <span>→</span></a>
+      <a href="/ai-seo-tools">AI SEO tools <span>→</span></a>
+    </div>
+  </section>
+
+  <FAQBlock
+    items={[
+      {
+        question: 'Which is better: Profound, AthenaHQ, or Illusion?',
+        answer: 'It depends on stage. Profound and AthenaHQ are stronger fits for larger teams with formal AI search programs. Illusion is better for startups, small businesses, founders, and agencies that need affordable monitoring and practical website fixes.',
+      },
+      {
+        question: 'Is Illusion an enterprise AI SEO platform?',
+        answer: 'No. Illusion is intentionally focused on affordable AI search monitoring, website audits, Google AI Overview context, and recommendations for lean teams.',
+      },
+      {
+        question: 'Can I use Illusion before choosing a larger platform?',
+        answer: 'Yes. Illusion is a good starting point because it shows whether AI recommends you and whether your website has obvious issues before you commit to a larger platform.',
+      },
+    ]}
+  />
+</SEOLandingLayout>

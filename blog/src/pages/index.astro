@@ -28,7 +28,7 @@ const posts = (await getCollection('posts'))
       <div class="blog-posts-grid">
         {posts.map(post => {
           const formattedDate = post.data.date.toLocaleDateString('en-US', {
-            year: 'numeric', month: 'short', day: 'numeric'
+            year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC'
           });
           return (
             <a href={`/blog/${post.id}`} class="blog-post-card">

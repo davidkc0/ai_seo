@@ -382,6 +382,7 @@
 
 /* ─── Section Shared ────────────────────────────────────────── */
 .features-section,
+.resources-section,
 .how-section,
 .testimonials-section,
 .pricing-section {
@@ -391,6 +392,7 @@
 }
 
 .features-section h2,
+.resources-section h2,
 .how-section h2,
 .testimonials-section h2,
 .pricing-section h2 {
@@ -449,6 +451,91 @@
   font-size: 13px;
   color: var(--text-muted);
   line-height: 1.65;
+}
+
+/* ─── Resources ─────────────────────────────────────────────── */
+.resources-section {
+  border-top: 1px solid var(--border);
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.resource-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 230px;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--transition), transform var(--transition), background var(--transition);
+}
+
+.resource-card:hover {
+  background: var(--surface2);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.resource-kicker {
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--primary-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.resource-card h3 {
+  margin-bottom: 10px;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.resource-card p {
+  flex: 1;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.resource-link {
+  margin-top: 22px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--primary-light);
+}
+
+.resources-more {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.resources-more a {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.resources-more a:hover {
+  border-color: var(--primary);
+  color: var(--text);
+  text-decoration: none;
 }
 
 /* ─── How It Works ──────────────────────────────────────────── */
@@ -854,6 +941,7 @@
   }
 
   .features-section,
+  .resources-section,
   .testimonials-section,
   .pricing-section {
     padding: 60px 20px;

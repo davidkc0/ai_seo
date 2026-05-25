@@ -1,0 +1,94 @@
+---
+import SEOLandingLayout from '../layouts/SEOLandingLayout.astro';
+import FAQBlock from '../components/FAQBlock.astro';
+
+const canonical = 'https://www.illusion.ai/ai-search-monitoring';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Illusion AI Search Monitoring',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: canonical,
+  offers: { '@type': 'Offer', price: '19', priceCurrency: 'USD' },
+  description: 'AI search monitoring for ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews.',
+};
+---
+
+<SEOLandingLayout
+  title="AI Search Monitoring for ChatGPT, Claude, Gemini, Perplexity, and AI Overviews"
+  description="Track whether AI recommends your business, which competitors appear instead, and what to fix next."
+  canonical={canonical}
+  eyebrow="AI search monitoring"
+  heading="Know whether AI recommends you before your competitors own the answer."
+  intro="Illusion asks the buying questions your customers ask in ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews, then shows mention rate, ranking position, sentiment, competitors, citations, and fixes."
+  primaryHref="https://www.illusion.ai/register?utm_source=seo_page&utm_medium=cta&utm_content=ai-search-monitoring"
+  primaryLabel="Start monitoring"
+  secondaryHref="https://www.illusion.ai/analyze?utm_source=seo_page&utm_medium=cta&utm_content=ai-search-monitoring"
+  secondaryLabel="Audit your site first"
+  schema={schema}
+>
+  <section class="seo-section seo-split">
+    <div>
+      <h2>AI search does not work like Google rankings</h2>
+      <p>When a buyer asks an AI model for recommendations, there is no page two. The answer usually names a short list of brands. If your product is missing, the buyer may never know you exist.</p>
+      <p>AI search monitoring turns that invisible channel into measurable data: which questions mention you, which models ignore you, how competitors are described, and which pages or citations seem to influence the answer.</p>
+    </div>
+    <div class="seo-card">
+      <h3>Metrics Illusion tracks</h3>
+      <ul>
+        <li>Mention rate</li>
+        <li>Average position</li>
+        <li>Sentiment</li>
+        <li>Competitor mentions</li>
+        <li>Google AI Overview citations</li>
+        <li>AI bot traffic context</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="seo-section">
+    <h2>What to monitor first</h2>
+    <div class="seo-grid">
+      <div class="seo-card">
+        <h3>Category queries</h3>
+        <p>Questions like “best project management tools for startups” or “best accountant for small businesses in Florida.”</p>
+      </div>
+      <div class="seo-card">
+        <h3>Alternative queries</h3>
+        <p>Questions like “alternatives to Profound” or “cheaper AthenaHQ alternative.” These are late-funnel searches.</p>
+      </div>
+      <div class="seo-card">
+        <h3>Problem queries</h3>
+        <p>Questions that describe the job to be done, like “how do I know if ChatGPT recommends my product?”</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="seo-section">
+    <h2>Start with measurement, then fix the source material</h2>
+    <p>The best AI search programs pair monitoring with actual website fixes. If your site is vague, missing schema, light on trust signals, or blocked from crawlers, models have less useful evidence to cite.</p>
+    <div class="seo-link-list">
+      <a href="/ai-website-analyzer">Run the AI website analyzer <span>→</span></a>
+      <a href="/blog/generative-engine-optimization-guide">Read the GEO guide <span>→</span></a>
+      <a href="/blog/best-ai-search-monitoring-tools">Compare monitoring tools <span>→</span></a>
+    </div>
+  </section>
+
+  <FAQBlock
+    items={[
+      {
+        question: 'What is AI search monitoring?',
+        answer: 'AI search monitoring tracks whether systems like ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews mention your brand when users ask relevant buying or recommendation questions.',
+      },
+      {
+        question: 'How often should I monitor AI answers?',
+        answer: 'Weekly or daily monitoring is useful because generated answers change as models, retrieval systems, and citations shift. Illusion supports recurring scans so you can see trends over time.',
+      },
+      {
+        question: 'Does Illusion track competitors?',
+        answer: 'Yes. Illusion shows which competitors appear instead of you, where they rank in answers, and what patterns to act on.',
+      },
+    ]}
+  />
+</SEOLandingLayout>

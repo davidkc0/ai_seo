@@ -18,12 +18,13 @@ const formattedDate = date.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
+  timeZone: 'UTC',
 });
 
 const readingTime = '8 min read'; // Could calculate from word count later
 ---
 
-<BaseLayout title={`${title} — Illusion Blog`} description={description} ogImage={ogImage}>
+<BaseLayout title={`${title} — Illusion Blog`} description={description} ogImage={ogImage} ogType="article">
   <!-- JSON-LD Article -->
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",

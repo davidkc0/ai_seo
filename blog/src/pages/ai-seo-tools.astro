@@ -1,0 +1,89 @@
+---
+import SEOLandingLayout from '../layouts/SEOLandingLayout.astro';
+import CompareTable from '../components/CompareTable.astro';
+import FAQBlock from '../components/FAQBlock.astro';
+
+const canonical = 'https://www.illusion.ai/ai-seo-tools';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'AI SEO Tools',
+  url: canonical,
+  description: 'A practical guide to AI SEO tools for startups and small businesses.',
+};
+---
+
+<SEOLandingLayout
+  title="AI SEO Tools for Startups and Small Businesses"
+  description="Compare AI SEO tools, AI search monitoring platforms, AI website analyzers, and answer-engine optimization software built for practical teams."
+  canonical={canonical}
+  eyebrow="AI SEO tools"
+  heading="The practical AI SEO stack for teams that do not have enterprise budgets."
+  intro="AI SEO is not one tool. It is a workflow: audit the website, monitor AI answers, compare competitors, fix the pages models can cite, and keep measuring what changes."
+  primaryHref="https://www.illusion.ai/register?utm_source=seo_page&utm_medium=cta&utm_content=ai-seo-tools"
+  primaryLabel="Start tracking AI mentions"
+  secondaryHref="https://www.illusion.ai/analyze?utm_source=seo_page&utm_medium=cta&utm_content=ai-seo-tools"
+  secondaryLabel="Run free website audit"
+  schema={schema}
+>
+  <section class="seo-section">
+    <h2>What an AI SEO tool should actually do</h2>
+    <p>The useful tools answer three questions: does AI recommend you, who gets recommended instead, and what should you fix next? Anything beyond that should earn its keep.</p>
+    <CompareTable
+      headers={['Capability', 'Why it matters']}
+      rows={[
+        { feature: 'AI answer monitoring', cols: ['Tracks whether ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews mention your brand.'] },
+        { feature: 'Competitor comparison', cols: ['Shows which brands models prefer and what those answers say about them.'] },
+        { feature: 'Website audit', cols: ['Finds clarity, schema, local SEO, trust, FAQ, and crawlability issues models need resolved.'] },
+        { feature: 'Action plan', cols: ['Turns scans into fixes instead of another dashboard founders ignore.'] },
+        { feature: 'Affordable pricing', cols: ['Matters because startups and local businesses should not need procurement to measure AI visibility.'] },
+      ]}
+    />
+  </section>
+
+  <section class="seo-section">
+    <h2>Where Illusion fits</h2>
+    <p>Illusion is the affordable, self-serve AI SEO tool for founders, SaaS teams, agencies, and small businesses. It tracks AI mentions across the major answer engines, audits your website, monitors Google AI Overview citations, and turns the results into a fix list.</p>
+    <div class="seo-grid">
+      <div class="seo-card">
+        <h3>For startups</h3>
+        <p>Track whether AI recommends your product when buyers ask category and alternative queries.</p>
+      </div>
+      <div class="seo-card">
+        <h3>For small businesses</h3>
+        <p>Audit whether your site clearly explains services, location, contact paths, and trust signals.</p>
+      </div>
+      <div class="seo-card">
+        <h3>For lean teams</h3>
+        <p>Get a focused workflow without enterprise onboarding, hidden demos, or a bloated content engine.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="seo-section">
+    <h2>Related comparisons</h2>
+    <div class="seo-link-list">
+      <a href="/blog/best-ai-search-monitoring-tools">Best AI search monitoring tools <span>→</span></a>
+      <a href="/compare/profound-alternative">Profound alternative <span>→</span></a>
+      <a href="/compare/athenahq-alternative">AthenaHQ alternative <span>→</span></a>
+      <a href="/compare/profound-vs-athenahq-vs-illusion">Profound vs AthenaHQ vs Illusion <span>→</span></a>
+    </div>
+  </section>
+
+  <FAQBlock
+    items={[
+      {
+        question: 'What are AI SEO tools?',
+        answer: 'AI SEO tools help businesses understand and improve how they appear in AI-generated answers from systems like ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews.',
+      },
+      {
+        question: 'Is AI SEO different from traditional SEO?',
+        answer: 'Yes, but they overlap. Traditional SEO focuses on ranking web pages. AI SEO focuses on whether a brand is mentioned, trusted, and cited inside generated answers.',
+      },
+      {
+        question: 'Who is Illusion built for?',
+        answer: 'Illusion is built for startups, founders, local businesses, and lean marketing teams that need AI visibility data and website fixes without enterprise pricing.',
+      },
+    ]}
+  />
+</SEOLandingLayout>

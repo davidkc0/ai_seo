@@ -221,23 +221,6 @@ img { max-width: 100%; height: auto; display: block; }
   text-decoration: none;
 }
 
-.blog-footer-contact {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 13px;
-  border: 1px solid var(--border-hover);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--text) !important;
-  font-weight: 600;
-}
-
-.blog-footer-contact:hover {
-  border-color: var(--primary);
-  background: var(--surface2);
-}
-
 .blog-footer-resources {
   min-width: 190px;
 }

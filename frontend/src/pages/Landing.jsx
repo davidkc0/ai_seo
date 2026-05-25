@@ -236,7 +236,7 @@ export default function Landing() {
 
           <div className="footer-column">
             <h3>Get in Touch</h3>
-            <a href="mailto:hello@illusion.ai" className="footer-contact-btn">Contact Us</a>
+            <a href="mailto:hello@illusion.ai">Contact Us</a>
           </div>
 
           <div className="footer-column">

@@ -5,11 +5,33 @@ import { api } from '../api'
 import { useAuth } from '../AuthContext'
 import WebsiteAuditReport from '../components/WebsiteAuditReport'
 import Seo from '../components/Seo'
+import { ChatGptLogo, ClaudeLogo, GoogleAIOverviewsLogo } from '../components/AnswerEngineLogos'
 import illusionLogo from '../assets/illusion_logo.svg'
 import { track } from '../analytics'
 import './Analyze.css'
 
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || ''
+
+const answerPlatforms = [
+  {
+    name: 'ChatGPT',
+    Logo: ChatGptLogo,
+    tone: 'chatgpt',
+    description: 'Check whether your site makes your services, audience, and proof easy for ChatGPT to understand.',
+  },
+  {
+    name: 'Claude',
+    Logo: ClaudeLogo,
+    tone: 'claude',
+    description: 'See whether Claude has enough clean context to describe what you do without guessing.',
+  },
+  {
+    name: 'Google AI Overviews',
+    Logo: GoogleAIOverviewsLogo,
+    tone: 'google',
+    description: 'Spot crawlability, local SEO, and content gaps that can keep Google from citing your pages.',
+  },
+]
 
 export default function Analyze() {
   const [url, setUrl] = useState('')
@@ -181,6 +203,33 @@ export default function Analyze() {
             </div>
           )}
           {error && <div className="error-msg analyze-error">{error}</div>}
+        </section>
+
+        <section className="answer-platforms" aria-labelledby="answer-platforms-title">
+          <div className="answer-platforms-header">
+            <div>
+              <span className="answer-platforms-kicker">Answer engine coverage</span>
+              <h2 id="answer-platforms-title">Optimize your website for the AI answer engines your customers use</h2>
+            </div>
+            <p>
+              Illusion checks whether your site gives ChatGPT, Claude, and Google AI Overviews
+              the clear services, trust signals, local context, and crawlable content they need
+              to understand your business.
+            </p>
+          </div>
+          <div className="answer-platforms-grid">
+            {answerPlatforms.map(({ name, Logo, tone, description }) => (
+              <article className="answer-platform-card" key={name}>
+                <div className={`answer-platform-logo answer-platform-logo-${tone}`}>
+                  <Logo className="answer-platform-logo-mark" />
+                </div>
+                <div>
+                  <h3>{name}</h3>
+                  <p>{description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
 
         {audit && (

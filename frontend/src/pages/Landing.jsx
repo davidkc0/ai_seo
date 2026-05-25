@@ -138,32 +138,6 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="resources-section" id="resources">
-        <h2>Resources</h2>
-        <p className="section-sub">Start with the practical guides and audits that make AI search less mysterious.</p>
-        <div className="resources-grid">
-          {resources.map(resource => (
-            <a
-              key={resource.title}
-              href={resource.href}
-              className="resource-card"
-              onClick={() => track.resourceClicked(resource.title)}
-            >
-              <span className="resource-kicker">{resource.type}</span>
-              <h3>{resource.title}</h3>
-              <p>{resource.desc}</p>
-              <span className="resource-link">Read more →</span>
-            </a>
-          ))}
-        </div>
-        <div className="resources-more">
-          <a href="/ai-seo-tools">AI SEO tools</a>
-          <a href="/ai-search-monitoring">AI search monitoring</a>
-          <a href="/compare/profound-alternative">Profound alternative</a>
-          <a href="/compare/athenahq-alternative">AthenaHQ alternative</a>
-        </div>
-      </section>
-
       {/* How it works */}
       <section className="how-section">
         <h2>How it works</h2>
@@ -261,6 +235,32 @@ export default function Landing() {
         <h2>AI is the new search engine.</h2>
         <p>Millions of people ask AI what tools to use every day.<br />Make sure yours gets recommended.</p>
         <Link to="/register" className="cta-btn-primary">Start tracking for free →</Link>
+      </section>
+
+      <section className="resources-section" id="resources">
+        <h2>Resources</h2>
+        <p className="section-sub">Start with the practical guides and audits that make AI search less mysterious.</p>
+        <div className="resources-grid">
+          {resources.map(resource => (
+            <a
+              key={resource.title}
+              href={resource.href}
+              className="resource-card"
+              onClick={() => track.resourceClicked(resource.title)}
+            >
+              <span className="resource-kicker">{resource.type}</span>
+              <h3>{resource.title}</h3>
+              <p>{resource.desc}</p>
+              <span className="resource-link">Read more →</span>
+            </a>
+          ))}
+        </div>
+        <div className="resources-more">
+          <a href="/ai-seo-tools">AI SEO tools</a>
+          <a href="/ai-search-monitoring">AI search monitoring</a>
+          <a href="/compare/profound-alternative">Profound alternative</a>
+          <a href="/compare/athenahq-alternative">AthenaHQ alternative</a>
+        </div>
       </section>
 
       <footer className="footer">

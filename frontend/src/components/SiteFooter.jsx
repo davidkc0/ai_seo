@@ -10,7 +10,7 @@ const footerResources = [
   { title: 'Profound vs Illusion', href: '/blog/profound-vs-illusion' },
   { title: 'AthenaHQ vs Illusion', href: '/blog/athenahq-vs-illusion' },
   { title: 'Improve Your Website for AI Search', href: '/blog/improve-website-for-ai-search' },
-  { title: 'Small Business AI Search Study', href: '/blog/what-25-small-business-websites-get-wrong-about-ai-search' },
+  { title: 'Small Business AI Search Study', href: '/blog/what-50-small-business-websites-get-wrong-about-ai-search' },
 ]
 
 export default function SiteFooter() {

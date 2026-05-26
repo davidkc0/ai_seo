@@ -6,6 +6,50 @@
   color: var(--text);
 }
 
+/* ─── Announcement Bar ──────────────────────────────────────── */
+.landing-announcement {
+  position: relative;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 9px 24px;
+  background: var(--primary);
+  color: #04130d;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.35;
+  text-align: center;
+  transition: background var(--transition), color var(--transition);
+}
+
+.landing-announcement:hover {
+  background: var(--primary-light);
+  color: #04130d;
+}
+
+.landing-announcement span:first-child {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.landing-announcement strong {
+  color: inherit;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.landing-announcement-action {
+  white-space: nowrap;
+}
+
 /* ─── Nav ───────────────────────────────────────────────────── */
 .landing-nav {
   position: sticky;
@@ -932,6 +976,19 @@
 
 /* ─── Responsive ────────────────────────────────────────────── */
 @media (max-width: 768px) {
+  .landing-announcement {
+    flex-wrap: wrap;
+    gap: 2px 7px;
+    min-height: 44px;
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .landing-announcement span:first-child,
+  .landing-announcement-action {
+    font-size: 10px;
+  }
+
   .landing-nav {
     padding: 0 20px;
   }

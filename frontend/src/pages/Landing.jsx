@@ -29,6 +29,15 @@ export default function Landing() {
 
   return (
     <div className="landing">
+      <a
+        href="/blog/what-50-small-business-websites-get-wrong-about-ai-search"
+        className="landing-announcement"
+      >
+        <span>New research</span>
+        <strong>What 50 small business websites get wrong about AI search</strong>
+        <span className="landing-announcement-action">Read the report →</span>
+      </a>
+
       {/* Nav */}
       <nav className="landing-nav">
         <div className="logo">

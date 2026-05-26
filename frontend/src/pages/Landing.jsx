@@ -23,6 +23,29 @@ const testimonials = [
   { name: 'Priya M.', role: 'CEO @ DeskSync', text: 'The weekly digest lands in my inbox every Monday and tells me more about AI search visibility than anything else.' },
 ]
 
+const resources = [
+  {
+    title: 'Free AI Website Analyzer',
+    href: '/ai-website-analyzer',
+  },
+  {
+    title: 'Best AI Search Monitoring Tools',
+    href: '/blog/best-ai-search-monitoring-tools',
+  },
+  {
+    title: 'Generative Engine Optimization Guide',
+    href: '/blog/generative-engine-optimization-guide',
+  },
+  {
+    title: 'Profound vs Illusion',
+    href: '/blog/profound-vs-illusion',
+  },
+  {
+    title: 'Improve Your Website for AI Search',
+    href: '/blog/improve-website-for-ai-search',
+  },
+]
+
 export default function Landing() {
   useEffect(() => { track.landingViewed() }, [])
 
@@ -47,7 +70,7 @@ export default function Landing() {
       <section className="hero">
         <div className="hero-left">
           <Link to="/analyze" className="hero-badge">New: Free AI website analyzer →</Link>
-          <h1>Does AI recommend<br /><span className="gradient-text">your product</span>?</h1>
+          <h1>Know where<br /><span className="gradient-text">your product</span><br />stands <span className="hero-serif">in</span> AI search.</h1>
           <p className="hero-sub">
             Your customers ask ChatGPT, Claude, Gemini, and Perplexity for tool recommendations.
             Illusion shows you exactly what those AIs say, audits your website, and tells you what to fix next.
@@ -220,37 +243,50 @@ export default function Landing() {
         <div className="footer-main">
           <div className="footer-brand">
             <img src={illusionLogo} alt="Illusion" />
-            <p>Know where you stand in AI search. Track Claude, ChatGPT, Gemini and Perplexity — and fix what they get wrong.</p>
+            <p>Affordable AI search visibility for founders, startups, and small businesses.</p>
           </div>
 
           <div className="footer-column">
-            <h3>Product</h3>
-            <a href="#features">Features</a>
-            <a href="#pricing">Pricing</a>
-            <Link to="/analyze">Free analyzer</Link>
-            <a href="/blog">Changelog</a>
+            <h3>Get in Touch</h3>
+            <a href="mailto:hello@illusion.ai">Contact Us</a>
+          </div>
+
+          <div className="footer-column">
+            <h3>Socials</h3>
+            <a href="https://x.com/TryIllusionAI" target="_blank" rel="noreferrer">X.com</a>
+            <a href="/blog">Blog</a>
           </div>
 
           <div className="footer-column">
             <h3>Company</h3>
-            <a href="/blog">Blog</a>
-            <a href="/compare/profound-alternative">vs Profound</a>
-            <a href="/blog/generative-engine-optimization-guide">GEO guide</a>
-            <a href="mailto:hello@illusion.ai">Contact</a>
+            <a href="/#features">About Us</a>
+            <a href="/blog">Case Studies</a>
+            <Link to="/login">Login</Link>
+          </div>
+
+          <div className="footer-column footer-resources">
+            <h3>Resources</h3>
+            {resources.map(resource => (
+              <a
+                key={resource.title}
+                href={resource.href}
+                onClick={() => track.resourceClicked(resource.title)}
+              >
+                {resource.title}
+              </a>
+            ))}
           </div>
 
           <div className="footer-column">
-            <h3>Account</h3>
-            <Link to="/login">Log in</Link>
-            <Link to="/register">Register</Link>
-            <a href="/privacy">Privacy</a>
+            <h3>Legal</h3>
             <a href="/terms">Terms</a>
+            <a href="/privacy">Privacy</a>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <span>© 2026 Illusion</span>
-          <span>hello@illusion.ai</span>
+          <span>Copyright 2026 Illusion.ai</span>
+          <span>Created in Santa Monica</span>
         </div>
       </footer>
     </div>

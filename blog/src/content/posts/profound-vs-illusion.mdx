@@ -1,8 +1,9 @@
 ---
 title: "Profound vs Illusion: Which AI Visibility Tool Actually Fits Your Budget?"
-description: "Profound raised $58M and built an enterprise platform. Illusion tracks the same AI models for a fraction of the price. We break down features, pricing, and who each tool is actually built for."
+description: "Profound is building an enterprise AI visibility platform. Illusion covers the practical workflow most small teams need first: audits, AI mention tracking, competitor context, and plain-English fixes."
 author: David C
 date: 2026-04-24
+updated: 2026-05-26
 tags: [comparison, profound, ai-search]
 draft: false
 ---
@@ -12,22 +13,26 @@ import CompareTable from '../../components/CompareTable.astro';
 
 ## TL;DR
 
-- **Profound** is an enterprise AI visibility platform backed by $58M in funding. It offers deep analytics, content generation, and shopping visibility — with plans starting at $99/month (billed yearly) that only track ChatGPT.
-- **Illusion** is a focused AI search tracker built for startups and growing SaaS companies. It monitors ChatGPT, Claude, Gemini, and Perplexity from day one, with plans starting at $19/month.
-- Both tools solve the same core problem: *does AI recommend your product?* The difference is scope, audience, and how much you'll pay to answer that question.
+- **Profound** is an enterprise AI visibility platform. In February 2026, Profound [announced a $96M Series C at a $1B valuation](https://www.tryprofound.com/blog/profound-raises-96m-series-c), which confirms the category is real and moving fast.
+- **Illusion** covers the practical AI search workflow most small teams need first: multi-model mention tracking, competitor visibility, website audits, Google AI Overview context, bot traffic context, and plain-English fixes.
+- Both tools help answer the same business question: *when buyers ask AI tools for recommendations, do you show up or do competitors?* The difference is scope, buying motion, and how much platform you need right now.
 - If you're a founder or growth-stage team that needs clear answers without a sales process, Illusion is the better fit. If you're an enterprise brand with a dedicated SEO team and six-figure tool budgets, Profound might be worth the conversation.
 
 ---
 
 ## Why this comparison matters
 
-A year ago, nobody was tracking whether ChatGPT mentioned their product. Today there's a real category forming around AI visibility — and two very different philosophies for how to approach it.
+A year ago, very few teams were tracking whether ChatGPT mentioned their product. Today there is a real category forming around AI visibility, and two very different philosophies for how to approach it.
 
-Profound has raised $58 million across three rounds and is building a full-stack enterprise platform: prompt analytics, content agents, shopping visibility, partner programs, SOC 2 compliance. They're going after the Walmarts and Docusigns of the world.
+Profound is building a full-stack enterprise platform: answer-engine insights, prompt analytics, agents, shopping visibility, partner programs, and an enterprise sales motion. They are going after large brands and marketing organizations with real AI search budgets.
 
 Illusion takes a different approach. We believe most companies don't need a 12-feature platform to answer a simple question: *are AI models recommending my product, and if not, what do I do about it?*
 
 This isn't a hit piece. Profound builds good software. But their product is designed for a different buyer — and their pricing reflects it. This post breaks down where each tool wins so you can decide which one fits your actual needs.
+
+<Callout type="data" title="Market note">
+  Profound's February 2026 funding announcement says the company raised a $96M Series C at a $1B valuation. That is good validation for AI visibility as a category. It also reinforces why smaller teams may want a lighter first step before buying into an enterprise platform.
+</Callout>
 
 ---
 
@@ -36,14 +41,14 @@ This isn't a hit piece. Profound builds good software. But their product is desi
 <CompareTable
   headers={['Feature', 'Illusion', 'Profound']}
   rows={[
-    { feature: 'AI models tracked', cols: ['ChatGPT, Claude, Gemini, Perplexity (even the free trial)', 'ChatGPT only on Starter ($99/mo); 3 engines on Growth ($399/mo)'] },
-    { feature: 'Google AI Overview tracking', cols: ['Yes (Starter and Growth)', 'Yes (Growth and Enterprise)'] },
-    { feature: 'AI bot traffic analysis', cols: ['Yes — Cloudflare CDN integration', 'Yes — Google Analytics integration'] },
+    { feature: 'AI models tracked', cols: ['ChatGPT, Claude, Gemini, and Perplexity on every plan', 'Broad answer-engine coverage on enterprise platform; verify plan-level access directly'] },
+    { feature: 'Google AI Overview context', cols: ['Yes', 'Yes, based on public platform positioning'] },
+    { feature: 'AI bot traffic analysis', cols: ['Yes — Cloudflare CDN integration', 'Agent analytics and broader enterprise reporting'] },
     { feature: 'Smart Summary after each scan', cols: ['Yes — AI-generated action plan', 'Yes — actionable recommendations'] },
     { feature: 'Content generation agents', cols: ['No', 'Yes (Growth and Enterprise)'] },
     { feature: 'Prompt volume data', cols: ['No', 'Yes'] },
     { feature: 'Shopping visibility', cols: ['No', 'Yes (Enterprise)'] },
-    { feature: 'Self-serve signup', cols: ['Yes — scan in under 60 seconds', 'Yes, but demo-focused'] },
+    { feature: 'Self-serve signup', cols: ['Yes — scan in under 60 seconds', 'More demo and platform-led'] },
     { feature: 'Free trial', cols: ['7 days, no credit card', 'Not listed'] },
     { feature: 'SOC 2 Type II', cols: ['No', 'Yes'] },
   ]}
@@ -51,7 +56,7 @@ This isn't a hit piece. Profound builds good software. But their product is desi
 
 A few things stand out:
 
-**Illusion tracks four AI models on every plan — including the free trial.** Profound's Starter plan costs $99/month and only covers ChatGPT. If you want to know what Claude, Gemini, or Perplexity say about your product, you need their $399/month Growth tier. With Illusion, you get all four models before you ever enter a credit card.
+**Illusion tracks the core answer engines small teams ask about first.** ChatGPT, Claude, Gemini, and Perplexity are available on every Illusion plan, and Google AI Overview context is part of the workflow. Profound's public site positions around a broader enterprise platform, so verify current plan-level coverage directly before buying.
 
 **Illusion uses Cloudflare server logs for bot traffic. Profound uses Google Analytics.** This matters because GA4 is JavaScript-based, and AI crawlers don't execute JavaScript. GA4 systematically undercounts bot visits. Server-side log analysis catches what GA4 misses.
 
@@ -59,35 +64,49 @@ A few things stand out:
 
 ---
 
-## Pricing
+## Pricing and buyer fit
 
 This is where the two products diverge most.
 
 <CompareTable
   headers={['', 'Illusion', 'Profound']}
   rows={[
-    { feature: 'Entry price', cols: ['$19/month (Starter)', '$99/month (Starter, billed yearly)'] },
-    { feature: 'Mid-tier', cols: ['$39/month (Growth)', '$399/month (Growth, billed yearly)'] },
-    { feature: 'Enterprise', cols: ['Not yet', 'Custom pricing'] },
-    { feature: 'Models at entry price', cols: ['ChatGPT, Claude, Gemini, Perplexity', 'ChatGPT only'] },
+    { feature: 'Entry path', cols: ['$19/month Starter', 'Demo or current public pricing page; verify directly'] },
+    { feature: 'Growth path', cols: ['$39/month Growth', 'Enterprise/platform motion'] },
+    { feature: 'Best budget fit', cols: ['Founders, startups, small businesses, lean teams', 'Larger teams with dedicated AI search budget'] },
+    { feature: 'Models at entry price', cols: ['ChatGPT, Claude, Gemini, Perplexity', 'Verify current plan coverage directly'] },
     { feature: 'Free trial', cols: ['7 days, no credit card', 'Not listed'] },
-    { feature: 'Credit card required to start', cols: ['No', 'Yes'] },
+    { feature: 'Credit card required to start', cols: ['No', 'Verify directly'] },
   ]}
 />
 
 <Callout type="insight" title="The pricing gap in context">
-  Illusion's Growth plan ($39/month) gives you 3 products, 20 keywords, daily scans across 4 AI models, Google AI Overview tracking, bot traffic analysis, and an AI-generated action plan after every scan. Profound's Growth plan is $399/month (billed yearly) — 10x the price — and tracks only 3 AI engines.
+  Illusion's Growth plan is $39/month and is built around the first useful loop: audit the site, monitor core AI answers, compare competitors, and ship fixes. Profound is building a broader enterprise AI marketing platform. That can be valuable, but it is a different buying decision.
 </Callout>
 
 ### Why the gap exists — and what it means
 
-Profound raised $58 million in venture capital. They have enterprise sales teams, SOC 2 compliance infrastructure, partner programs, and a content generation engine. All of that costs money to build and maintain, and it gets passed through to the customer.
+Profound has raised serious venture capital. They have enterprise sales, compliance infrastructure, partner programs, and agent workflows. All of that costs money to build and maintain, and it usually gets passed through to the customer.
 
 Illusion is a lean product built by a small team. We don't have a partner program. We don't have a sales team. We don't generate blog posts for you. What we do is monitor the four major AI models, tell you exactly where you stand, and give you a prioritized action plan — at a price point that doesn't require budget approval from your CFO.
 
 **This isn't cheaper because it's less capable at the core job.** It's cheaper because we don't charge you for features designed for 50-person marketing departments. If you're a founder, a solo marketer, or a small growth team, you're paying enterprise overhead for capabilities you'll never touch.
 
-Think of it this way: Profound is Jira — powerful, configurable, built for large orgs. Illusion is [Linear](https://linear.app) — faster, leaner, and designed for teams that want to ship instead of configure.
+Think of it this way: Profound is built for the enterprise AI visibility program. Illusion is built for the first useful operating loop.
+
+---
+
+## The real decision: enterprise platform or first useful loop?
+
+For most startups and small businesses, the first useful loop is simple:
+
+1. Run a website audit.
+2. Track 5-15 real buyer prompts.
+3. See which competitors appear instead.
+4. Fix the website, source material, schema, FAQs, comparison pages, or third-party citations.
+5. Rerun and measure whether answers change.
+
+That loop creates learning. If it starts producing value, you can always graduate into more complex workflows later. The mistake is buying the complex platform before your website gives AI systems enough clear evidence to cite.
 
 ---
 
@@ -159,15 +178,15 @@ Profound built the enterprise platform. Illusion built the tool that everyone el
   items={[
     {
       question: "Can I switch from Profound to Illusion?",
-      answer: "Yes. Illusion tracks the same core data — mention rate, ranking position, sentiment, competitor mentions — across all four major AI models. You can sign up for a free trial and compare the output side by side before canceling your Profound subscription."
+      answer: "Yes. Illusion focuses on the core visibility data smaller teams usually need first: whether you are mentioned, where you appear, which competitors show up, how the answer describes you, and what to fix next. You can sign up for a free trial and compare the workflow before making a bigger platform decision."
     },
     {
       question: "Does Illusion track the same AI models as Profound?",
-      answer: "Illusion tracks ChatGPT, Claude, Gemini, and Perplexity on every plan. Profound's lowest tier only tracks ChatGPT; you need their Growth or Enterprise plan for additional models."
+      answer: "Illusion tracks ChatGPT, Claude, Gemini, and Perplexity on every plan and includes Google AI Overview context. Profound positions around broader enterprise answer-engine coverage, so verify current plan-level model access directly with Profound before buying."
     },
     {
       question: "Is Illusion's lower price because it has fewer features?",
-      answer: "Illusion's core scanning engine covers the same four AI models and produces the same actionable data. The price difference comes from scope: Illusion focuses on monitoring and diagnostics, while Profound bundles content generation, shopping visibility, and enterprise compliance into a larger (and more expensive) platform."
+      answer: "Illusion is cheaper because it is narrower by design. It focuses on affordable monitoring, website audits, competitor visibility, and practical recommendations. Profound bundles broader enterprise workflows such as agents, shopping visibility, prompt-volume data, and compliance."
     },
     {
       question: "Does Illusion offer an enterprise plan?",
@@ -182,4 +201,4 @@ Profound built the enterprise platform. Illusion built the tool that everyone el
 
 ---
 
-*Ready to see where your product stands in AI search? [Start your free trial](https://www.illusion.ai/register?utm_source=blog&utm_medium=cta&utm_content=profound-vs-illusion) — 7 days free, no credit card required.*
+*Not ready to buy monitoring yet? [Run the free AI website analyzer](https://www.illusion.ai/analyze?utm_source=blog&utm_medium=cta&utm_content=profound-vs-illusion) first. Ready to track mentions? [Start your free trial](https://www.illusion.ai/register?utm_source=blog&utm_medium=cta&utm_content=profound-vs-illusion) — 7 days free, no credit card required.*

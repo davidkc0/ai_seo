@@ -1,8 +1,9 @@
 ---
-title: "How to Improve Your Website for AI Search in 2026"
-description: "ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews read your website differently than humans do. This guide shows the practical fixes that make your site clearer to customers, Google, and AI answer engines."
+title: "How to Improve Your Small Business Website for AI Search in 2026"
+description: "Practical AI search optimization fixes for small business websites: clear H1s, service pages, schema, FAQs, trust signals, contact paths, and local SEO."
 author: David C
 date: 2026-05-21
+updated: 2026-05-26
 tags: [guide, ai-search, website-audit]
 draft: false
 ---
@@ -82,6 +83,30 @@ If not, rewrite it.
   Your homepage should contain one clear sentence in this format: "[Business] provides [service] for [customer] in [market/location]." It is not poetic. It works.
 </Callout>
 
+### Copy-and-paste homepage templates
+
+Use these formulas before you get fancy:
+
+**Homepage H1 formula**
+
+`[Service] for [customer] in [location/market]`
+
+Examples:
+
+- `Bookkeeping and tax preparation for small businesses in Tampa`
+- `AI search monitoring for startups and SaaS teams`
+- `Emergency plumbing and leak repair in Austin`
+
+**Meta description formula**
+
+`[Business] helps [customer] with [service] in [location/market]. [Trust proof]. [CTA].`
+
+Example:
+
+`Acme Accounting helps Florida small businesses with bookkeeping, payroll, and tax preparation. Work with an experienced local team. Schedule a consultation today.`
+
+Not sure if your site has this issue? [Run the free analyzer](https://www.illusion.ai/analyze?utm_source=blog&utm_medium=cta&utm_content=improve-website-h1).
+
 ---
 
 ## 2. Create service pages, not just a services section
@@ -115,6 +140,21 @@ For example, an accounting firm should not only have "Services." It should have 
 Each page becomes a stronger answer candidate.
 
 This is where a lot of overpriced AI SEO advice gets silly. You do not need 200 generated posts. You need 4-8 specific pages that match what real customers ask.
+
+### Service page outline
+
+Use this structure for each important service or product use case:
+
+1. What the service is.
+2. Who it is for.
+3. When someone needs it.
+4. What is included.
+5. Pricing factors.
+6. FAQs.
+7. Reviews or proof.
+8. Clear CTA.
+
+Not sure which service pages are missing? [Run the free analyzer](https://www.illusion.ai/analyze?utm_source=blog&utm_medium=cta&utm_content=improve-website-service-pages).
 
 ---
 
@@ -180,6 +220,65 @@ For local service businesses, include:
 - sameAs links to trusted profiles
 
 This is exactly the kind of thing an agency will happily put into a 40-slide audit deck. It is also the kind of thing you can check and fix in an afternoon.
+
+### JSON-LD starting points
+
+Use `LocalBusiness` or `ProfessionalService` for local service businesses:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Example Accounting",
+  "url": "https://example.com",
+  "telephone": "+1-555-555-5555",
+  "areaServed": "Tampa, FL",
+  "serviceType": ["Bookkeeping", "Tax preparation", "Payroll"],
+  "sameAs": [
+    "https://www.google.com/search?q=Example+Accounting",
+    "https://www.linkedin.com/company/example"
+  ]
+}
+```
+
+Use `Organization`, `SoftwareApplication`, or `Service` for startups and SaaS sites:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ExampleApp",
+  "applicationCategory": "BusinessApplication",
+  "description": "ExampleApp helps small teams track AI search visibility.",
+  "url": "https://example.com",
+  "offers": {
+    "@type": "Offer",
+    "price": "19",
+    "priceCurrency": "USD"
+  }
+}
+```
+
+Use `FAQPage` only when the page has visible FAQ content:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does bookkeeping cost for a small business?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bookkeeping cost depends on transaction volume, payroll, reporting needs, and tax complexity."
+      }
+    }
+  ]
+}
+```
+
+Not sure whether your schema is missing? [Run the free analyzer](https://www.illusion.ai/analyze?utm_source=blog&utm_medium=cta&utm_content=improve-website-schema).
 
 ---
 

@@ -1,13 +1,15 @@
 ---
-title: "AI Search Monitoring for Startups: The Founder-Friendly Playbook"
-description: "A practical guide to monitoring whether ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews recommend your startup."
+title: "AI Search Monitoring for Startups: The 15-Prompt Founder Playbook"
+description: "A practical 15-prompt playbook for founders tracking whether ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews recommend their startup."
 author: David C
 date: 2026-05-25
+updated: 2026-05-26
 tags: [startups, ai-search, guide]
 draft: false
 ---
 import FAQBlock from '../../components/FAQBlock.astro';
 import Callout from '../../components/Callout.astro';
+import CompareTable from '../../components/CompareTable.astro';
 
 ## TL;DR
 
@@ -107,6 +109,53 @@ That is where the work begins.
 
 ---
 
+## The 15-prompt founder template
+
+Copy this structure and replace the bracketed terms with your category, buyer, problem, and competitors.
+
+### Category prompts
+
+- “Best [category] tools for [buyer].”
+- “What are the top tools for [problem]?”
+- “Which [category] software should a startup use?”
+- “Best affordable [category] tools.”
+- “What [category] tools are best for small teams?”
+
+### Alternative prompts
+
+- “[Competitor] alternatives.”
+- “Cheaper alternative to [competitor].”
+- “[Competitor] vs [your product].”
+- “Best tools like [competitor].”
+- “What should I use instead of [competitor]?”
+
+### Problem prompts
+
+- “How do I solve [problem]?”
+- “What tool helps with [use case]?”
+- “How do I know if [outcome] is working?”
+- “What is the easiest way to [job to be done]?”
+- “What should a founder use for [workflow]?”
+
+### Simple tracking sheet
+
+<CompareTable
+  headers={['Column', 'What to record']}
+  rows={[
+    { feature: 'Date', cols: ['When the scan happened'] },
+    { feature: 'Model', cols: ['ChatGPT, Claude, Gemini, Perplexity, or Google AI Overview'] },
+    { feature: 'Prompt', cols: ['The exact buyer question'] },
+    { feature: 'Mentioned?', cols: ['Yes, no, or partial'] },
+    { feature: 'Position', cols: ['First, middle, buried, or absent'] },
+    { feature: 'Competitors', cols: ['Which brands appeared instead'] },
+    { feature: 'Sentiment', cols: ['Positive, neutral, negative, or caveated'] },
+    { feature: 'Cited sources', cols: ['Listicles, reviews, docs, blogs, directories'] },
+    { feature: 'Next fix', cols: ['The page, citation, FAQ, or comparison to improve'] },
+  ]}
+/>
+
+---
+
 ## What to fix first
 
 Before publishing 30 blog posts, fix the source material AI systems are likely to read:
@@ -148,6 +197,8 @@ The third move is third-party proof. AI answers often lean on review sites, dire
 Illusion monitors the AI answers your buyers see and turns them into a practical action plan.
 
 You can track ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews, then combine that data with a website audit so the recommendations are grounded in your actual site.
+
+If you do not know which prompts to track yet, start with the free website audit and let the issues suggest your first prompt set.
 
 [Start tracking your startup](https://www.illusion.ai/register?utm_source=blog&utm_medium=cta&utm_content=ai-search-monitoring-startups) or [run the free website analyzer](https://www.illusion.ai/analyze?utm_source=blog&utm_medium=cta&utm_content=ai-search-monitoring-startups).
 

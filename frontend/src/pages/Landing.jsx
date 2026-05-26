@@ -70,9 +70,9 @@ export default function Landing() {
       <section className="hero">
         <div className="hero-left">
           <Link to="/analyze" className="hero-badge">New: Free AI website analyzer →</Link>
-          <h1>Know where<br /><span className="gradient-text">your product</span><br />stands <span className="hero-serif">in</span> AI search.</h1>
+          <h1>Know where you<br />stand <span className="hero-serif">in</span><br /><span className="gradient-text">AI search.</span></h1>
           <p className="hero-sub">
-            Your customers ask ChatGPT, Claude, Gemini, and Perplexity for tool recommendations.
+            Your customers ask ChatGPT, Claude, Gemini, and Perplexity for recommendations.
             Illusion shows you exactly what those AIs say, audits your website, and tells you what to fix next.
           </p>
           <form className="hero-cta" onSubmit={e => { e.preventDefault(); const email = e.target.email.value; window.location.href = `/register?email=${encodeURIComponent(email)}`; }}>
@@ -82,9 +82,6 @@ export default function Landing() {
             </div>
             <span className="cta-hint">7 days free · No credit card required</span>
           </form>
-          <Link to="/analyze" className="hero-analyzer-link">
-            Audit your website first - no account required →
-          </Link>
           {/* Hero demo card */}
           <div className="hero-demo">
             <div className="demo-label">Live example — "What are the best project management tools?"</div>

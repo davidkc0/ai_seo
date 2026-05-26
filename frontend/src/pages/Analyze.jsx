@@ -5,6 +5,7 @@ import { api } from '../api'
 import { useAuth } from '../AuthContext'
 import WebsiteAuditReport from '../components/WebsiteAuditReport'
 import Seo from '../components/Seo'
+import SiteFooter from '../components/SiteFooter'
 import { ChatGptLogo, ClaudeLogo, GoogleAIOverviewsLogo } from '../components/AnswerEngineLogos'
 import illusionLogo from '../assets/illusion_logo.svg'
 import { track } from '../analytics'
@@ -244,6 +245,7 @@ export default function Analyze() {
           </section>
         )}
       </main>
+      <SiteFooter />
     </div>
   )
 }

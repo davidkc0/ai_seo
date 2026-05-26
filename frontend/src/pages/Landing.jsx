@@ -5,6 +5,7 @@ import doughnut from '../assets/doughnut.jpg'
 import cube from '../assets/cube.jpg'
 import diamond from '../assets/diamond.png'
 import illusionLogo from '../assets/illusion_logo.svg'
+import SiteFooter from '../components/SiteFooter'
 import './Landing.css'
 import { track } from '../analytics'
 
@@ -21,29 +22,6 @@ const testimonials = [
   { name: 'Sarah K.', role: 'Founder @ InvoiceFlow', text: 'I had no idea Claude was recommending Stripe Billing over us. Within 2 weeks of seeing the data, we updated our messaging and our AI mentions doubled.' },
   { name: 'Marcus T.', role: 'Head of Growth @ TaskStack', text: 'This is the tool I wish existed 2 years ago. AI is the new Google — you need to know where you show up.' },
   { name: 'Priya M.', role: 'CEO @ DeskSync', text: 'The weekly digest lands in my inbox every Monday and tells me more about AI search visibility than anything else.' },
-]
-
-const resources = [
-  {
-    title: 'Free AI Website Analyzer',
-    href: '/ai-website-analyzer',
-  },
-  {
-    title: 'Best AI Search Monitoring Tools',
-    href: '/blog/best-ai-search-monitoring-tools',
-  },
-  {
-    title: 'Generative Engine Optimization Guide',
-    href: '/blog/generative-engine-optimization-guide',
-  },
-  {
-    title: 'Profound vs Illusion',
-    href: '/blog/profound-vs-illusion',
-  },
-  {
-    title: 'Improve Your Website for AI Search',
-    href: '/blog/improve-website-for-ai-search',
-  },
 ]
 
 export default function Landing() {
@@ -236,56 +214,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <footer className="footer">
-        <div className="footer-main">
-          <div className="footer-brand">
-            <img src={illusionLogo} alt="Illusion" />
-            <p>Affordable AI search visibility for founders, startups, and small businesses.</p>
-          </div>
-
-          <div className="footer-column">
-            <h3>Get in Touch</h3>
-            <a href="mailto:hello@illusion.ai">Contact Us</a>
-          </div>
-
-          <div className="footer-column">
-            <h3>Socials</h3>
-            <a href="https://x.com/TryIllusionAI" target="_blank" rel="noreferrer">X.com</a>
-            <a href="/blog">Blog</a>
-          </div>
-
-          <div className="footer-column">
-            <h3>Company</h3>
-            <a href="/#features">About Us</a>
-            <a href="/blog">Case Studies</a>
-            <Link to="/login">Login</Link>
-          </div>
-
-          <div className="footer-column footer-resources">
-            <h3>Resources</h3>
-            {resources.map(resource => (
-              <a
-                key={resource.title}
-                href={resource.href}
-                onClick={() => track.resourceClicked(resource.title)}
-              >
-                {resource.title}
-              </a>
-            ))}
-          </div>
-
-          <div className="footer-column">
-            <h3>Legal</h3>
-            <a href="/terms">Terms</a>
-            <a href="/privacy">Privacy</a>
-          </div>
-        </div>
-
-        <div className="footer-bottom">
-          <span>Copyright 2026 Illusion.ai</span>
-          <span>Created in Santa Monica</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }

@@ -1,0 +1,56 @@
+---
+const footerResources = [
+  { title: 'Free AI Website Analyzer', href: 'https://www.illusion.ai/ai-website-analyzer' },
+  { title: 'Best AI Search Monitoring Tools', href: '/blog/best-ai-search-monitoring-tools' },
+  { title: 'Generative Engine Optimization Guide', href: '/blog/generative-engine-optimization-guide' },
+  { title: 'Profound vs Illusion', href: '/blog/profound-vs-illusion' },
+  { title: 'AthenaHQ vs Illusion', href: '/blog/athenahq-vs-illusion' },
+  { title: 'Improve Your Website for AI Search', href: '/blog/improve-website-for-ai-search' },
+  { title: 'Small Business AI Search Study', href: '/blog/what-25-small-business-websites-get-wrong-about-ai-search' },
+];
+---
+
+<footer class="site-footer blog-footer">
+  <div class="site-footer-main blog-footer-main">
+    <div class="site-footer-brand blog-footer-brand">
+      <img src="/blog/illusion_logo.svg" alt="Illusion" />
+      <p>Affordable AI search visibility for founders, startups, and small businesses.</p>
+    </div>
+
+    <div class="site-footer-column blog-footer-column">
+      <h3>Get in Touch</h3>
+      <a href="mailto:hello@illusion.ai">Contact Us</a>
+    </div>
+
+    <div class="site-footer-column blog-footer-column">
+      <h3>Socials</h3>
+      <a href="https://x.com/TryIllusionAI" target="_blank" rel="noreferrer">X.com</a>
+      <a href="/blog">Blog</a>
+    </div>
+
+    <div class="site-footer-column blog-footer-column">
+      <h3>Company</h3>
+      <a href="https://www.illusion.ai/#features">About Us</a>
+      <a href="/blog">Case Studies</a>
+      <a href="https://www.illusion.ai/login">Login</a>
+    </div>
+
+    <div class="site-footer-column blog-footer-column site-footer-resources blog-footer-resources">
+      <h3>Resources</h3>
+      {footerResources.map(resource => (
+        <a href={resource.href}>{resource.title}</a>
+      ))}
+    </div>
+
+    <div class="site-footer-column blog-footer-column">
+      <h3>Legal</h3>
+      <a href="https://www.illusion.ai/terms">Terms</a>
+      <a href="https://www.illusion.ai/privacy">Privacy</a>
+    </div>
+  </div>
+
+  <div class="site-footer-bottom blog-footer-bottom">
+    <span>Copyright 2026 Illusion.ai</span>
+    <span>Created in Santa Monica</span>
+  </div>
+</footer>

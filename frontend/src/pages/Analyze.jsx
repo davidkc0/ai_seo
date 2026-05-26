@@ -175,10 +175,10 @@ export default function Analyze() {
       <main className="analyze-main">
         <section className="analyze-hero">
           <div className="analyze-badge"><SearchCheck size={14} /> Free AI website analyzer</div>
-          <h1>Audit your website for AI search.</h1>
+          <h1>Know where your website stands <span className="analyze-serif">in</span> AI search.</h1>
           <p>
-            Get a plain-English audit for customers, Google, and AI answer engines.
-            Built for startups and small businesses that need clarity, not enterprise theater.
+            Run a plain-English audit for customers, Google, and AI answer engines.
+            See what to fix first — without the enterprise SEO theater.
           </p>
           <form className="analyze-form" onSubmit={submit}>
             <input

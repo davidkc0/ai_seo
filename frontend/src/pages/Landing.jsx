@@ -70,7 +70,7 @@ export default function Landing() {
       <section className="hero">
         <div className="hero-left">
           <Link to="/analyze" className="hero-badge">New: Free AI website analyzer →</Link>
-          <h1>Know where you<br />stand <span className="hero-serif">in</span><br /><span className="gradient-text">AI search.</span></h1>
+          <h1>Know where<br />you stand <span className="hero-serif">in</span><br /><span className="gradient-text">AI search.</span></h1>
           <p className="hero-sub">
             Your customers ask ChatGPT, Claude, Gemini, and Perplexity for recommendations.
             Illusion shows you exactly what those AIs say, audits your website, and tells you what to fix next.

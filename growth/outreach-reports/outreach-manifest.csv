@@ -1,0 +1,903 @@
+sample_id,domain,url,contact_email,contact_email_source,overall_score,subject,opener,personalized_actions,illusion_value_note,mailing_address,send_ready,email_body,pdf_path,markdown_path
+SB-001,ecserviceprovider.com,https://ecserviceprovider.com/,info@ecserviceprovider.com,https://ecserviceprovider.com/,78,Quick AI-readiness notes for ecserviceprovider.com,"I ran a quick AI-readiness audit for ecserviceprovider.com. The site scored 78/100, and the biggest fixes were add a meta description, add one plain-language h1, and add localbusiness or professionalservice schema.","- Add a meta description: Add a one-sentence description of who you help, what you do, and how to contact you. Audit evidence: The homepage has no meta description.
+- Add one plain-language H1: Use one headline that says exactly what the business is and who it serves. Audit evidence: The homepage does not have a visible H1 heading.
+- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: none
+- Improve image alt text coverage: Add descriptive alt text to important images, especially logos, team photos, service graphics, and trust badges. Audit evidence: 22/56 crawled images had alt text.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for ecserviceprovider.com and made you a short report. Your site scored 78/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add a meta description. Found: The homepage has no meta description. Suggested direction: Add a one-sentence description of who you help, what you do, and how to contact you
+- Add one plain-language H1. Found: The homepage does not have a visible H1 heading. Suggested direction: Use one headline that says exactly what the business is and who it serves
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: none. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+- Improve image alt text coverage. Found: 22/56 crawled images had alt text. Suggested direction: Add descriptive alt text to important images, especially logos, team photos, service graphics, and trust badges
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-001-ecserviceprovider-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-001-ecserviceprovider-com-ai-website-audit.md
+SB-002,pancakefinancial.com,https://pancakefinancial.com/,luke@pancakefinancial.com,https://pancakefinancial.com/,82,Quick AI-readiness notes for pancakefinancial.com,"I ran a quick AI-readiness audit for pancakefinancial.com. The site scored 82/100, and the biggest fixes were add a meta description, add localbusiness or professionalservice schema, and create dedicated service pages.","- Add a meta description: Add a one-sentence description of who you help, what you do, and how to contact you. Audit evidence: The homepage has no meta description.
+- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: none
+- Create dedicated service pages: Create one page per main service with who it is for, what is included, pricing cues, FAQs, and a CTA. Audit evidence: The crawl did not find obvious service pages.
+- Publish or expose a sitemap: Generate a sitemap.xml and reference it from robots.txt. Audit evidence: No sitemap URLs were found from /sitemap.xml or robots.txt.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for pancakefinancial.com and made you a short report. Your site scored 82/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add a meta description. Found: The homepage has no meta description. Suggested direction: Add a one-sentence description of who you help, what you do, and how to contact you
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: none. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+- Create dedicated service pages. Found: The crawl did not find obvious service pages. Suggested direction: Create one page per main service with who it is for, what is included, pricing cues, FAQs, and a CTA
+- Publish or expose a sitemap. Found: No sitemap URLs were found from /sitemap.xml or robots.txt. Suggested direction: Generate a sitemap.xml and reference it from robots.txt
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-002-pancakefinancial-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-002-pancakefinancial-com-ai-website-audit.md
+SB-003,jgbookkeepingfinance.com,https://jgbookkeepingfinance.com/,jose@jgbookkeepingfinance.com,https://jgbookkeepingfinance.com/,50,Quick AI-readiness notes for jgbookkeepingfinance.com,"I ran a quick AI-readiness audit for jgbookkeepingfinance.com. The site scored 50/100, and the biggest fixes were make the title tag more descriptive, add a meta description, and add one plain-language h1.","- Make the title tag more descriptive: Expand the title with the main service and location or target customer. Audit evidence: Current title: ""Hostinger Horizons""
+- Add a meta description: Add a one-sentence description of who you help, what you do, and how to contact you. Audit evidence: The homepage has no meta description.
+- Add one plain-language H1: Use one headline that says exactly what the business is and who it serves. Audit evidence: The homepage does not have a visible H1 heading.
+- Add a strong contact call to action: Place a visible CTA near the top of the homepage and repeat it on service pages. Audit evidence: The crawler did not find obvious phrases like book, call, schedule, contact, or get a quote.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for jgbookkeepingfinance.com and made you a short report. Your site scored 50/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Make the title tag more descriptive. Found: Current title: ""Hostinger Horizons"". Suggested direction: Expand the title with the main service and location or target customer
+- Add a meta description. Found: The homepage has no meta description. Suggested direction: Add a one-sentence description of who you help, what you do, and how to contact you
+- Add one plain-language H1. Found: The homepage does not have a visible H1 heading. Suggested direction: Use one headline that says exactly what the business is and who it serves
+- Add a strong contact call to action. Found: The crawler did not find obvious phrases like book, call, schedule, contact, or get a quote. Suggested direction: Place a visible CTA near the top of the homepage and repeat it on service pages
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-003-jgbookkeepingfinance-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-003-jgbookkeepingfinance-com-ai-website-audit.md
+SB-004,arcandledger.com,https://www.arcandledger.com/,info@arcandledger.com,https://www.arcandledger.com/privacy-policy/,95,Quick AI-readiness notes for arcandledger.com,"I ran a quick AI-readiness audit for arcandledger.com. The site scored 95/100, and the biggest fixes were add a clear homepage title tag.","- Add a clear homepage title tag: Write a concise title that includes the business name, primary service, and location or audience. Audit evidence: The homepage does not expose a title tag.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for arcandledger.com and made you a short report. Your site scored 95/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add a clear homepage title tag. Found: The homepage does not expose a title tag. Suggested direction: Write a concise title that includes the business name, primary service, and location or audience
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-004-arcandledger-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-004-arcandledger-com-ai-website-audit.md
+SB-005,jacobsbookkeeping.com,https://www.jacobsbookkeeping.com/,,not found on reviewed public pages,86,Quick AI-readiness notes for jacobsbookkeeping.com,"I ran a quick AI-readiness audit for jacobsbookkeeping.com. The site scored 86/100, and the biggest fixes were make the main headline more specific, and add localbusiness or professionalservice schema.","- Make the main headline more specific: Add the service, audience, and location instead of using a short brand-only headline. Audit evidence: Current H1: ""Jacobs Bookkeeping""
+- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: WebSite","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for jacobsbookkeeping.com and made you a short report. Your site scored 86/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Make the main headline more specific. Found: Current H1: ""Jacobs Bookkeeping"". Suggested direction: Add the service, audience, and location instead of using a short brand-only headline
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: WebSite. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-005-jacobsbookkeeping-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-005-jacobsbookkeeping-com-ai-website-audit.md
+SB-006,redbudplumbing.com,https://redbudplumbing.com/,info@redbudplumbing.com,https://redbudplumbing.com/contact/,88,Quick AI-readiness notes for redbudplumbing.com,"I ran a quick AI-readiness audit for redbudplumbing.com. The site scored 88/100, and the biggest fixes were add localbusiness or professionalservice schema, and improve image alt text coverage.","- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: BreadcrumbList, EntryPoint, ImageObject, ListItem, PropertyValueSpecification, ReadAction, SearchAction, WebPage, WebSite
+- Improve image alt text coverage: Add descriptive alt text to important images, especially logos, team photos, service graphics, and trust badges. Audit evidence: 30/112 crawled images had alt text.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for redbudplumbing.com and made you a short report. Your site scored 88/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: BreadcrumbList, EntryPoint, ImageObject, ListItem, PropertyValueSpecification, ReadAction, SearchAction, WebPage, WebSite. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+- Improve image alt text coverage. Found: 30/112 crawled images had alt text. Suggested direction: Add descriptive alt text to important images, especially logos, team photos, service graphics, and trust badges
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-006-redbudplumbing-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-006-redbudplumbing-com-ai-website-audit.md
+SB-007,queenplumbingllc.com,https://www.queenplumbingllc.com/,,not found on reviewed public pages,86,Quick AI-readiness notes for queenplumbingllc.com,"I ran a quick AI-readiness audit for queenplumbingllc.com. The site scored 86/100, and the biggest fixes were make the title tag more descriptive, and add localbusiness or professionalservice schema.","- Make the title tag more descriptive: Expand the title with the main service and location or target customer. Audit evidence: Current title: ""Queen Plumbing LLC""
+- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: Answer, FAQPage, Question","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for queenplumbingllc.com and made you a short report. Your site scored 86/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Make the title tag more descriptive. Found: Current title: ""Queen Plumbing LLC"". Suggested direction: Expand the title with the main service and location or target customer
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: Answer, FAQPage, Question. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-007-queenplumbingllc-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-007-queenplumbingllc-com-ai-website-audit.md
+SB-008,atlantic-heat.com,https://www.atlantic-heat.com/,info@atlantic-heat.com,https://www.atlantic-heat.com/contact-us/,88,Quick AI-readiness notes for atlantic-heat.com,"I ran a quick AI-readiness audit for atlantic-heat.com. The site scored 88/100, and the biggest fixes were add localbusiness or professionalservice schema, and publish or expose a sitemap.","- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: AggregateRating, BreadcrumbList, City, ContactPoint, GeoCoordinates, HVACBusiness, ImageObject, ListItem, Offer, OfferCatalog, OpeningHoursSpecification, Organization, Person, PostalAddress, Rating, Review, Service
+- Publish or expose a sitemap: Generate a sitemap.xml and reference it from robots.txt. Audit evidence: No sitemap URLs were found from /sitemap.xml or robots.txt.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for atlantic-heat.com and made you a short report. Your site scored 88/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: AggregateRating, BreadcrumbList, City, ContactPoint, GeoCoordinates, HVACBusiness, ImageObject, ListItem, Offer, OfferCatalog, OpeningHoursSpecification, Organization, Person, PostalAddress, Rating, Review, Service. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+- Publish or expose a sitemap. Found: No sitemap URLs were found from /sitemap.xml or robots.txt. Suggested direction: Generate a sitemap.xml and reference it from robots.txt
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-008-atlantic-heat-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-008-atlantic-heat-com-ai-website-audit.md
+SB-009,fixitnowhvac.com,https://fixitnowhvac.com/,,not found on reviewed public pages,88,Quick AI-readiness notes for fixitnowhvac.com,"I ran a quick AI-readiness audit for fixitnowhvac.com. The site scored 88/100, and the biggest fixes were add localbusiness or professionalservice schema, and publish or expose a sitemap.","- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: BreadcrumbList, EntryPoint, ImageObject, ListItem, Organization, ReadAction, SearchAction, WebPage, WebSite
+- Publish or expose a sitemap: Generate a sitemap.xml and reference it from robots.txt. Audit evidence: No sitemap URLs were found from /sitemap.xml or robots.txt.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for fixitnowhvac.com and made you a short report. Your site scored 88/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: BreadcrumbList, EntryPoint, ImageObject, ListItem, Organization, ReadAction, SearchAction, WebPage, WebSite. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+- Publish or expose a sitemap. Found: No sitemap URLs were found from /sitemap.xml or robots.txt. Suggested direction: Generate a sitemap.xml and reference it from robots.txt
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-009-fixitnowhvac-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-009-fixitnowhvac-com-ai-website-audit.md
+SB-010,lunahomecomfort.com,https://www.lunahomecomfort.com/,Lunahomecomfort25@gmail.com,https://www.lunahomecomfort.com/,89,Quick AI-readiness notes for lunahomecomfort.com,"I ran a quick AI-readiness audit for lunahomecomfort.com. The site scored 89/100, and the biggest fixes were add localbusiness or professionalservice schema.","- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: none","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for lunahomecomfort.com and made you a short report. Your site scored 89/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: none. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-010-lunahomecomfort-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-010-lunahomecomfort-com-ai-website-audit.md
+SB-011,mossconsulting.com,https://mossconsulting.com/,support@mossconsulting.com,https://mossconsulting.com/privacy-policy,73,Quick AI-readiness notes for mossconsulting.com,"I ran a quick AI-readiness audit for mossconsulting.com. The site scored 73/100, and the biggest fixes were show contact information in crawlable text, add localbusiness or professionalservice schema, and add local service-area signals.","- Show contact information in crawlable text: Add phone/email details in the header, footer, or contact section as real text, not only inside an image. Audit evidence: No email address or US-style phone number was found in the crawled text.
+- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: none
+- Add local service-area signals: Mention the city, region, or service area in headings, footer copy, and service descriptions. Audit evidence: The crawled pages did not show strong location or service-area language.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for mossconsulting.com and made you a short report. Your site scored 73/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Show contact information in crawlable text. Found: No email address or US-style phone number was found in the crawled text. Suggested direction: Add phone/email details in the header, footer, or contact section as real text, not only inside an image
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: none. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+- Add local service-area signals. Found: The crawled pages did not show strong location or service-area language. Suggested direction: Mention the city, region, or service area in headings, footer copy, and service descriptions
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-011-mossconsulting-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-011-mossconsulting-com-ai-website-audit.md
+SB-012,septaurasolutions.com,https://www.septaurasolutions.com/,septaurasolutions@gmail.com,https://www.septaurasolutions.com/,49,Quick AI-readiness notes for septaurasolutions.com,"I ran a quick AI-readiness audit for septaurasolutions.com. The site scored 49/100, and the biggest fixes were add a meta description, add one plain-language h1, and add a strong contact call to action.","- Add a meta description: Add a one-sentence description of who you help, what you do, and how to contact you. Audit evidence: The homepage has no meta description.
+- Add one plain-language H1: Use one headline that says exactly what the business is and who it serves. Audit evidence: The homepage does not have a visible H1 heading.
+- Add a strong contact call to action: Place a visible CTA near the top of the homepage and repeat it on service pages. Audit evidence: The crawler did not find obvious phrases like book, call, schedule, contact, or get a quote.
+- Show contact information in crawlable text: Add phone/email details in the header, footer, or contact section as real text, not only inside an image. Audit evidence: No email address or US-style phone number was found in the crawled text.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for septaurasolutions.com and made you a short report. Your site scored 49/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add a meta description. Found: The homepage has no meta description. Suggested direction: Add a one-sentence description of who you help, what you do, and how to contact you
+- Add one plain-language H1. Found: The homepage does not have a visible H1 heading. Suggested direction: Use one headline that says exactly what the business is and who it serves
+- Add a strong contact call to action. Found: The crawler did not find obvious phrases like book, call, schedule, contact, or get a quote. Suggested direction: Place a visible CTA near the top of the homepage and repeat it on service pages
+- Show contact information in crawlable text. Found: No email address or US-style phone number was found in the crawled text. Suggested direction: Add phone/email details in the header, footer, or contact section as real text, not only inside an image
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-012-septaurasolutions-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-012-septaurasolutions-com-ai-website-audit.md
+SB-013,warehamlaw.net,https://warehamlaw.net/,attorneyciaffoni@aol.com,https://warehamlaw.net/,72,Quick AI-readiness notes for warehamlaw.net,"I ran a quick AI-readiness audit for warehamlaw.net. The site scored 72/100, and the biggest fixes were make the title tag more descriptive, add a meta description, and add one plain-language h1.","- Make the title tag more descriptive: Expand the title with the main service and location or target customer. Audit evidence: Current title: ""Wareham Law""
+- Add a meta description: Add a one-sentence description of who you help, what you do, and how to contact you. Audit evidence: The homepage has no meta description.
+- Add one plain-language H1: Use one headline that says exactly what the business is and who it serves. Audit evidence: The homepage does not have a visible H1 heading.
+- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: none","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for warehamlaw.net and made you a short report. Your site scored 72/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Make the title tag more descriptive. Found: Current title: ""Wareham Law"". Suggested direction: Expand the title with the main service and location or target customer
+- Add a meta description. Found: The homepage has no meta description. Suggested direction: Add a one-sentence description of who you help, what you do, and how to contact you
+- Add one plain-language H1. Found: The homepage does not have a visible H1 heading. Suggested direction: Use one headline that says exactly what the business is and who it serves
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: none. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-013-warehamlaw-net-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-013-warehamlaw-net-ai-website-audit.md
+SB-014,condieadams.com,https://www.condieadams.com/,info@condieadams.com,https://www.condieadams.com/contact,94,Quick AI-readiness notes for condieadams.com,"I ran a quick AI-readiness audit for condieadams.com. The site scored 94/100, and the biggest fixes were create dedicated service pages, and add a short faq section.","- Create dedicated service pages: Create one page per main service with who it is for, what is included, pricing cues, FAQs, and a CTA. Audit evidence: The crawl did not find obvious service pages.
+- Add a short FAQ section: Add answers to common buyer questions: pricing, turnaround time, who you serve, and when to contact you. Audit evidence: No FAQ-style content was detected.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for condieadams.com and made you a short report. Your site scored 94/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Create dedicated service pages. Found: The crawl did not find obvious service pages. Suggested direction: Create one page per main service with who it is for, what is included, pricing cues, FAQs, and a CTA
+- Add a short FAQ section. Found: No FAQ-style content was detected. Suggested direction: Add answers to common buyer questions: pricing, turnaround time, who you serve, and when to contact you
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-014-condieadams-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-014-condieadams-com-ai-website-audit.md
+SB-015,luminahrservices.com,https://luminahrservices.com/,luminahrservices@gmail.com,https://www.callupcontact.com/b/businessprofile/hr_support_for_small_businesses/10061517,76,Quick AI-readiness notes for luminahrservices.com,"I ran a quick AI-readiness audit for luminahrservices.com. The site scored 76/100, and the biggest fixes were show contact information in crawlable text, add localbusiness or professionalservice schema, and add a short faq section.","- Show contact information in crawlable text: Add phone/email details in the header, footer, or contact section as real text, not only inside an image. Audit evidence: No email address or US-style phone number was found in the crawled text.
+- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: BreadcrumbList, EntryPoint, ListItem, PropertyValueSpecification, ReadAction, SearchAction, WebPage, WebSite
+- Add a short FAQ section: Add answers to common buyer questions: pricing, turnaround time, who you serve, and when to contact you. Audit evidence: No FAQ-style content was detected.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for luminahrservices.com and made you a short report. Your site scored 76/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Show contact information in crawlable text. Found: No email address or US-style phone number was found in the crawled text. Suggested direction: Add phone/email details in the header, footer, or contact section as real text, not only inside an image
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: BreadcrumbList, EntryPoint, ListItem, PropertyValueSpecification, ReadAction, SearchAction, WebPage, WebSite. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+- Add a short FAQ section. Found: No FAQ-style content was detected. Suggested direction: Add answers to common buyer questions: pricing, turnaround time, who you serve, and when to contact you
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-015-luminahrservices-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-015-luminahrservices-com-ai-website-audit.md
+SB-016,balancedflowyoga.net,https://www.balancedflowyoga.net/,aliceharperyoga@gmail.com,https://www.balancedflowyoga.net/contact,78,Quick AI-readiness notes for balancedflowyoga.net,"I ran a quick AI-readiness audit for balancedflowyoga.net. The site scored 78/100, and the biggest fixes were make the title tag more descriptive, add a meta description, and make the main headline more specific.","- Make the title tag more descriptive: Expand the title with the main service and location or target customer. Audit evidence: Current title: ""Balanced Flow Yoga""
+- Add a meta description: Add a one-sentence description of who you help, what you do, and how to contact you. Audit evidence: The homepage has no meta description.
+- Make the main headline more specific: Add the service, audience, and location instead of using a short brand-only headline. Audit evidence: Current H1: ""Balanced Flow Yoga""
+- Add local service-area signals: Mention the city, region, or service area in headings, footer copy, and service descriptions. Audit evidence: The crawled pages did not show strong location or service-area language.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for balancedflowyoga.net and made you a short report. Your site scored 78/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Make the title tag more descriptive. Found: Current title: ""Balanced Flow Yoga"". Suggested direction: Expand the title with the main service and location or target customer
+- Add a meta description. Found: The homepage has no meta description. Suggested direction: Add a one-sentence description of who you help, what you do, and how to contact you
+- Make the main headline more specific. Found: Current H1: ""Balanced Flow Yoga"". Suggested direction: Add the service, audience, and location instead of using a short brand-only headline
+- Add local service-area signals. Found: The crawled pages did not show strong location or service-area language. Suggested direction: Mention the city, region, or service area in headings, footer copy, and service descriptions
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-016-balancedflowyoga-net-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-016-balancedflowyoga-net-ai-website-audit.md
+SB-017,radiantyogaboston.com,https://www.radiantyogaboston.com/,info@radiantyogaboston.com,https://www.radiantyogaboston.com/,80,Quick AI-readiness notes for radiantyogaboston.com,"I ran a quick AI-readiness audit for radiantyogaboston.com. The site scored 80/100, and the biggest fixes were add a meta description, add one plain-language h1, and add local service-area signals.","- Add a meta description: Add a one-sentence description of who you help, what you do, and how to contact you. Audit evidence: The homepage has no meta description.
+- Add one plain-language H1: Use one headline that says exactly what the business is and who it serves. Audit evidence: The homepage does not have a visible H1 heading.
+- Add local service-area signals: Mention the city, region, or service area in headings, footer copy, and service descriptions. Audit evidence: The crawled pages did not show strong location or service-area language.
+- Add reviews or testimonials: Add 2-4 real customer testimonials, review snippets, or links to Google Business reviews. Audit evidence: No review/testimonial language was detected.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for radiantyogaboston.com and made you a short report. Your site scored 80/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add a meta description. Found: The homepage has no meta description. Suggested direction: Add a one-sentence description of who you help, what you do, and how to contact you
+- Add one plain-language H1. Found: The homepage does not have a visible H1 heading. Suggested direction: Use one headline that says exactly what the business is and who it serves
+- Add local service-area signals. Found: The crawled pages did not show strong location or service-area language. Suggested direction: Mention the city, region, or service area in headings, footer copy, and service descriptions
+- Add reviews or testimonials. Found: No review/testimonial language was detected. Suggested direction: Add 2-4 real customer testimonials, review snippets, or links to Google Business reviews
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-017-radiantyogaboston-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-017-radiantyogaboston-com-ai-website-audit.md
+SB-018,lightonlotus.com,https://www.lightonlotus.com/,info@lightonlotus.com,https://www.union.fit/orgs/light-on-lotus/about,90,Quick AI-readiness notes for lightonlotus.com,"I ran a quick AI-readiness audit for lightonlotus.com. The site scored 90/100, and the biggest fixes were add local service-area signals, add reviews or testimonials, and improve image alt text coverage.","- Add local service-area signals: Mention the city, region, or service area in headings, footer copy, and service descriptions. Audit evidence: The crawled pages did not show strong location or service-area language.
+- Add reviews or testimonials: Add 2-4 real customer testimonials, review snippets, or links to Google Business reviews. Audit evidence: No review/testimonial language was detected.
+- Improve image alt text coverage: Add descriptive alt text to important images, especially logos, team photos, service graphics, and trust badges. Audit evidence: 12/20 crawled images had alt text.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for lightonlotus.com and made you a short report. Your site scored 90/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add local service-area signals. Found: The crawled pages did not show strong location or service-area language. Suggested direction: Mention the city, region, or service area in headings, footer copy, and service descriptions
+- Add reviews or testimonials. Found: No review/testimonial language was detected. Suggested direction: Add 2-4 real customer testimonials, review snippets, or links to Google Business reviews
+- Improve image alt text coverage. Found: 12/20 crawled images had alt text. Suggested direction: Add descriptive alt text to important images, especially logos, team photos, service graphics, and trust badges
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-018-lightonlotus-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-018-lightonlotus-com-ai-website-audit.md
+SB-019,sourcechirodenver.com,https://www.sourcechirodenver.com/,info@sourcechirodenver.com,https://www.sourcechirodenver.com/contact-3,86,Quick AI-readiness notes for sourcechirodenver.com,"I ran a quick AI-readiness audit for sourcechirodenver.com. The site scored 86/100, and the biggest fixes were add localbusiness or professionalservice schema, and add reviews or testimonials.","- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: none
+- Add reviews or testimonials: Add 2-4 real customer testimonials, review snippets, or links to Google Business reviews. Audit evidence: No review/testimonial language was detected.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for sourcechirodenver.com and made you a short report. Your site scored 86/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: none. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+- Add reviews or testimonials. Found: No review/testimonial language was detected. Suggested direction: Add 2-4 real customer testimonials, review snippets, or links to Google Business reviews
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-019-sourcechirodenver-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-019-sourcechirodenver-com-ai-website-audit.md
+SB-020,santeechiropractic.com,https://www.santeechiropractic.com/,,not found on reviewed public pages for exact sample URL,88,Quick AI-readiness notes for santeechiropractic.com,"I ran a quick AI-readiness audit for santeechiropractic.com. The site scored 88/100, and the biggest fixes were make the main headline more specific, create dedicated service pages, and add reviews or testimonials.","- Make the main headline more specific: Add the service, audience, and location instead of using a short brand-only headline. Audit evidence: Current H1: ""Santee Chiropractic Clinic""
+- Create dedicated service pages: Create one page per main service with who it is for, what is included, pricing cues, FAQs, and a CTA. Audit evidence: The crawl did not find obvious service pages.
+- Add reviews or testimonials: Add 2-4 real customer testimonials, review snippets, or links to Google Business reviews. Audit evidence: No review/testimonial language was detected.
+- Add a short FAQ section: Add answers to common buyer questions: pricing, turnaround time, who you serve, and when to contact you. Audit evidence: No FAQ-style content was detected.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for santeechiropractic.com and made you a short report. Your site scored 88/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Make the main headline more specific. Found: Current H1: ""Santee Chiropractic Clinic"". Suggested direction: Add the service, audience, and location instead of using a short brand-only headline
+- Create dedicated service pages. Found: The crawl did not find obvious service pages. Suggested direction: Create one page per main service with who it is for, what is included, pricing cues, FAQs, and a CTA
+- Add reviews or testimonials. Found: No review/testimonial language was detected. Suggested direction: Add 2-4 real customer testimonials, review snippets, or links to Google Business reviews
+- Add a short FAQ section. Found: No FAQ-style content was detected. Suggested direction: Add answers to common buyer questions: pricing, turnaround time, who you serve, and when to contact you
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-020-santeechiropractic-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-020-santeechiropractic-com-ai-website-audit.md
+SB-021,tryarena.app,https://tryarena.app/,hello@tryarena.app,https://tryarena.app/privacy,80,Quick AI-readiness notes for tryarena.app,"I ran a quick AI-readiness audit for tryarena.app. The site scored 80/100, and the biggest fixes were make the title tag more descriptive, add localbusiness or professionalservice schema, and add local service-area signals.","- Make the title tag more descriptive: Expand the title with the main service and location or target customer. Audit evidence: Current title: ""Arena""
+- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: AggregateOffer, Answer, BreadcrumbList, ContactPoint, DefinedTerm, DefinedTermSet, FAQPage, ImageObject, ListItem, Offer, Organization, Person, Question, SoftwareApplication, UnitPriceSpecification, WebSite
+- Add local service-area signals: Mention the city, region, or service area in headings, footer copy, and service descriptions. Audit evidence: The crawled pages did not show strong location or service-area language.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for tryarena.app and made you a short report. Your site scored 80/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Make the title tag more descriptive. Found: Current title: ""Arena"". Suggested direction: Expand the title with the main service and location or target customer
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: AggregateOffer, Answer, BreadcrumbList, ContactPoint, DefinedTerm, DefinedTermSet, FAQPage, ImageObject, ListItem, Offer, Organization, Person, Question, SoftwareApplication, UnitPriceSpecification, WebSite. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+- Add local service-area signals. Found: The crawled pages did not show strong location or service-area language. Suggested direction: Mention the city, region, or service area in headings, footer copy, and service descriptions
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-021-tryarena-app-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-021-tryarena-app-ai-website-audit.md
+SB-022,getstartr.io,https://www.getstartr.io/,support@getstartr.io,https://www.getstartr.io/terms-of-use,51,Quick AI-readiness notes for getstartr.io,"I ran a quick AI-readiness audit for getstartr.io. The site scored 51/100, and the biggest fixes were make the title tag more descriptive, make the main headline more specific, and add a strong contact call to action.","- Make the title tag more descriptive: Expand the title with the main service and location or target customer. Audit evidence: Current title: ""404 - Page not found""
+- Make the main headline more specific: Add the service, audience, and location instead of using a short brand-only headline. Audit evidence: Current H1: ""Page not found""
+- Add a strong contact call to action: Place a visible CTA near the top of the homepage and repeat it on service pages. Audit evidence: The crawler did not find obvious phrases like book, call, schedule, contact, or get a quote.
+- Show contact information in crawlable text: Add phone/email details in the header, footer, or contact section as real text, not only inside an image. Audit evidence: No email address or US-style phone number was found in the crawled text.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for getstartr.io and made you a short report. Your site scored 51/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Make the title tag more descriptive. Found: Current title: ""404 - Page not found"". Suggested direction: Expand the title with the main service and location or target customer
+- Make the main headline more specific. Found: Current H1: ""Page not found"". Suggested direction: Add the service, audience, and location instead of using a short brand-only headline
+- Add a strong contact call to action. Found: The crawler did not find obvious phrases like book, call, schedule, contact, or get a quote. Suggested direction: Place a visible CTA near the top of the homepage and repeat it on service pages
+- Show contact information in crawlable text. Found: No email address or US-style phone number was found in the crawled text. Suggested direction: Add phone/email details in the header, footer, or contact section as real text, not only inside an image
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-022-getstartr-io-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-022-getstartr-io-ai-website-audit.md
+SB-023,startupintros.com,https://startupintros.com/,,not found on reviewed public pages,59,Quick AI-readiness notes for startupintros.com,"I ran a quick AI-readiness audit for startupintros.com. The site scored 59/100, and the biggest fixes were add a meta description, add one plain-language h1, and add a strong contact call to action.","- Add a meta description: Add a one-sentence description of who you help, what you do, and how to contact you. Audit evidence: The homepage has no meta description.
+- Add one plain-language H1: Use one headline that says exactly what the business is and who it serves. Audit evidence: The homepage does not have a visible H1 heading.
+- Add a strong contact call to action: Place a visible CTA near the top of the homepage and repeat it on service pages. Audit evidence: The crawler did not find obvious phrases like book, call, schedule, contact, or get a quote.
+- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: none","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for startupintros.com and made you a short report. Your site scored 59/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add a meta description. Found: The homepage has no meta description. Suggested direction: Add a one-sentence description of who you help, what you do, and how to contact you
+- Add one plain-language H1. Found: The homepage does not have a visible H1 heading. Suggested direction: Use one headline that says exactly what the business is and who it serves
+- Add a strong contact call to action. Found: The crawler did not find obvious phrases like book, call, schedule, contact, or get a quote. Suggested direction: Place a visible CTA near the top of the homepage and repeat it on service pages
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: none. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-023-startupintros-com-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-023-startupintros-com-ai-website-audit.md
+SB-024,stipple.sh,https://www.stipple.sh/,,not found on reviewed public pages,79,Quick AI-readiness notes for stipple.sh,"I ran a quick AI-readiness audit for stipple.sh. The site scored 79/100, and the biggest fixes were add localbusiness or professionalservice schema, create dedicated service pages, and add local service-area signals.","- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: none
+- Create dedicated service pages: Create one page per main service with who it is for, what is included, pricing cues, FAQs, and a CTA. Audit evidence: The crawl did not find obvious service pages.
+- Add local service-area signals: Mention the city, region, or service area in headings, footer copy, and service descriptions. Audit evidence: The crawled pages did not show strong location or service-area language.
+- Publish or expose a sitemap: Generate a sitemap.xml and reference it from robots.txt. Audit evidence: No sitemap URLs were found from /sitemap.xml or robots.txt.","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for stipple.sh and made you a short report. Your site scored 79/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: none. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+- Create dedicated service pages. Found: The crawl did not find obvious service pages. Suggested direction: Create one page per main service with who it is for, what is included, pricing cues, FAQs, and a CTA
+- Add local service-area signals. Found: The crawled pages did not show strong location or service-area language. Suggested direction: Mention the city, region, or service area in headings, footer copy, and service descriptions
+- Publish or expose a sitemap. Found: No sitemap URLs were found from /sitemap.xml or robots.txt. Suggested direction: Generate a sitemap.xml and reference it from robots.txt
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-024-stipple-sh-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-024-stipple-sh-ai-website-audit.md
+SB-025,buildos.vip,https://buildos.vip/,,not found on reviewed public pages,52,Quick AI-readiness notes for buildos.vip,"I ran a quick AI-readiness audit for buildos.vip. The site scored 52/100, and the biggest fixes were add one plain-language h1, add a strong contact call to action, and show contact information in crawlable text.","- Add one plain-language H1: Use one headline that says exactly what the business is and who it serves. Audit evidence: The homepage does not have a visible H1 heading.
+- Add a strong contact call to action: Place a visible CTA near the top of the homepage and repeat it on service pages. Audit evidence: The crawler did not find obvious phrases like book, call, schedule, contact, or get a quote.
+- Show contact information in crawlable text: Add phone/email details in the header, footer, or contact section as real text, not only inside an image. Audit evidence: No email address or US-style phone number was found in the crawled text.
+- Add LocalBusiness or ProfessionalService schema: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles. Audit evidence: Detected schema types: none","Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.",TODO: add physical mailing address or registered mailbox before sending,NO - add physical mailing address or registered mailbox before sending,"Hi,
+
+I'm putting together a research piece on what small business websites get wrong before they are easy for Google and AI tools like ChatGPT, Claude, Gemini, and Perplexity to understand.
+
+I ran a quick AI-readiness audit for buildos.vip and made you a short report. Your site scored 52/100 overall.
+
+The reason this matters is simple: more customers are starting their search by asking questions like 'who is a good provider near me?' or 'what company should I hire for this?' Google and AI tools need clear signals from your website before they can confidently understand, summarize, or recommend your business.
+
+The biggest things I found:
+
+- Add one plain-language H1. Found: The homepage does not have a visible H1 heading. Suggested direction: Use one headline that says exactly what the business is and who it serves
+- Add a strong contact call to action. Found: The crawler did not find obvious phrases like book, call, schedule, contact, or get a quote. Suggested direction: Place a visible CTA near the top of the homepage and repeat it on service pages
+- Show contact information in crawlable text. Found: No email address or US-style phone number was found in the crawled text. Suggested direction: Add phone/email details in the header, footer, or contact section as real text, not only inside an image
+- Add LocalBusiness or ProfessionalService schema. Found: Detected schema types: none. Suggested direction: Add JSON-LD with business name, URL, phone, address/service area, opening hours, and sameAs profiles
+
+These are not cosmetic SEO issues. They affect whether search engines and AI tools can clearly tell what your business does, who it helps, whether it looks trustworthy, and what a potential customer should do next.
+
+I attached the short report. I made it practical and kept it focused on the main fixes.
+
+I will not name your business in the public research post unless you give permission; I'm using anonymized examples for the study.
+
+You can rerun the free audit here:
+https://www.illusion.ai/analyze
+
+Illusion helps small businesses answer a simple question: when potential customers ask Google or AI tools for recommendations, does your business show up - or do your competitors? The first step is making sure your website clearly explains what you do, who you help, why someone should trust you, and how to contact you.
+
+Disclosure: I'm the founder of Illusion, which offers AI search tracking and website cleanup services. I also offer a flat-fee website cleanup if you would rather have someone handle the fixes.
+
+Let me know if you have any questions or want help fixing the issues.
+
+Best,
+David C
+Founder, Illusion
+https://www.illusion.ai
+TODO: add physical mailing address or registered mailbox before sending",/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/pdf/SB-025-buildos-vip-ai-website-audit.pdf,/Volumes/1TB SSD/Claude Playground/workspace/ai-mention-tracker/growth/outreach-reports/markdown/SB-025-buildos-vip-ai-website-audit.md

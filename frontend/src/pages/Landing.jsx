@@ -23,29 +23,6 @@ const testimonials = [
   { name: 'Priya M.', role: 'CEO @ DeskSync', text: 'The weekly digest lands in my inbox every Monday and tells me more about AI search visibility than anything else.' },
 ]
 
-const resources = [
-  {
-    title: 'Free AI Website Analyzer',
-    href: '/ai-website-analyzer',
-  },
-  {
-    title: 'Best AI Search Monitoring Tools',
-    href: '/blog/best-ai-search-monitoring-tools',
-  },
-  {
-    title: 'Generative Engine Optimization Guide',
-    href: '/blog/generative-engine-optimization-guide',
-  },
-  {
-    title: 'Profound vs Illusion',
-    href: '/blog/profound-vs-illusion',
-  },
-  {
-    title: 'Improve Your Website for AI Search',
-    href: '/blog/improve-website-for-ai-search',
-  },
-]
-
 export default function Landing() {
   useEffect(() => { track.landingViewed() }, [])
 
@@ -222,59 +199,58 @@ export default function Landing() {
 
       {/* Footer CTA */}
       <section className="footer-cta">
-        <h2>AI is the new search engine.</h2>
-        <p>Millions of people ask AI what tools to use every day.<br />Make sure yours gets recommended.</p>
-        <Link to="/register" className="cta-btn-primary">Start tracking for free →</Link>
+        <div className="footer-cta-grid" />
+        <div className="footer-cta-glow" />
+        <div className="footer-cta-glow footer-cta-glow-left" />
+        <div className="footer-cta-wrap">
+          <div className="footer-cta-box">
+            <h2>
+              Find out where you stand <span className="footer-cta-serif">in</span>{' '}
+              <span className="footer-cta-em">AI search</span> — in 60 seconds.
+            </h2>
+            <div className="footer-cta-action">
+              <Link to="/register" className="cta-btn-primary">Start free trial →</Link>
+              <span>7 days free · no credit card</span>
+            </div>
+          </div>
+        </div>
       </section>
 
       <footer className="footer">
         <div className="footer-main">
           <div className="footer-brand">
             <img src={illusionLogo} alt="Illusion" />
-            <p>Affordable AI search visibility for founders, startups, and small businesses.</p>
+            <p>Know where you stand in AI search. Track Claude, ChatGPT, Gemini and Perplexity — and fix what they get wrong.</p>
           </div>
 
           <div className="footer-column">
-            <h3>Get in Touch</h3>
-            <a href="mailto:hello@illusion.ai">Contact Us</a>
-          </div>
-
-          <div className="footer-column">
-            <h3>Socials</h3>
-            <a href="https://x.com/TryIllusionAI" target="_blank" rel="noreferrer">X.com</a>
-            <a href="/blog">Blog</a>
+            <h3>Product</h3>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <Link to="/analyze">Free analyzer</Link>
+            <a href="/blog">Changelog</a>
           </div>
 
           <div className="footer-column">
             <h3>Company</h3>
-            <a href="/#features">About Us</a>
-            <a href="/blog">Case Studies</a>
-            <Link to="/login">Login</Link>
-          </div>
-
-          <div className="footer-column footer-resources">
-            <h3>Resources</h3>
-            {resources.map(resource => (
-              <a
-                key={resource.title}
-                href={resource.href}
-                onClick={() => track.resourceClicked(resource.title)}
-              >
-                {resource.title}
-              </a>
-            ))}
+            <a href="/blog">Blog</a>
+            <a href="/compare/profound-alternative">vs Profound</a>
+            <a href="/blog/generative-engine-optimization-guide">GEO guide</a>
+            <a href="mailto:hello@illusion.ai">Contact</a>
           </div>
 
           <div className="footer-column">
-            <h3>Legal</h3>
-            <a href="/terms">Terms</a>
+            <h3>Account</h3>
+            <Link to="/login">Log in</Link>
+            <Link to="/register">Register</Link>
             <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <span>Copyright 2026 Illusion.ai</span>
-          <span>Created in Santa Monica</span>
+          <span>© 2026 Illusion</span>
+          <span>hello@illusion.ai</span>
         </div>
       </footer>
     </div>

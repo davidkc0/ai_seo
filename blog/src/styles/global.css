@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
 
 /* ─── Design Tokens (matches frontend/src/index.css) ───────── */
 :root {
@@ -17,8 +17,9 @@
   --success: #22c55e;
   --danger: #ef4444;
   --warning: #f59e0b;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-body: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Geist Mono', 'Fira Code', monospace;
+  --font-serif: 'Instrument Serif', Georgia, serif;
   --radius-sm: 6px;
   --radius: 10px;
   --radius-lg: 14px;

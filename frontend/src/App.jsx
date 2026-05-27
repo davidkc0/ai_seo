@@ -12,6 +12,7 @@ import Dashboard from './pages/Dashboard'
 import Settings from './pages/Settings'
 import Pricing from './pages/Pricing'
 import Analyze from './pages/Analyze'
+import About from './pages/About'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -32,6 +33,7 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/analyze" element={<Analyze />} />
+        <Route path="/about" element={<About />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />

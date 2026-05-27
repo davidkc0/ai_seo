@@ -35,7 +35,7 @@ export default function SiteFooter() {
 
         <div className="site-footer-column">
           <h3>Company</h3>
-          <a href="/#features">About Us</a>
+          <a href="/about">About Us</a>
           <a href="/blog">Case Studies</a>
           <a href="/login">Login</a>
         </div>

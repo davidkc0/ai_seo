@@ -125,9 +125,8 @@ async def register(
         unsubscribe_token=unsub_token,
     )
 
-    # Send the email-verification link. Until they click it, scans refuse to
-    # run for this account — the dashboard itself stays open so honest users
-    # have a friendly first impression.
+    # Send the email-verification link. Until they click it, dashboard and
+    # business routes stay locked so throwaway signups cannot create data.
     background_tasks.add_task(
         _send_verification_email,
         to_email=user.email,
@@ -138,7 +137,13 @@ async def register(
     return {
         "access_token": token,
         "token_type": "bearer",
-        "user": {"id": user.id, "email": user.email, "plan": user.plan},
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "plan": user.plan,
+            "email_verified": user.email_verified,
+            "is_active": user.is_active,
+        },
     }
 
 
@@ -147,7 +152,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
     result = await db.execute(select(User).where(User.email == form_data.username))
     user = result.scalar_one_or_none()
 
-    if not user or not verify_password(form_data.password, user.hashed_password):
+    if not user or not user.is_active or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",
@@ -157,7 +162,13 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
     return {
         "access_token": token,
         "token_type": "bearer",
-        "user": {"id": user.id, "email": user.email, "plan": user.plan},
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "plan": user.plan,
+            "email_verified": user.email_verified,
+            "is_active": user.is_active,
+        },
     }
 
 
@@ -170,6 +181,7 @@ async def get_me(current_user: User = Depends(get_current_user)):
         "trial_ends_at": current_user.trial_ends_at,
         "created_at": current_user.created_at,
         "email_verified": current_user.email_verified,
+        "is_active": current_user.is_active,
     }
 
 
@@ -453,7 +465,7 @@ def _send_verification_email(to_email: str, verify_url: str):
   </td></tr>
   <tr><td style="padding:36px 32px;">
     <h1 style="color:#ededed;font-size:22px;margin:0 0 12px;font-weight:700;">Verify your email</h1>
-    <p style="color:#ccc;font-size:15px;line-height:1.65;margin:0 0 24px;">Click below to verify your email and unlock AI scans for your products. This link expires in 24 hours.</p>
+    <p style="color:#ccc;font-size:15px;line-height:1.65;margin:0 0 24px;">Click below to verify your email and unlock your dashboard. This link expires in 24 hours.</p>
     <div style="text-align:center;margin:32px 0;">
       <a href="{verify_url}" style="display:inline-block;background:#10b981;color:#fff;padding:13px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">Verify Email &rarr;</a>
     </div>
@@ -477,5 +489,3 @@ def _send_verification_email(to_email: str, verify_url: str):
         print(f"[EMAIL] Verification email sent to {to_email}")
     except Exception as e:
         print(f"[EMAIL] Failed to send verification email to {to_email}: {e}")
-
-

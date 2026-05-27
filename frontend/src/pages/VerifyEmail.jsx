@@ -8,33 +8,41 @@ import './Auth.css'
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams()
   const token = searchParams.get('token') || ''
-  const [status, setStatus] = useState('loading') // 'loading' | 'success' | 'error'
+  const [status, setStatus] = useState(token ? 'loading' : 'check') // 'loading' | 'check' | 'success' | 'error'
   const [error, setError] = useState('')
   const [resending, setResending] = useState(false)
   const [resendNote, setResendNote] = useState('')
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, loading, refreshUser } = useAuth()
   // Strict mode mounts effects twice in dev — guard against double-firing the
   // verify call (it's idempotent backend-side but the second call still runs).
   const ranRef = useRef(false)
 
   useEffect(() => {
-    if (ranRef.current) return
-    ranRef.current = true
-
     if (!token) {
-      setStatus('error')
-      setError('Missing verification token. Please use the link from your email.')
+      if (loading) {
+        setStatus('loading')
+      } else {
+        setStatus(user?.email_verified ? 'success' : 'check')
+      }
       return
     }
 
+    if (ranRef.current) return
+    ranRef.current = true
+
     api.verifyEmail(token)
-      .then(() => setStatus('success'))
+      .then(async () => {
+        if (localStorage.getItem('token')) {
+          await refreshUser().catch(() => null)
+        }
+        setStatus('success')
+      })
       .catch((e) => {
         setStatus('error')
         setError(e.message || 'Verification failed.')
       })
-  }, [token])
+  }, [token, loading, user?.email_verified, refreshUser])
 
   const handleResend = async () => {
     setResending(true)
@@ -59,18 +67,49 @@ export default function VerifyEmail() {
           <p className="auth-sub">Confirming your email...</p>
         )}
 
+        {status === 'check' && (
+          <>
+            <p className="auth-sub">
+              Check your email to unlock your dashboard. Once you verify, you can add products, save audits, and run AI scans.
+            </p>
+            {user ? (
+              <button
+                type="button"
+                className="btn-primary auth-submit"
+                onClick={handleResend}
+                disabled={resending}
+              >
+                {resending ? 'Sending...' : 'Send a new link →'}
+              </button>
+            ) : (
+              <Link to="/login" className="btn-primary auth-submit" style={{ textAlign: 'center', textDecoration: 'none', display: 'block' }}>
+                Log in to request a new link →
+              </Link>
+            )}
+            {resendNote && (
+              <p className="auth-sub" style={{ marginTop: 14 }}>{resendNote}</p>
+            )}
+          </>
+        )}
+
         {status === 'success' && (
           <>
             <div className="auth-success">
               Email verified. You're all set — AI scans are now unlocked.
             </div>
-            <button
-              type="button"
-              className="btn-primary auth-submit"
-              onClick={() => navigate('/dashboard')}
-            >
-              Go to dashboard →
-            </button>
+            {user ? (
+              <button
+                type="button"
+                className="btn-primary auth-submit"
+                onClick={() => navigate('/dashboard')}
+              >
+                Go to dashboard →
+              </button>
+            ) : (
+              <Link to="/login" className="btn-primary auth-submit" style={{ textAlign: 'center', textDecoration: 'none', display: 'block' }}>
+                Log in to continue →
+              </Link>
+            )}
           </>
         )}
 

@@ -6,7 +6,7 @@ from typing import Optional
 
 from database import get_db
 from models import User, NotificationSettings
-from auth import get_current_user
+from auth import require_verified_user
 
 router = APIRouter(prefix="/api/settings", tags=["settings"])
 
@@ -20,7 +20,7 @@ class NotificationUpdate(BaseModel):
 
 @router.get("/notifications")
 async def get_notifications(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     result = await db.execute(
@@ -43,7 +43,7 @@ async def get_notifications(
 @router.put("/notifications")
 async def update_notifications(
     req: NotificationUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     result = await db.execute(

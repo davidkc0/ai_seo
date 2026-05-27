@@ -131,6 +131,11 @@ export default function Analyze() {
       return
     }
 
+    if (user.email_verified !== true) {
+      navigate('/verify-email?source=audit')
+      return
+    }
+
     setClaiming(true)
     try {
       const existingProducts = await api.getProducts().catch(() => [])

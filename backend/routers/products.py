@@ -7,7 +7,7 @@ from datetime import datetime
 
 from database import get_db
 from models import User, Product, ScanResult, AIOverviewSnapshot, Recommendation
-from auth import get_current_user
+from auth import require_verified_user
 
 router = APIRouter(prefix="/api/products", tags=["products"])
 
@@ -40,7 +40,7 @@ def get_plan_limits(plan: str) -> dict:
 
 @router.get("/")
 async def list_products(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     result = await db.execute(
@@ -66,7 +66,7 @@ async def list_products(
 @router.post("/")
 async def create_product(
     req: ProductCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     limits = get_plan_limits(current_user.plan)
@@ -118,7 +118,7 @@ async def create_product(
 async def update_product(
     product_id: int,
     req: ProductUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     result = await db.execute(
@@ -155,7 +155,7 @@ async def update_product(
 @router.delete("/{product_id}")
 async def delete_product(
     product_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     result = await db.execute(
@@ -174,7 +174,7 @@ async def delete_product(
 async def trigger_scan(
     product_id: int,
     background_tasks: BackgroundTasks,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     """Manually trigger a scan for a product."""
@@ -186,14 +186,6 @@ async def trigger_scan(
     product = result.scalar_one_or_none()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-
-    # Anti-fraud gate: bots and tourists never click the verify link, so this
-    # is the line that stops ~95% of scam-driven LLM spend.
-    if not current_user.email_verified:
-        raise HTTPException(
-            status_code=403,
-            detail="Verify your email before running scans. Check your inbox for the verification link.",
-        )
 
     # Enforce scan frequency by plan
     if product.last_scanned_at:
@@ -221,7 +213,7 @@ async def trigger_scan(
 @router.get("/{product_id}/scan-history")
 async def get_scan_history(
     product_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     """Return scan batches grouped by time window."""
@@ -277,7 +269,7 @@ async def get_scan_history(
 async def get_results(
     product_id: int,
     limit: int = 50,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     """Get scan results for a product."""
@@ -315,7 +307,7 @@ async def get_results(
 @router.get("/{product_id}/summary")
 async def get_summary(
     product_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     """Get aggregated summary stats for a product."""
@@ -397,7 +389,7 @@ async def _verify_product_ownership(product_id: int, user: User, db: AsyncSessio
 @router.get("/{product_id}/ai-overview")
 async def get_ai_overview(
     product_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     """Return the most recent Google AI Overview snapshot for a product."""
@@ -426,7 +418,7 @@ async def get_ai_overview(
 @router.get("/{product_id}/recommendations")
 async def get_recommendations(
     product_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     """Return the most recent Claude-generated recommendations for a product."""

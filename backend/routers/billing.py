@@ -5,7 +5,7 @@ import stripe
 
 from database import get_db
 from models import User
-from auth import get_current_user
+from auth import require_verified_user
 from config import settings
 
 router = APIRouter(prefix="/api/billing", tags=["billing"])
@@ -75,23 +75,10 @@ async def get_plans():
     }
 
 
-@router.get("/debug-config")
-async def debug_config():
-    """Temporary endpoint to verify Stripe config is loaded."""
-    sk = settings.stripe_secret_key
-    return {
-        "has_secret_key": bool(sk) and len(sk) > 10,
-        "key_prefix": sk[:12] + "..." if sk else "EMPTY",
-        "starter_price_id": settings.stripe_starter_price_id[:20] + "..." if settings.stripe_starter_price_id else "EMPTY",
-        "growth_price_id": settings.stripe_growth_price_id[:20] + "..." if settings.stripe_growth_price_id else "EMPTY",
-        "app_url": settings.app_url,
-    }
-
-
 @router.post("/create-checkout")
 async def create_checkout(
     plan: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db)
 ):
     """Create a Stripe checkout session."""
@@ -140,7 +127,7 @@ async def create_checkout(
 
 @router.post("/portal")
 async def create_portal(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
 ):
     """Create a Stripe billing portal session."""
     if not current_user.stripe_customer_id:

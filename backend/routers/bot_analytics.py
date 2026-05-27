@@ -14,7 +14,7 @@ from typing import Optional
 
 from database import get_db
 from models import User, CdnConnection, BotVisit
-from auth import get_current_user
+from auth import require_verified_user
 from config import settings as app_settings
 import bot_analytics
 import vercel_analytics
@@ -56,7 +56,7 @@ def _require_paid(user: User):
 @router.post("/connect")
 async def connect_cloudflare(
     body: ConnectCloudflareRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Connect a Cloudflare zone for bot traffic analysis."""
@@ -101,7 +101,7 @@ async def connect_cloudflare(
 @router.get("/zones")
 async def list_zones(
     api_token: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
 ):
     """List available Cloudflare zones for a given API token."""
     _require_paid(current_user)
@@ -114,7 +114,7 @@ async def list_zones(
 @router.get("/vercel-projects")
 async def list_vercel_projects(
     api_token: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
 ):
     """List available Vercel projects for a given API token.
 
@@ -139,7 +139,7 @@ async def list_vercel_projects(
 @router.post("/connect-vercel")
 async def connect_vercel(
     body: ConnectVercelRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Connect a Vercel project for bot traffic analysis via Log Drains.
@@ -226,7 +226,7 @@ async def connect_vercel(
 
 @router.get("/connections")
 async def list_connections(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db),
 ):
     """List user's active CDN connections."""
@@ -253,7 +253,7 @@ async def list_connections(
 @router.delete("/connections/{connection_id}")
 async def disconnect_cdn(
     connection_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Disconnect a CDN integration.
@@ -293,7 +293,7 @@ async def disconnect_cdn(
 async def sync_bot_traffic(
     connection_id: int,
     body: SyncRequest = SyncRequest(),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Trigger a manual sync of bot traffic data from Cloudflare."""
@@ -356,7 +356,7 @@ async def sync_bot_traffic(
 @router.get("/summary")
 async def bot_traffic_summary(
     days: int = 30,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Get aggregate bot traffic summary for the user's connected zones."""

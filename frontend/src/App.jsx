@@ -14,10 +14,12 @@ import Pricing from './pages/Pricing'
 import Analyze from './pages/Analyze'
 import About from './pages/About'
 
-function ProtectedRoute({ children }) {
+function VerifiedRoute({ children }) {
   const { user, loading } = useAuth()
   if (loading) return <div className="spinner" />
   if (!user) return <Navigate to="/login" replace />
+  if (user.is_active === false) return <Navigate to="/login" replace />
+  if (user.email_verified !== true) return <Navigate to="/verify-email" replace />
   return children
 }
 
@@ -34,8 +36,8 @@ function App() {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/analyze" element={<Analyze />} />
         <Route path="/about" element={<About />} />
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+        <Route path="/dashboard" element={<VerifiedRoute><Dashboard /></VerifiedRoute>} />
+        <Route path="/settings" element={<VerifiedRoute><Settings /></VerifiedRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Analytics />

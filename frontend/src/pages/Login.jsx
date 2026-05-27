@@ -17,8 +17,12 @@ export default function Login() {
     setError('')
     setLoading(true)
     try {
-      await login(email, password)
-      navigate(localStorage.getItem('pendingWebsiteAudit') ? '/dashboard?tab=audit' : '/dashboard')
+      const loggedInUser = await login(email, password)
+      if (loggedInUser.email_verified !== true) {
+        navigate('/verify-email')
+      } else {
+        navigate(localStorage.getItem('pendingWebsiteAudit') ? '/dashboard?tab=audit' : '/dashboard')
+      }
     } catch (err) {
       setError(err.message)
     } finally {

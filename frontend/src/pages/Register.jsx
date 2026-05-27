@@ -57,7 +57,7 @@ export default function Register() {
     try {
       await register(email, password, turnstileToken)
       track.registerCompleted(source === 'audit' ? 'audit' : 'organic')
-      navigate(source === 'audit' ? '/dashboard?tab=audit' : '/dashboard')
+      navigate(source === 'audit' ? '/verify-email?source=audit' : '/verify-email')
     } catch (err) {
       setError(err.message)
       track.registerFailed(err.message)

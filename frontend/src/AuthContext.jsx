@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { api } from './api'
 
 const AuthContext = createContext(null)
@@ -7,17 +7,22 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  const refreshUser = useCallback(async () => {
+    const data = await api.me()
+    setUser(data)
+    return data
+  }, [])
+
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-      api.me()
-        .then(setUser)
+      refreshUser()
         .catch(() => { localStorage.removeItem('token'); setUser(null) })
         .finally(() => setLoading(false))
     } else {
       setLoading(false)
     }
-  }, [])
+  }, [refreshUser])
 
   const login = async (email, password) => {
     const data = await api.login(email, password)
@@ -39,7 +44,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   )

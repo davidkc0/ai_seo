@@ -24,6 +24,10 @@ export default function Pricing() {
       navigate('/register')
       return
     }
+    if (user.email_verified !== true) {
+      navigate('/verify-email')
+      return
+    }
     if (planId === 'free') {
       navigate('/dashboard')
       return

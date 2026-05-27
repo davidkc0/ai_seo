@@ -10,7 +10,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import website_audits
-from auth import get_current_user
+from auth import require_verified_user
 from config import settings
 from database import AsyncSessionLocal, get_db
 from models import Product, User, WebsiteAudit
@@ -197,7 +197,7 @@ async def _owned_product(product_id: int, user: User, db: AsyncSession) -> Produ
 async def claim_audit(
     audit_id: int,
     body: ClaimAuditRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(select(WebsiteAudit).where(WebsiteAudit.id == audit_id))
@@ -259,7 +259,7 @@ async def claim_audit(
 @router.get("/")
 async def list_audits(
     product_id: Optional[int] = None,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db),
 ):
     query = select(WebsiteAudit).where(WebsiteAudit.user_id == current_user.id)
@@ -273,7 +273,7 @@ async def list_audits(
 @router.get("/{audit_id}")
 async def get_audit(
     audit_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(
@@ -307,7 +307,7 @@ async def _enforce_rerun_cooldown(user: User, product_id: Optional[int], normali
 async def rerun_audit(
     body: RerunAuditRequest,
     background_tasks: BackgroundTasks,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_verified_user),
     db: AsyncSession = Depends(get_db),
 ):
     product = None

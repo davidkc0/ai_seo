@@ -42,6 +42,7 @@ async def init_db():
         await conn.run_sync(_ensure_notification_marketing_column)
         await conn.run_sync(_ensure_user_email_verified_column)
         await conn.run_sync(_ensure_product_website_url_column)
+        await conn.run_sync(_ensure_website_audit_lead_columns)
         await conn.run_sync(_ensure_cdn_connection_vercel_columns)
 
     # Backfill any null tokens (new column on existing rows).
@@ -109,6 +110,31 @@ def _ensure_product_website_url_column(sync_conn):
     if "website_url" not in cols:
         print("[Migration] Adding products.website_url column")
         sync_conn.execute(text("ALTER TABLE products ADD COLUMN website_url VARCHAR"))
+
+
+def _ensure_website_audit_lead_columns(sync_conn):
+    """Add public-audit lead/report-email columns if missing."""
+    inspector = inspect(sync_conn)
+    if "website_audits" not in inspector.get_table_names():
+        return
+    cols = {c["name"] for c in inspector.get_columns("website_audits")}
+    timestamp_type = "TIMESTAMP" if sync_conn.dialect.name == "sqlite" else "TIMESTAMP WITH TIME ZONE"
+    for col_name, col_type in (
+        ("contact_email", "VARCHAR"),
+        ("lead_source", "VARCHAR"),
+        ("report_email_sent_at", timestamp_type),
+        ("report_email_status", "VARCHAR"),
+    ):
+        if col_name not in cols:
+            print(f"[Migration] Adding website_audits.{col_name} column")
+            sync_conn.execute(text(
+                f"ALTER TABLE website_audits ADD COLUMN {col_name} {col_type}"
+            ))
+    if "contact_email" not in cols:
+        sync_conn.execute(text(
+            "CREATE INDEX IF NOT EXISTS ix_website_audits_contact_email "
+            "ON website_audits (contact_email)"
+        ))
 
 
 def _ensure_cdn_connection_vercel_columns(sync_conn):

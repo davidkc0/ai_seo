@@ -6,6 +6,7 @@ and Yahoo count us as a compliant bulk sender (required since Feb 2024).
 """
 import resend
 from datetime import datetime, timedelta, timezone
+from html import escape
 from urllib.parse import urlencode
 from config import settings
 from typing import Optional
@@ -39,6 +40,124 @@ def _bulk_email_headers(unsubscribe_url: str) -> dict:
         "List-Unsubscribe": f"<{unsubscribe_url}>",
         "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
     }
+
+
+def send_website_audit_report_email(to_email: str, audit: dict, share_url: str) -> bool:
+    """Send the completed public website-audit report link."""
+    if not _is_resend_configured():
+        print(f"[EMAIL] Resend not configured. Would send website audit report to {to_email}: {share_url}")
+        return False
+
+    domain = escape(audit.get("domain") or audit.get("normalized_url") or "your website")
+    summary = escape(audit.get("executive_summary") or "Your website audit is ready.")
+    scores = audit.get("scores") or {}
+    score = scores.get("overall")
+    score_label = f"{score}/100" if score is not None else "Ready"
+
+    fixes = []
+    for finding in (audit.get("findings") or [])[:4]:
+        title = escape(finding.get("title") or "Website fix")
+        fix = escape(finding.get("fix") or finding.get("evidence") or "")
+        fixes.append(f"""
+        <tr>
+          <td style="padding:14px 0;border-bottom:1px solid #1f1f1f;">
+            <div style="color:#ededed;font-size:14px;font-weight:700;line-height:1.35;">{title}</div>
+            {f'<div style="color:#888;font-size:13px;line-height:1.55;margin-top:5px;">{fix}</div>' if fix else ''}
+          </td>
+        </tr>
+        """)
+    fixes_html = "".join(fixes) or """
+        <tr><td style="padding:14px 0;color:#888;font-size:13px;">Open the report to review the audit results.</td></tr>
+    """
+
+    html_body = f"""
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>
+<body style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;margin:0;padding:40px 20px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:620px;margin:0 auto;background:#111111;border-radius:14px;border:1px solid #1f1f1f;overflow:hidden;">
+  <tr><td style="padding:32px;text-align:center;background:#0a0a0a;">
+    <img src="{LOGO_URL}" alt="illusion" width="160" height="48" style="height:28px;width:auto;margin:0 auto;display:block;" />
+    <p style="color:#ccc;margin:10px 0 0;font-size:13px;font-family:'JetBrains Mono',monospace;">AI Website Audit</p>
+  </td></tr>
+  <tr><td style="padding:36px 32px;">
+    <p style="color:#34d399;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin:0 0 12px;">Report ready</p>
+    <h1 style="color:#ededed;font-size:24px;line-height:1.2;margin:0 0 12px;font-weight:800;">Your audit for {domain} is ready</h1>
+    <p style="color:#ccc;font-size:15px;line-height:1.65;margin:0 0 22px;">{summary}</p>
+    <div style="margin:22px 0;padding:18px;background:#181818;border:1px solid #1f1f1f;border-radius:12px;text-align:center;">
+      <div style="color:#10b981;font-size:34px;line-height:1;font-weight:800;font-family:'JetBrains Mono',monospace;">{score_label}</div>
+      <div style="color:#555;font-size:11px;margin-top:6px;text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace;">Overall score</div>
+    </div>
+    <h2 style="color:#ededed;font-size:15px;margin:26px 0 6px;">Top fixes</h2>
+    <table width="100%" cellpadding="0" cellspacing="0">{fixes_html}</table>
+    <div style="text-align:center;margin:32px 0 8px;">
+      <a href="{share_url}" style="display:inline-block;background:#10b981;color:#fff;padding:13px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">View Your Report &rarr;</a>
+    </div>
+    <p style="color:#555;font-size:13px;line-height:1.6;margin:24px 0 0;border-top:1px solid #1f1f1f;padding-top:20px;">Illusion checks the website clarity, crawlability, trust signals, local context, and answer-style content that help customers, Google, and AI answer engines understand your business.</p>
+  </td></tr>
+  <tr><td style="padding:20px 32px;background:#0a0a0a;border-top:1px solid #1f1f1f;text-align:center;">
+    <p style="font-size:12px;color:#555;margin:0;line-height:1.6;font-family:'JetBrains Mono',monospace;">illusion &middot; You're getting this because you requested a free website audit.</p>
+  </td></tr>
+</table>
+</body>
+</html>
+"""
+
+    try:
+        resend.Emails.send({
+            "from": settings.resend_from_email,
+            "to": [to_email],
+            "subject": f"Your Illusion website audit for {domain} is ready",
+            "html": html_body,
+        })
+        return True
+    except Exception as e:
+        print(f"[EMAIL] Failed to send website audit report to {to_email}: {e}")
+        return False
+
+
+def send_website_audit_failed_email(to_email: str, domain: str, retry_url: Optional[str] = None) -> bool:
+    """Send a short failure note when a public website audit cannot complete."""
+    if not _is_resend_configured():
+        print(f"[EMAIL] Resend not configured. Would send website audit failure to {to_email}")
+        return False
+
+    safe_domain = escape(domain or "your website")
+    retry_href = retry_url or f"{settings.app_url}/analyze"
+    html_body = f"""
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>
+<body style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0a;margin:0;padding:40px 20px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#111111;border-radius:14px;border:1px solid #1f1f1f;overflow:hidden;">
+  <tr><td style="padding:32px;text-align:center;background:#0a0a0a;">
+    <img src="{LOGO_URL}" alt="illusion" width="160" height="48" style="height:28px;width:auto;margin:0 auto;display:block;" />
+  </td></tr>
+  <tr><td style="padding:36px 32px;">
+    <h1 style="color:#ededed;font-size:22px;margin:0 0 12px;font-weight:700;">We couldn't finish that website audit</h1>
+    <p style="color:#ccc;font-size:15px;line-height:1.65;margin:0 0 24px;">Illusion tried to audit {safe_domain}, but the crawler could not complete the report. This can happen when a site blocks automated requests, times out, or returns non-HTML content.</p>
+    <div style="text-align:center;margin:32px 0;">
+      <a href="{retry_href}" style="display:inline-block;background:#10b981;color:#fff;padding:13px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">Try Again &rarr;</a>
+    </div>
+  </td></tr>
+  <tr><td style="padding:20px 32px;background:#0a0a0a;border-top:1px solid #1f1f1f;text-align:center;">
+    <p style="font-size:12px;color:#555;margin:0;line-height:1.6;font-family:'JetBrains Mono',monospace;">illusion &middot; You're getting this because you requested a free website audit.</p>
+  </td></tr>
+</table>
+</body>
+</html>
+"""
+    try:
+        resend.Emails.send({
+            "from": settings.resend_from_email,
+            "to": [to_email],
+            "subject": f"We couldn't finish your audit for {safe_domain}",
+            "html": html_body,
+        })
+        return True
+    except Exception as e:
+        print(f"[EMAIL] Failed to send website audit failure to {to_email}: {e}")
+        return False
 
 
 def send_welcome_email(to_email: str, unsubscribe_token: str) -> bool:

@@ -139,6 +139,8 @@ class WebsiteAudit(Base):
     original_url = Column(Text, nullable=False)
     normalized_url = Column(Text, nullable=False)
     domain = Column(String, nullable=False, index=True)
+    contact_email = Column(String, nullable=True, index=True)
+    lead_source = Column(String, nullable=True)
     status = Column(String, default="queued", index=True)  # queued, running, completed, failed
     overall_score = Column(Integer, nullable=True)
     ux_score = Column(Integer, nullable=True)
@@ -150,6 +152,8 @@ class WebsiteAudit(Base):
     extracted_signals = Column(JSON, default=dict)
     model_used = Column(String, nullable=True)
     error = Column(Text, nullable=True)
+    report_email_sent_at = Column(DateTime(timezone=True), nullable=True)
+    report_email_status = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), default=utcnow)
     updated_at = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)
     completed_at = Column(DateTime(timezone=True), nullable=True)

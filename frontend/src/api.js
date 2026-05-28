@@ -79,6 +79,8 @@ export const api = {
     request('/website-audits/public', { method: 'POST', body: JSON.stringify(data) }),
   getPublicWebsiteAudit: (id, token) =>
     request(`/website-audits/public/${id}?token=${encodeURIComponent(token)}`),
+  getSharedWebsiteAudit: (publicToken) =>
+    request(`/website-audits/share/${encodeURIComponent(publicToken)}`),
   claimWebsiteAudit: (id, data) =>
     request(`/website-audits/${id}/claim`, { method: 'POST', body: JSON.stringify(data) }),
   listWebsiteAudits: (productId) =>

@@ -5,7 +5,7 @@ from typing import Optional
 
 import httpx
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -13,6 +13,7 @@ import website_audits
 from auth import require_verified_user
 from config import settings
 from database import AsyncSessionLocal, get_db
+from email_service import send_website_audit_failed_email, send_website_audit_report_email
 from models import Product, User, WebsiteAudit
 from rate_limit import limiter
 
@@ -23,7 +24,9 @@ TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverif
 
 class PublicAuditRequest(BaseModel):
     url: str
+    email: EmailStr
     turnstile_token: Optional[str] = None
+    lead_source: Optional[str] = None
 
 
 class ClaimAuditRequest(BaseModel):
@@ -46,6 +49,10 @@ def _plan_limits(plan: str) -> dict:
         "starter": {"max_products": 1, "max_keywords": 5},
         "growth": {"max_products": 3, "max_keywords": 20},
     }.get(plan, {"max_products": 1, "max_keywords": 3})
+
+
+def _share_url(public_token: str) -> str:
+    return f"{settings.app_url.rstrip('/')}/analyze/{public_token}"
 
 
 async def _verify_turnstile(token: Optional[str], remote_ip: Optional[str]) -> bool:
@@ -93,10 +100,38 @@ def _serialize_audit(audit: WebsiteAudit, include_token: bool = False) -> dict:
         "created_at": audit.created_at,
         "updated_at": audit.updated_at,
         "completed_at": audit.completed_at,
+        "share_url": _share_url(audit.public_token),
     }
     if include_token:
         payload["public_token"] = audit.public_token
     return payload
+
+
+async def _send_report_email_if_needed(audit: WebsiteAudit):
+    if not audit.contact_email or audit.report_email_status:
+        return
+
+    if audit.status == "completed":
+        ok = await asyncio.to_thread(
+            send_website_audit_report_email,
+            audit.contact_email,
+            _serialize_audit(audit),
+            _share_url(audit.public_token),
+        )
+        audit.report_email_status = "sent" if ok else "failed"
+    elif audit.status == "failed":
+        ok = await asyncio.to_thread(
+            send_website_audit_failed_email,
+            audit.contact_email,
+            audit.domain,
+            f"{settings.app_url.rstrip('/')}/analyze",
+        )
+        audit.report_email_status = "failure_sent" if ok else "failed"
+    else:
+        return
+
+    audit.report_email_sent_at = datetime.now(timezone.utc) if ok else None
+    audit.updated_at = datetime.now(timezone.utc)
 
 
 async def _run_audit_job(audit_id: int):
@@ -135,6 +170,8 @@ async def _run_audit_job(audit_id: int):
             print(f"[website_audits] Audit {audit_id} failed: {type(e).__name__}: {e}")
 
         await db.commit()
+        await _send_report_email_if_needed(audit)
+        await db.commit()
 
 
 @router.post("/public")
@@ -160,6 +197,8 @@ async def start_public_audit(
         original_url=body.url,
         normalized_url=normalized_url,
         domain=website_audits.domain_for_url(normalized_url),
+        contact_email=str(body.email),
+        lead_source=(body.lead_source or None),
         status="queued",
     )
     db.add(audit)
@@ -167,7 +206,12 @@ async def start_public_audit(
     await db.refresh(audit)
 
     background_tasks.add_task(_run_audit_job, audit.id)
-    return {"audit_id": audit.id, "public_token": audit.public_token, "status": audit.status}
+    return {
+        "audit_id": audit.id,
+        "public_token": audit.public_token,
+        "status": audit.status,
+        "share_url": _share_url(audit.public_token),
+    }
 
 
 @router.get("/public/{audit_id}")
@@ -179,6 +223,18 @@ async def get_public_audit(
     result = await db.execute(select(WebsiteAudit).where(WebsiteAudit.id == audit_id))
     audit = result.scalar_one_or_none()
     if not audit or not secrets.compare_digest(audit.public_token, token):
+        raise HTTPException(status_code=404, detail="Audit not found")
+    return _serialize_audit(audit, include_token=True)
+
+
+@router.get("/share/{public_token}")
+async def get_shared_audit(
+    public_token: str,
+    db: AsyncSession = Depends(get_db),
+):
+    result = await db.execute(select(WebsiteAudit).where(WebsiteAudit.public_token == public_token))
+    audit = result.scalar_one_or_none()
+    if not audit:
         raise HTTPException(status_code=404, detail="Audit not found")
     return _serialize_audit(audit, include_token=True)
 

@@ -35,6 +35,7 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/analyze" element={<Analyze />} />
+        <Route path="/analyze/:publicToken" element={<Analyze />} />
         <Route path="/about" element={<About />} />
         <Route path="/dashboard" element={<VerifiedRoute><Dashboard /></VerifiedRoute>} />
         <Route path="/settings" element={<VerifiedRoute><Settings /></VerifiedRoute>} />

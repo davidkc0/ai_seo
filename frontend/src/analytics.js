@@ -39,9 +39,12 @@ export const track = {
 
   // ── Website audit ───────────────────────────────────────────
   auditStarted: (source) => capture('website_audit_started', { source }),
+  auditEmailModalOpened: (source) => capture('website_audit_email_modal_opened', { source }),
+  auditEmailSubmitted: (source) => capture('website_audit_email_submitted', { source }),
   auditCompleted: (score) => capture('website_audit_completed', { score }),
   auditClaimed: () => capture('website_audit_claimed'),
   auditRerun: () => capture('website_audit_rerun'),
+  auditReportLinkCopied: () => capture('website_audit_report_link_copied'),
   findingExpanded: (category, severity) =>
     capture('website_audit_finding_expanded', { category, severity }),
   signupFromAudit: () => capture('signup_from_audit'),

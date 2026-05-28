@@ -29,7 +29,7 @@ MAX_REDIRECTS = 4
 MAX_PAGES = 6
 TIMEOUT = 12.0
 USER_AGENT = (
-    "IllusionWebsiteAudit/1.0 (+https://www.illusion.ai; "
+    "IllusionWebsiteAudit/1.0 (+https://illusion.ai; "
     "AI search visibility and website diagnostics)"
 )
 

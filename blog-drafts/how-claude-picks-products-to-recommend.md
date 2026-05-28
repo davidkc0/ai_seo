@@ -6,7 +6,7 @@ author: David C
 date: 2026-04-28  # TKTK — set to actual publish date
 tags: [geo, claude, ai-search, research]
 ogImage: /og/claude-picks-products.png  # TKTK — generate
-canonical: https://www.illusion.ai/blog/how-claude-picks-products-to-recommend
+canonical: https://illusion.ai/blog/how-claude-picks-products-to-recommend
 ---
 
 > **Draft status (2026-04-21):** Structure and voice are final. Numbers marked `[TKTK]` need to be filled in after running the actual experiment through Illusion's scanner. The experiment design itself is in the "Methodology" section — it's roughly one weekend of scan credits to produce all figures. Until then, every statistic is a placeholder. Do not publish.
@@ -167,7 +167,7 @@ You're probably the person who should build #5 themselves, but it's also what we
 - What specific language Claude used to justify those recommendations — so you can go write the content that beats it.
 - A Claude-written playbook each week of the single highest-leverage thing to fix.
 
-It's $19/mo, free for 7 days, no credit card. [Start tracking your product →](https://www.illusion.ai/register)
+It's $19/mo, free for 7 days, no credit card. [Start tracking your product →](https://illusion.ai/register)
 
 If you'd rather do it manually — more power to you, honestly. The framework above is enough to get started. Just don't skip the measurement step. What gets measured gets gamed, and AI search is a game worth gaming early.
 

@@ -19,7 +19,7 @@ client = OpenAI(
     api_key=settings.openrouter_api_key,
     default_headers={
         # Optional but recommended by OpenRouter for attribution / rate limits.
-        "HTTP-Referer": settings.app_url or "https://www.illusion.ai",
+        "HTTP-Referer": settings.app_url or "https://illusion.ai",
         "X-Title": "Illusion",
     },
 )

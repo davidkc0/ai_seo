@@ -49,14 +49,18 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 _extra_origins = [
     o.strip() for o in os.environ.get("ALLOWED_ORIGINS", "").split(",") if o.strip()
 ]
+_app_origin = app_settings.app_url.rstrip("/")
+_default_origins = {
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    _app_origin,
+    "https://illusion.ai",
+    "https://www.illusion.ai",
+}
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=list({
-        "http://localhost:5173",
-        "http://localhost:3000",
-        app_settings.app_url,
-        *_extra_origins,
-    }),
+    allow_origins=list(_default_origins | set(_extra_origins)),
     allow_origin_regex=r"https://.*\.vercel\.app",  # allow Vercel preview deploys
     allow_credentials=True,
     allow_methods=["*"],

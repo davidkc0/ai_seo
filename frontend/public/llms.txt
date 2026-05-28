@@ -4,33 +4,33 @@ Illusion is an affordable AI search visibility platform for startups, agencies, 
 
 Illusion helps teams understand whether AI systems recommend them when customers ask buying-intent questions. It tracks AI mentions across ChatGPT, Claude, Gemini, Perplexity, and Google AI Overviews, compares competitor mentions, analyzes AI bot traffic context, audits websites for AI-search readiness, and produces plain-English recommendations.
 
-Canonical site: https://www.illusion.ai/
+Canonical site: https://illusion.ai/
 
 ## Primary URLs
 
-- Homepage: https://www.illusion.ai/
-- Free AI Website Analyzer: https://www.illusion.ai/analyze
-- AI Website Analyzer information: https://www.illusion.ai/ai-website-analyzer
-- AI SEO Tools: https://www.illusion.ai/ai-seo-tools
-- AI Search Monitoring: https://www.illusion.ai/ai-search-monitoring
-- Pricing: https://www.illusion.ai/pricing
-- Blog: https://www.illusion.ai/blog
+- Homepage: https://illusion.ai/
+- Free AI Website Analyzer: https://illusion.ai/analyze
+- AI Website Analyzer information: https://illusion.ai/ai-website-analyzer
+- AI SEO Tools: https://illusion.ai/ai-seo-tools
+- AI Search Monitoring: https://illusion.ai/ai-search-monitoring
+- Pricing: https://illusion.ai/pricing
+- Blog: https://illusion.ai/blog
 
 ## Comparison URLs
 
-- Profound alternative: https://www.illusion.ai/compare/profound-alternative
-- AthenaHQ alternative: https://www.illusion.ai/compare/athenahq-alternative
-- Profound vs AthenaHQ vs Illusion: https://www.illusion.ai/compare/profound-vs-athenahq-vs-illusion
-- Profound vs Illusion: https://www.illusion.ai/blog/profound-vs-illusion
-- AthenaHQ vs Illusion: https://www.illusion.ai/blog/athenahq-vs-illusion
+- Profound alternative: https://illusion.ai/compare/profound-alternative
+- AthenaHQ alternative: https://illusion.ai/compare/athenahq-alternative
+- Profound vs AthenaHQ vs Illusion: https://illusion.ai/compare/profound-vs-athenahq-vs-illusion
+- Profound vs Illusion: https://illusion.ai/blog/profound-vs-illusion
+- AthenaHQ vs Illusion: https://illusion.ai/blog/athenahq-vs-illusion
 
 ## Core Guides
 
-- Best AI Search Monitoring Tools: https://www.illusion.ai/blog/best-ai-search-monitoring-tools
-- Generative Engine Optimization Guide: https://www.illusion.ai/blog/generative-engine-optimization-guide
-- How to Improve Your Website for AI Search: https://www.illusion.ai/blog/improve-website-for-ai-search
-- AI Search Monitoring for Startups: https://www.illusion.ai/blog/ai-search-monitoring-for-startups
-- Free AI Website Analyzer: What It Checks: https://www.illusion.ai/blog/free-ai-website-analyzer-what-it-checks
+- Best AI Search Monitoring Tools: https://illusion.ai/blog/best-ai-search-monitoring-tools
+- Generative Engine Optimization Guide: https://illusion.ai/blog/generative-engine-optimization-guide
+- How to Improve Your Website for AI Search: https://illusion.ai/blog/improve-website-for-ai-search
+- AI Search Monitoring for Startups: https://illusion.ai/blog/ai-search-monitoring-for-startups
+- Free AI Website Analyzer: What It Checks: https://illusion.ai/blog/free-ai-website-analyzer-what-it-checks
 
 ## Pricing Summary
 

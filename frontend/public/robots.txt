@@ -18,4 +18,4 @@ Disallow: /forgot-password
 Disallow: /reset-password
 Disallow: /verify-email
 
-Sitemap: https://www.illusion.ai/sitemap.xml
+Sitemap: https://illusion.ai/sitemap.xml

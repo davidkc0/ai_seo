@@ -82,7 +82,7 @@ is now plugged in the repo.
 
 **`frontend/index.html`** got the full head block:
 - `<meta name="description">`
-- `<link rel="canonical" href="https://www.illusion.ai/">` + `<meta name="robots" content="index, follow">`
+- `<link rel="canonical" href="https://illusion.ai/">` + `<meta name="robots" content="index, follow">`
 - Open Graph tags: `og:type`, `og:site_name`, `og:title`, `og:description`,
   `og:url`, `og:image`, `og:image:secure_url`, `og:image:type`,
   `og:image:width` (1200), `og:image:height` (630), `og:image:alt`
@@ -104,12 +104,12 @@ wired up at `/blog`.
 
 ### Key decisions made during implementation
 
-- **Canonical host is `www.illusion.ai`, not the bare apex.** Found out
-  during testing — Vercel was redirecting `illusion.ai` → `www.illusion.ai`
-  with a 307. Every URL in index.html, sitemap.xml, and robots.txt was
-  updated to use www consistently. **Rule going forward:** any new URL
-  anywhere in the project (email templates, marketing copy, backlinks we
-  submit) uses `https://www.illusion.ai/` as the canonical form.
+- **Canonical host is `illusion.ai`, not `www.illusion.ai`.** This changed
+  after Vercel was switched to redirect `www.illusion.ai` → `illusion.ai`.
+  Every URL in index.html, sitemap.xml, robots.txt, llms.txt, blog canonicals,
+  and public CTAs should use the apex consistently. **Rule going forward:**
+  any new URL anywhere in the project (email templates, marketing copy,
+  backlinks we submit) uses `https://illusion.ai/` as the canonical form.
 - **Filename is `OG.png`, not `og-image.png`.** David's existing file lives
   in the public folder with capitals. References in index.html match.
 - **Added the `Organization` JSON-LD block** in addition to the
@@ -123,14 +123,13 @@ These require DNS access and/or account ownership so can't be automated:
 1. **Verify in [Google Search Console](https://search.google.com/search-console)**.
    Use the **Domain** property type (just enter `illusion.ai`, no protocol,
    no www). Google gives a TXT record — add it at your DNS provider. Domain
-   property covers www + non-www + http + https with one record, which is
-   what we want given www is canonical but people still type the bare apex.
-   Once verified, submit `https://www.illusion.ai/sitemap.xml` under Sitemaps.
+   property covers www + non-www + http + https with one record.
+   Once verified, submit `https://illusion.ai/sitemap.xml` under Sitemaps.
 2. **Verify in [Bing Webmaster Tools](https://www.bing.com/webmasters)**.
    Easiest path: import from GSC once that's verified. Bing powers ChatGPT's
    web citations, so ranking here matters for our own category.
 3. **Check social previews at [opengraph.xyz](https://www.opengraph.xyz/)**
-   after the next Vercel deploy. Paste `https://www.illusion.ai/` and
+   after the next Vercel deploy. Paste `https://illusion.ai/` and
    confirm the card renders with OG.png + title + description across
    every major network.
 4. *(Optional)* Verify at [Ahrefs Webmaster Tools](https://ahrefs.com/webmaster-tools)

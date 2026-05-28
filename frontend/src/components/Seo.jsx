@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const SITE_URL = 'https://www.illusion.ai'
+const SITE_URL = 'https://illusion.ai'
 
 function setMeta(selector, attr, value) {
   if (!value) return

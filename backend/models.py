@@ -148,6 +148,7 @@ class WebsiteAudit(Base):
     ai_score = Column(Integer, nullable=True)
     executive_summary = Column(Text, nullable=True)
     findings = Column(JSON, default=list)
+    content_suggestions = Column(JSON, default=list)
     crawled_pages = Column(JSON, default=list)
     extracted_signals = Column(JSON, default=dict)
     model_used = Column(String, nullable=True)

@@ -46,6 +46,10 @@ REVIEW_WORDS = ("testimonial", "review", "client", "customer", "trusted by")
 FAQ_WORDS = ("faq", "frequently asked", "questions", "how much", "what is")
 AI_BOTS = ("GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot",
            "Claude-SearchBot", "PerplexityBot", "Google-Extended")
+SUGGESTION_TYPES = {
+    "FAQ", "Service page", "Location page", "Trust proof",
+    "Comparison", "Guide", "Pricing/process",
+}
 
 
 class AuditError(Exception):
@@ -388,6 +392,138 @@ def _add_finding(findings: list[dict], category: str, severity: str, title: str,
     findings.append(item)
 
 
+def _add_content_suggestion(
+    suggestions: list[dict],
+    seen: set[tuple[str, str]],
+    suggestion_type: str,
+    title: str,
+    description: str,
+    target_question: str,
+    priority: str,
+    effort: str,
+    source_finding: Optional[str] = None,
+    outline: Optional[list[str]] = None,
+):
+    suggestion_type = suggestion_type if suggestion_type in SUGGESTION_TYPES else "Guide"
+    clean_title = _clean_text(title, 140)
+    key = (suggestion_type, clean_title.lower())
+    if not clean_title or key in seen:
+        return
+    seen.add(key)
+    item = {
+        "type": suggestion_type,
+        "title": clean_title,
+        "description": _clean_text(description, 300),
+        "target_question": _clean_text(target_question, 180),
+        "priority": priority if priority in {"high", "medium", "low"} else "medium",
+        "effort": effort if effort in {"low", "medium", "high"} else "medium",
+    }
+    if source_finding:
+        item["source_finding"] = _clean_text(source_finding, 140)
+    if outline:
+        item["outline"] = [_clean_text(step, 120) for step in outline[:5] if _clean_text(step, 120)]
+    suggestions.append(item)
+
+
+def _content_suggestions_from_report(findings: list[dict], signals: dict, pages: list[dict]) -> list[dict]:
+    """Create practical content ideas from the crawl/finding signals."""
+    suggestions: list[dict] = []
+    seen: set[tuple[str, str]] = set()
+    domain = signals.get("domain") or (domain_for_url(pages[0]["url"]) if pages else "this business")
+    homepage = pages[0] if pages else {}
+    h1 = (homepage.get("h1") or [""])[0]
+    title = homepage.get("title") or h1 or domain
+    business_label = re.sub(r"\s*[|-]\s*.*$", "", title).strip() or domain
+
+    def related(*needles: str) -> Optional[str]:
+        lowered = tuple(n.lower() for n in needles)
+        for finding in findings:
+            text = f"{finding.get('title', '')} {finding.get('category', '')}".lower()
+            if any(n in text for n in lowered):
+                return finding.get("title")
+        return None
+
+    if not signals.get("has_service_page"):
+        _add_content_suggestion(
+            suggestions, seen, "Service page",
+            f"Create dedicated pages for each main service",
+            "A single homepage section is usually too vague for customers and AI answer engines. Each service needs its own page with clear scope, fit, proof, and next step.",
+            f"What services does {business_label} offer?",
+            "high", "medium", related("service"),
+            ["Who the service is for", "What is included", "When someone needs it", "Proof or examples", "Clear contact CTA"],
+        )
+
+    if not signals.get("has_location_signal"):
+        _add_content_suggestion(
+            suggestions, seen, "Location page",
+            "Add a service-area or local landing page",
+            "Local and regional language helps Google and AI tools understand where the business can realistically serve customers.",
+            f"Does {business_label} serve customers near me?",
+            "high", "low", related("location", "local"),
+            ["Primary city or region", "Nearby areas served", "Services available there", "Local trust proof", "Contact details"],
+        )
+
+    if not signals.get("has_faq"):
+        _add_content_suggestion(
+            suggestions, seen, "FAQ",
+            "Publish a short buyer-question FAQ",
+            "AI answer engines respond to questions. A practical FAQ gives them clean answers about pricing, timing, process, and fit.",
+            f"What should I know before hiring {business_label}?",
+            "high", "low", related("faq"),
+            ["Who you help", "How pricing works", "How long it takes", "What to prepare", "How to get started"],
+        )
+
+    if not signals.get("has_reviews"):
+        _add_content_suggestion(
+            suggestions, seen, "Trust proof",
+            "Turn reviews and testimonials into a proof section",
+            "Visible customer proof helps visitors trust the business and gives AI tools evidence to summarize beyond the business's own claims.",
+            f"Can I trust {business_label}?",
+            "medium", "low", related("review", "testimonial"),
+            ["2-4 short testimonials", "Review platform links", "Customer type served", "Outcome or benefit", "Permission-safe attribution"],
+        )
+
+    if not signals.get("local_schema_found"):
+        _add_content_suggestion(
+            suggestions, seen, "Guide",
+            "Add a plain-English business overview page",
+            "A concise overview page can reinforce the same entity facts that schema should express: business name, services, audience, location, and proof.",
+            f"What does {business_label} do and who is it for?",
+            "medium", "low", related("schema", "structured_data"),
+            ["Business summary", "Primary services", "Who you serve", "Service area or market", "Trust signals"],
+        )
+
+    if not signals.get("has_cta") or not (signals.get("has_email") or signals.get("has_phone")):
+        _add_content_suggestion(
+            suggestions, seen, "Pricing/process",
+            "Create a clear contact and next-steps section",
+            "Customers and AI summaries both need an obvious path from interest to action. Explain what happens after someone reaches out.",
+            f"How do I contact or start working with {business_label}?",
+            "high", "low", related("contact", "call to action"),
+            ["Best way to contact you", "What happens next", "Expected response time", "Information to include", "Visible CTA"],
+        )
+
+    _add_content_suggestion(
+        suggestions, seen, "Comparison",
+        "Add a how-to-choose comparison page",
+        "Comparison-style content helps customers understand fit and gives AI tools structured language for recommendation questions.",
+        f"How should I choose the right provider instead of guessing?",
+        "medium", "medium",
+        outline=["Who each option is best for", "Tradeoffs to consider", "Questions to ask", "Red flags", "Why your approach is different"],
+    )
+
+    _add_content_suggestion(
+        suggestions, seen, "Guide",
+        "Publish one practical guide for your most common customer problem",
+        "A useful guide gives the site more answer-style content and helps AI tools connect the business to real customer needs.",
+        f"How do I solve the problem {business_label} helps with?",
+        "medium", "medium",
+        outline=["Problem symptoms", "Common causes", "DIY checks", "When to hire help", "How your service solves it"],
+    )
+
+    return suggestions[:8]
+
+
 def _choose_extra_pages(base_url: str, parser: PageParser, sitemap_urls: list[str]) -> list[str]:
     candidates: list[tuple[int, str]] = []
     seen: set[str] = set()
@@ -630,6 +766,7 @@ def _build_deterministic_report(normalized_url: str, pages: list[dict], parsers:
         "image_alt_rate": round(alt_rate, 2),
         "strengths": strengths[:5],
     }
+    content_suggestions = _content_suggestions_from_report(findings, signals, pages)
 
     summary = (
         "The site is crawlable, but the highest-leverage fixes are about clarity, "
@@ -652,6 +789,7 @@ def _build_deterministic_report(normalized_url: str, pages: list[dict], parsers:
             "ai": ai_score,
         },
         "findings": findings[:12],
+        "content_suggestions": content_suggestions,
         "signals": signals,
     }
 
@@ -675,11 +813,25 @@ Return ONLY valid JSON with this exact shape:
       "effort": "low|medium|high",
       "suggested_copy": "optional copy the user can paste"
     }
+  ],
+  "content_suggestions": [
+    {
+      "type": "FAQ|Service page|Location page|Trust proof|Comparison|Guide|Pricing/process",
+      "title": "short content idea title",
+      "description": "why this content should exist based on the crawl",
+      "target_question": "customer-style question this content would answer",
+      "priority": "high|medium|low",
+      "effort": "low|medium|high",
+      "source_finding": "optional related audit finding title",
+      "outline": ["optional bullet", "optional bullet"]
+    }
   ]
 }
 
 Keep advice concrete and honest. Favor fixes that a small business can ship without hiring an
-enterprise SEO agency. Do not invent facts that were not present in the crawl data.\
+enterprise SEO agency. Content suggestions must be based on the website crawl, findings,
+and missing service/trust/location signals. Do not claim they are based on citation data
+or prompt monitoring. Do not invent facts that were not present in the crawl data.\
 """
 
 
@@ -697,7 +849,7 @@ def _try_ai_polish(deterministic: dict, pages: list[dict], normalized_url: str) 
         client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
         message = client.messages.create(
             model=settings.anthropic_model,
-            max_tokens=2200,
+            max_tokens=3000,
             system=AI_SYSTEM_PROMPT,
             messages=[{
                 "role": "user",
@@ -757,6 +909,39 @@ def _normalize_report(report: dict, fallback: dict) -> dict:
     if not findings:
         findings = fallback.get("findings") or []
 
+    suggestions = []
+    for suggestion in report.get("content_suggestions") or []:
+        if not isinstance(suggestion, dict):
+            continue
+        suggestion_type = suggestion.get("type") or "Guide"
+        if suggestion_type not in SUGGESTION_TYPES:
+            suggestion_type = "Guide"
+        priority = (suggestion.get("priority") or "medium").lower()
+        if priority not in {"high", "medium", "low"}:
+            priority = "medium"
+        effort = (suggestion.get("effort") or "medium").lower()
+        if effort not in {"low", "medium", "high"}:
+            effort = "medium"
+        item = {
+            "type": suggestion_type,
+            "title": _clean_text(suggestion.get("title") or "", 140),
+            "description": _clean_text(suggestion.get("description") or "", 300),
+            "target_question": _clean_text(suggestion.get("target_question") or "", 180),
+            "priority": priority,
+            "effort": effort,
+        }
+        if suggestion.get("source_finding"):
+            item["source_finding"] = _clean_text(suggestion.get("source_finding"), 140)
+        outline = suggestion.get("outline")
+        if isinstance(outline, list):
+            cleaned_outline = [_clean_text(str(step), 120) for step in outline[:5]]
+            item["outline"] = [step for step in cleaned_outline if step]
+        if item["title"] and item["description"]:
+            suggestions.append(item)
+
+    if not suggestions:
+        suggestions = fallback.get("content_suggestions") or []
+
     return {
         "executive_summary": _clean_text(
             report.get("executive_summary") or fallback.get("executive_summary") or "",
@@ -764,6 +949,7 @@ def _normalize_report(report: dict, fallback: dict) -> dict:
         ),
         "scores": normalized_scores,
         "findings": findings[:12],
+        "content_suggestions": suggestions[:8],
         "signals": fallback.get("signals") or {},
         "model_used": report.get("model_used") or fallback.get("model_used") or settings.anthropic_model,
     }
@@ -805,6 +991,7 @@ def run_website_audit(raw_url: str) -> dict:
         "executive_summary": final_report["executive_summary"],
         "scores": final_report["scores"],
         "findings": final_report["findings"],
+        "content_suggestions": final_report.get("content_suggestions") or [],
         "crawled_pages": pages,
         "extracted_signals": final_report.get("signals") or {},
         "model_used": final_report.get("model_used") or "deterministic",

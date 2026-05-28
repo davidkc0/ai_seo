@@ -122,6 +122,7 @@ def _ensure_website_audit_lead_columns(sync_conn):
     for col_name, col_type in (
         ("contact_email", "VARCHAR"),
         ("lead_source", "VARCHAR"),
+        ("content_suggestions", "JSON"),
         ("report_email_sent_at", timestamp_type),
         ("report_email_status", "VARCHAR"),
     ):

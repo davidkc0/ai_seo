@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     # Resend
     resend_api_key: str = ""
     resend_from_email: str = "noreply@contact.illusion.ai"
+    resend_audit_from_email: str = "David at Illusion <david@contact.illusion.ai>"
+    resend_audit_reply_to_email: str = "david@contact.illusion.ai"
 
     # Stripe
     stripe_secret_key: str = ""

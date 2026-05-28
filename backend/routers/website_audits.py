@@ -93,6 +93,7 @@ def _serialize_audit(audit: WebsiteAudit, include_token: bool = False) -> dict:
         },
         "executive_summary": audit.executive_summary,
         "findings": audit.findings or [],
+        "content_suggestions": audit.content_suggestions or [],
         "crawled_pages": audit.crawled_pages or [],
         "extracted_signals": audit.extracted_signals or {},
         "model_used": audit.model_used,
@@ -157,6 +158,7 @@ async def _run_audit_job(audit_id: int):
             audit.ai_score = scores.get("ai")
             audit.executive_summary = report["executive_summary"]
             audit.findings = report["findings"]
+            audit.content_suggestions = report.get("content_suggestions") or []
             audit.crawled_pages = report["crawled_pages"]
             audit.extracted_signals = report["extracted_signals"]
             audit.model_used = report["model_used"]

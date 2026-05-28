@@ -47,6 +47,9 @@ export const track = {
   auditReportLinkCopied: () => capture('website_audit_report_link_copied'),
   findingExpanded: (category, severity) =>
     capture('website_audit_finding_expanded', { category, severity }),
+  contentSuggestionClicked: (type, priority) =>
+    capture('website_audit_content_suggestion_clicked', { type, priority }),
+  contentSuggestionsCtaClicked: () => capture('website_audit_content_suggestions_cta_clicked'),
   signupFromAudit: () => capture('signup_from_audit'),
 
   // ── Monetisation ──────────────────────────────────────────────

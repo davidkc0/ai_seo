@@ -1,5 +1,21 @@
 import React, { useState } from 'react'
-import { AlertCircle, CheckCircle, ChevronDown, ChevronUp, ExternalLink, Globe, Lock, Sparkles } from 'lucide-react'
+import {
+  AlertCircle,
+  BookOpen,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+  DollarSign,
+  ExternalLink,
+  FileQuestion,
+  FileText,
+  GitCompare,
+  Globe,
+  Lock,
+  MapPin,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react'
 import { track } from '../analytics'
 import './WebsiteAuditReport.css'
 
@@ -31,6 +47,20 @@ function severityIcon(severity) {
   return <CheckCircle size={14} />
 }
 
+function suggestionIcon(type) {
+  const icons = {
+    FAQ: FileQuestion,
+    'Service page': FileText,
+    'Location page': MapPin,
+    'Trust proof': ShieldCheck,
+    Comparison: GitCompare,
+    Guide: BookOpen,
+    'Pricing/process': DollarSign,
+  }
+  const Icon = icons[type] || BookOpen
+  return <Icon size={18} />
+}
+
 export default function WebsiteAuditReport({
   audit,
   publicToken,
@@ -39,18 +69,34 @@ export default function WebsiteAuditReport({
   claiming = false,
 }) {
   const [expanded, setExpanded] = useState(0)
+  const [expandedSuggestion, setExpandedSuggestion] = useState(null)
 
   if (!audit) return null
 
   const scores = audit.scores || {}
   const findings = audit.findings || []
   const topFindings = publicMode ? findings.slice(0, 8) : findings
+  const contentSuggestions = audit.content_suggestions || []
+  const visibleSuggestions = publicMode ? contentSuggestions.slice(0, 3) : contentSuggestions
+  const hasLockedSuggestions = publicMode && contentSuggestions.length > 3
 
   const toggleFinding = (idx, finding) => {
     setExpanded(expanded === idx ? null : idx)
     if (expanded !== idx) {
       track.findingExpanded(finding.category, finding.severity)
     }
+  }
+
+  const toggleSuggestion = (idx, suggestion) => {
+    setExpandedSuggestion(expandedSuggestion === idx ? null : idx)
+    if (expandedSuggestion !== idx) {
+      track.contentSuggestionClicked(suggestion.type, suggestion.priority)
+    }
+  }
+
+  const handleContentCta = () => {
+    track.contentSuggestionsCtaClicked()
+    onClaim?.()
   }
 
   return (
@@ -159,6 +205,70 @@ export default function WebsiteAuditReport({
               )
             })}
           </div>
+
+          {contentSuggestions.length > 0 && (
+            <div className="audit-content-suggestions">
+              <div className="audit-section-heading">
+                <div className="audit-section-title">Content suggestions</div>
+                <p>Ideas based on the crawl findings, missing service/trust signals, and questions customers are likely to ask AI tools.</p>
+              </div>
+              <div className="audit-suggestion-list">
+                {visibleSuggestions.map((suggestion, idx) => {
+                  const open = expandedSuggestion === idx
+                  return (
+                    <button
+                      type="button"
+                      className={`audit-suggestion priority-${suggestion.priority || 'medium'} ${open ? 'open' : ''}`}
+                      key={`${suggestion.title}-${idx}`}
+                      onClick={() => toggleSuggestion(idx, suggestion)}
+                    >
+                      <div className="audit-suggestion-icon">{suggestionIcon(suggestion.type)}</div>
+                      <div className="audit-suggestion-copy">
+                        <div className="audit-suggestion-meta">
+                          <span>{suggestion.type || 'Guide'}</span>
+                          <span>{suggestion.priority || 'medium'} priority</span>
+                          <span>{suggestion.effort || 'medium'} effort</span>
+                        </div>
+                        <strong>{suggestion.title}</strong>
+                        {suggestion.description && <p>{suggestion.description}</p>}
+                        {suggestion.target_question && (
+                          <div className="audit-suggestion-question">{suggestion.target_question}</div>
+                        )}
+                        {open && suggestion.outline?.length > 0 && (
+                          <ul className="audit-suggestion-outline">
+                            {suggestion.outline.map((step, stepIdx) => (
+                              <li key={`${step}-${stepIdx}`}>{step}</li>
+                            ))}
+                          </ul>
+                        )}
+                        {open && suggestion.source_finding && (
+                          <div className="audit-suggestion-source">Related fix: {suggestion.source_finding}</div>
+                        )}
+                      </div>
+                      <span className="audit-suggestion-chevron">
+                        {open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                      </span>
+                    </button>
+                  )
+                })}
+                {hasLockedSuggestions && (
+                  <div className="audit-suggestion-locked">
+                    <div className="audit-suggestion-locked-preview">
+                      <div className="audit-suggestion-icon"><Lock size={18} /></div>
+                      <div className="audit-suggestion-copy">
+                        <div className="audit-suggestion-meta"><span>More ideas</span><span>saved report</span></div>
+                        <strong>Unlock the rest of the content plan</strong>
+                        <p>Save this audit to keep the report, rerun it later, and see the remaining content suggestions.</p>
+                      </div>
+                    </div>
+                    <button className="btn-primary audit-suggestion-unlock" type="button" onClick={handleContentCta} disabled={claiming || !publicToken}>
+                      {claiming ? 'Saving...' : 'Save audit to unlock more'}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {audit.crawled_pages?.length > 0 && (
             <div className="audit-pages">

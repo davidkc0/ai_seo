@@ -42,6 +42,14 @@ def _bulk_email_headers(unsubscribe_url: str) -> dict:
     }
 
 
+def _audit_sender_params() -> dict:
+    """Human sender for requested audit reports, separate from no-reply auth mail."""
+    params = {"from": settings.resend_audit_from_email}
+    if settings.resend_audit_reply_to_email:
+        params["reply_to"] = [settings.resend_audit_reply_to_email]
+    return params
+
+
 def send_website_audit_report_email(to_email: str, audit: dict, share_url: str) -> bool:
     """Send the completed public website-audit report link."""
     if not _is_resend_configured():
@@ -105,7 +113,7 @@ def send_website_audit_report_email(to_email: str, audit: dict, share_url: str) 
 
     try:
         resend.Emails.send({
-            "from": settings.resend_from_email,
+            **_audit_sender_params(),
             "to": [to_email],
             "subject": f"Your Illusion website audit for {domain} is ready",
             "html": html_body,
@@ -149,7 +157,7 @@ def send_website_audit_failed_email(to_email: str, domain: str, retry_url: Optio
 """
     try:
         resend.Emails.send({
-            "from": settings.resend_from_email,
+            **_audit_sender_params(),
             "to": [to_email],
             "subject": f"We couldn't finish your audit for {safe_domain}",
             "html": html_body,

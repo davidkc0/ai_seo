@@ -173,8 +173,26 @@
   margin-bottom: 10px;
 }
 
+.audit-section-heading {
+  margin-bottom: 10px;
+}
+
+.audit-section-heading .audit-section-title {
+  margin-bottom: 6px;
+}
+
+.audit-section-heading p {
+  max-width: 720px;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0;
+}
+
 .audit-findings,
-.audit-pages {
+.audit-pages,
+.audit-content-suggestions,
+.audit-suggestion-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -275,6 +293,158 @@
   font-size: 12px;
 }
 
+.audit-suggestion {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: flex-start;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 16px;
+}
+
+.audit-suggestion:hover,
+.audit-suggestion.open {
+  border-color: var(--border-hover);
+  background: var(--surface2);
+}
+
+.audit-suggestion.priority-high {
+  border-left: 3px solid var(--primary);
+}
+
+.audit-suggestion.priority-medium {
+  border-left: 3px solid var(--warning);
+}
+
+.audit-suggestion.priority-low {
+  border-left: 3px solid var(--border-hover);
+}
+
+.audit-suggestion-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  color: var(--primary-light);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(16, 185, 129, 0.08));
+  border: 1px solid var(--border);
+}
+
+.audit-suggestion-copy {
+  min-width: 0;
+}
+
+.audit-suggestion-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+
+.audit-suggestion-meta span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+.audit-suggestion-copy strong {
+  display: block;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+
+.audit-suggestion-copy p {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.audit-suggestion-question {
+  display: inline-flex;
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--primary-light);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.audit-suggestion-outline {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.audit-suggestion-outline li + li {
+  margin-top: 4px;
+}
+
+.audit-suggestion-source {
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+.audit-suggestion-chevron {
+  display: inline-flex;
+  color: var(--text-dim);
+  padding-top: 3px;
+}
+
+.audit-suggestion-locked {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  border-radius: var(--radius);
+  background: var(--surface);
+  min-height: 128px;
+}
+
+.audit-suggestion-locked-preview {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px;
+  filter: blur(2px);
+  opacity: 0.42;
+  pointer-events: none;
+}
+
+.audit-suggestion-locked::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.1), rgba(10, 10, 10, 0.84));
+}
+
+.audit-suggestion-unlock {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 1;
+  white-space: nowrap;
+}
+
 .audit-page-row {
   display: flex;
   justify-content: space-between;
@@ -326,5 +496,26 @@
   .audit-finding-title {
     grid-column: 1 / -1;
     white-space: normal;
+  }
+
+  .audit-suggestion {
+    grid-template-columns: 1fr auto;
+  }
+
+  .audit-suggestion-icon {
+    grid-column: 1 / -1;
+  }
+
+  .audit-suggestion-copy {
+    grid-column: 1 / 2;
+  }
+
+  .audit-suggestion-locked-preview {
+    grid-template-columns: 1fr;
+  }
+
+  .audit-suggestion-unlock {
+    width: calc(100% - 32px);
+    justify-content: center;
   }
 }

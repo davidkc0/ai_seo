@@ -8,6 +8,7 @@ API key and one SDK to hit Claude, GPT, Gemini, and Perplexity.
 Model catalog: https://openrouter.ai/models
 """
 from typing import Optional
+import anthropic
 from openai import OpenAI
 
 from config import settings
@@ -24,12 +25,18 @@ client = OpenAI(
     },
 )
 
+anthropic_client = (
+    anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    if settings.anthropic_api_key
+    else None
+)
+
 
 # Provider registry: short tag (stored in DB) → (display name, OpenRouter model id).
 # To swap tiers later (e.g. GPT-4o instead of GPT-4o-mini for a Growth plan),
 # change the model id here or add a separate PREMIUM_PROVIDERS dict.
 PROVIDERS = {
-    "claude":     ("Claude Haiku 4.5",   "anthropic/claude-3.5-haiku"),
+    "claude":     ("Claude 3 Haiku",     "anthropic/claude-3-haiku"),
     "gpt":        ("GPT-4o mini",        "openai/gpt-4o-mini"),
     "gemini":     ("Gemini 2.5 Flash",   "google/gemini-2.5-flash"),
     "perplexity": ("Perplexity Sonar",   "perplexity/sonar"),
@@ -76,12 +83,29 @@ def query_provider(provider_tag: str, prompt: str) -> str:
         raise ValueError(f"Unknown provider: {provider_tag}")
 
     _, model_id = PROVIDERS[provider_tag]
-    response = client.chat.completions.create(
-        model=model_id,
-        max_tokens=1024,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.choices[0].message.content or ""
+    try:
+        response = client.chat.completions.create(
+            model=model_id,
+            max_tokens=1024,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return response.choices[0].message.content or ""
+    except Exception as e:
+        if provider_tag == "claude" and anthropic_client:
+            print(
+                "[monitor] OpenRouter Claude failed; falling back to direct Anthropic: "
+                f"{type(e).__name__}"
+            )
+            direct = anthropic_client.messages.create(
+                model=settings.anthropic_scan_model,
+                max_tokens=1024,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            return "".join(
+                block.text for block in direct.content
+                if getattr(block, "type", None) == "text"
+            )
+        raise
 
 
 def analyze_response(response: str, product_name: str, competitors: list[str]) -> dict:
@@ -199,4 +223,3 @@ def run_product_scan(
                 results.append(result)
 
     return results
-

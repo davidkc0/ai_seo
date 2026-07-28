@@ -109,7 +109,14 @@ def _serialize_audit(audit: WebsiteAudit, include_token: bool = False) -> dict:
 
 
 async def _send_report_email_if_needed(audit: WebsiteAudit):
-    if not audit.contact_email or audit.report_email_status:
+    if not audit.contact_email:
+        print(f"[website_audits] Audit {audit.id} has no contact email; skipping report email")
+        return
+    if audit.report_email_status:
+        print(
+            f"[website_audits] Audit {audit.id} report email already handled "
+            f"with status={audit.report_email_status}"
+        )
         return
 
     if audit.status == "completed":
@@ -120,6 +127,10 @@ async def _send_report_email_if_needed(audit: WebsiteAudit):
             _share_url(audit.public_token),
         )
         audit.report_email_status = "sent" if ok else "failed"
+        print(
+            f"[website_audits] Audit {audit.id} completed report email "
+            f"{'sent' if ok else 'failed'}"
+        )
     elif audit.status == "failed":
         ok = await asyncio.to_thread(
             send_website_audit_failed_email,
@@ -128,6 +139,10 @@ async def _send_report_email_if_needed(audit: WebsiteAudit):
             f"{settings.app_url.rstrip('/')}/analyze",
         )
         audit.report_email_status = "failure_sent" if ok else "failed"
+        print(
+            f"[website_audits] Audit {audit.id} failure email "
+            f"{'sent' if ok else 'failed'}"
+        )
     else:
         return
 

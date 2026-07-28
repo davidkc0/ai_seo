@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     # per-scan SEO summary (fed with LLM scan data + Google AI Overview).
     anthropic_api_key: str = ""
     anthropic_model: str = "claude-sonnet-4-6"
+    anthropic_scan_model: str = "claude-haiku-4-5"
 
     # SerpAPI — scrapes Google AI Overview for the primary query each scan.
     serpapi_api_key: str = ""

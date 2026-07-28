@@ -41,6 +41,13 @@ async def scan_product(product_id: int, db: AsyncSession):
         keywords=product.keywords or [],
     )
 
+    if not scan_results:
+        print(
+            f"[Scheduler] Scan produced 0 provider results for {product.name} "
+            f"(id={product_id}); not updating last_scanned_at"
+        )
+        return
+
     new_results = []
     for sr in scan_results:
         db_result = ScanResult(
@@ -242,11 +249,19 @@ async def run_weekly_scans():
 async def send_weekly_digests():
     """Send weekly email digest to all users."""
     async with AsyncSessionLocal() as db:
-        from sqlalchemy import func
         week_ago = datetime.now(timezone.utc) - timedelta(days=7)
+        sent_count = 0
+        skipped_no_scans = 0
+        failed_count = 0
 
-        result = await db.execute(select(User).where(User.is_active == True))
+        result = await db.execute(
+            select(User).where(
+                User.is_active == True,
+                User.email_verified == True,
+            )
+        )
         users = result.scalars().all()
+        print(f"[Scheduler] Weekly digest job started for {len(users)} verified active users")
 
         for user in users:
             # Check notification preferences
@@ -276,6 +291,11 @@ async def send_weekly_digests():
                 scans = scan_result.scalars().all()
 
                 if not scans:
+                    skipped_no_scans += 1
+                    print(
+                        f"[Scheduler] Weekly digest skipped: no scans in last 7 days "
+                        f"for product {product.id}"
+                    )
                     continue
 
                 total = len(scans)
@@ -313,13 +333,24 @@ async def send_weekly_digests():
                     "sample_responses": sample_responses,
                 }
 
-                email_service.send_weekly_digest(
+                ok = email_service.send_weekly_digest(
                     to_email=user.email,
                     user_name=user.email.split("@")[0],
                     product_name=product.name,
                     scan_summary=scan_summary,
                     unsubscribe_token=user.unsubscribe_token,
                 )
+                if ok:
+                    sent_count += 1
+                    print(f"[Scheduler] Weekly digest sent for product {product.id}")
+                else:
+                    failed_count += 1
+                    print(f"[Scheduler] Weekly digest failed for product {product.id}")
+
+        print(
+            "[Scheduler] Weekly digest job finished: "
+            f"sent={sent_count}, failed={failed_count}, skipped_no_scans={skipped_no_scans}"
+        )
 
 
 async def sync_bot_traffic():

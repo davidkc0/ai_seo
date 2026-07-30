@@ -364,6 +364,43 @@
   margin-bottom: 28px;
 }
 
+.first-scan-state {
+  max-width: 680px;
+  margin: 48px auto 0;
+}
+
+.first-scan-state > p {
+  max-width: 520px;
+  margin-bottom: 0;
+}
+
+.first-scan-prompts {
+  width: min(100%, 620px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 18px 0;
+  text-align: left;
+}
+
+.first-scan-prompts div {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 12px;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+.first-scan-prompts span {
+  color: var(--primary-light);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
 /* ─── Messages ──────────────────────────────────────────────── */
 .success-msg,
 .error-msg {

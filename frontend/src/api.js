@@ -92,6 +92,11 @@ export const api = {
   // Billing
   getPlans: () => request('/billing/plans'),
   createCheckout: (plan) => request(`/billing/create-checkout?plan=${plan}`, { method: 'POST' }),
+  createAuditReviewCheckout: (publicToken) =>
+    request('/billing/audit-review-checkout', {
+      method: 'POST',
+      body: JSON.stringify({ public_token: publicToken }),
+    }),
   createPortal: () => request('/billing/portal', { method: 'POST' }),
 
   // Settings

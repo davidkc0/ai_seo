@@ -199,6 +199,71 @@
   box-shadow: 0 0 20px var(--primary-glow);
 }
 
+/* ─── Hands-on services ─────────────────────────────────────── */
+.pricing-hands-on {
+  margin-bottom: 72px;
+  padding: 36px;
+  text-align: left;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.09), var(--surface) 58%);
+  border: 1px solid rgba(16, 185, 129, 0.24);
+  border-radius: var(--radius-xl);
+}
+
+.pricing-hands-on-header {
+  max-width: 620px;
+  margin-bottom: 24px;
+}
+
+.pricing-hands-on-header > span {
+  display: block;
+  margin-bottom: 7px;
+  font-family: var(--font-mono);
+  color: var(--primary-light);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pricing-hands-on-header h2 {
+  margin-bottom: 7px;
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.pricing-hands-on-header p,
+.pricing-hands-on-grid p {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.pricing-hands-on-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pricing-hands-on-grid > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 18px;
+  background: rgba(10, 10, 10, 0.58);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.pricing-hands-on-grid strong {
+  margin-bottom: 6px;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.pricing-hands-on-grid p {
+  flex: 1;
+  margin-bottom: 16px;
+}
+
 /* ─── FAQ ───────────────────────────────────────────────────── */
 .pricing-faq {
   display: grid;
@@ -238,5 +303,19 @@
 
   .pricing-faq {
     grid-template-columns: 1fr;
+  }
+
+  .pricing-hands-on {
+    padding: 24px 18px;
+  }
+
+  .pricing-hands-on-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-hands-on-grid .btn-primary,
+  .pricing-hands-on-grid .btn-ghost {
+    width: 100%;
+    justify-content: center;
   }
 }

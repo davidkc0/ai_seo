@@ -51,6 +51,12 @@ export const track = {
     capture('website_audit_content_suggestion_clicked', { type, priority }),
   contentSuggestionsCtaClicked: () => capture('website_audit_content_suggestions_cta_clicked'),
   signupFromAudit: () => capture('signup_from_audit'),
+  auditVisibilityScanClicked: (promptCount) =>
+    capture('website_audit_visibility_scan_clicked', { prompt_count: promptCount }),
+  auditFirstScanStarted: () => capture('website_audit_first_scan_started'),
+  founderReviewCheckoutStarted: () => capture('founder_review_checkout_started'),
+  founderReviewCheckoutCompleted: () => capture('founder_review_checkout_completed'),
+  websiteCleanupRequested: () => capture('website_cleanup_requested'),
 
   // ── Monetisation ──────────────────────────────────────────────
   checkoutStarted: (plan) => capture('checkout_started', { plan }),

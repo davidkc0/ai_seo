@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
   AlertCircle,
+  ArrowRight,
   BookOpen,
   CheckCircle,
   ChevronDown,
@@ -13,10 +14,12 @@ import {
   Globe,
   Lock,
   MapPin,
+  Search,
   ShieldCheck,
   Sparkles,
 } from 'lucide-react'
 import { track } from '../analytics'
+import { buildAuditBuyerQuestions } from '../auditPrompts'
 import './WebsiteAuditReport.css'
 
 const SCORE_LABELS = [
@@ -67,6 +70,11 @@ export default function WebsiteAuditReport({
   publicMode = false,
   onClaim,
   claiming = false,
+  onStartScan,
+  startingScan = false,
+  onBookReview,
+  bookingReview = false,
+  onRequestCleanup,
 }) {
   const [expanded, setExpanded] = useState(0)
   const [expandedSuggestion, setExpandedSuggestion] = useState(null)
@@ -79,6 +87,7 @@ export default function WebsiteAuditReport({
   const contentSuggestions = audit.content_suggestions || []
   const visibleSuggestions = publicMode ? contentSuggestions.slice(0, 3) : contentSuggestions
   const hasLockedSuggestions = publicMode && contentSuggestions.length > 3
+  const buyerQuestions = buildAuditBuyerQuestions(audit)
 
   const toggleFinding = (idx, finding) => {
     setExpanded(expanded === idx ? null : idx)
@@ -163,6 +172,40 @@ export default function WebsiteAuditReport({
               <button className="btn-primary" onClick={onClaim} disabled={claiming || !publicToken}>
                 {claiming ? 'Saving...' : 'Save audit'}
               </button>
+            </div>
+          )}
+
+          {publicMode && buyerQuestions.length > 0 && (
+            <div className="audit-visibility-bridge">
+              <div className="audit-visibility-intro">
+                <div className="audit-visibility-icon"><Search size={19} /></div>
+                <div>
+                  <span className="audit-visibility-kicker">The next question</span>
+                  <h3>Does AI recommend this business?</h3>
+                  <p>
+                    The audit shows whether the website is understandable. Illusion can now check
+                    what ChatGPT, Claude, Gemini, and Perplexity actually say when customers ask.
+                  </p>
+                </div>
+              </div>
+              <div className="audit-prompt-list">
+                {buyerQuestions.map((question, idx) => (
+                  <div className="audit-prompt-row" key={question}>
+                    <span>{String(idx + 1).padStart(2, '0')}</span>
+                    <p>{question}</p>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                className="btn-primary audit-visibility-cta"
+                onClick={onStartScan}
+                disabled={startingScan || !publicToken}
+              >
+                {startingScan ? 'Preparing scan...' : 'Run my first visibility scan'}
+                {!startingScan && <ArrowRight size={15} />}
+              </button>
+              <small>Free account required. These three questions will be added for you.</small>
             </div>
           )}
 
@@ -266,6 +309,33 @@ export default function WebsiteAuditReport({
                     </button>
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+
+          {publicMode && (
+            <div className="audit-help-offer">
+              <div className="audit-section-heading">
+                <div className="audit-section-title">Want a human second opinion?</div>
+                <p>Turn the report into a short plan, or have the website fixes handled for you.</p>
+              </div>
+              <div className="audit-help-options">
+                <div className="audit-help-option">
+                  <span className="audit-help-price">$49 flat</span>
+                  <strong>Founder visibility review</strong>
+                  <p>A focused review of your audit, first AI visibility scan, and the three changes worth doing first.</p>
+                  <button type="button" className="btn-primary" onClick={onBookReview} disabled={bookingReview || !publicToken}>
+                    {bookingReview ? 'Opening checkout...' : 'Get the founder review'}
+                  </button>
+                </div>
+                <div className="audit-help-option">
+                  <span className="audit-help-price">Scoped after audit</span>
+                  <strong>Flat-fee website cleanup</strong>
+                  <p>For owners who want the clarity, schema, service-page, trust, and CTA fixes handled end to end.</p>
+                  <button type="button" className="btn-ghost" onClick={onRequestCleanup}>
+                    Request a cleanup quote
+                  </button>
+                </div>
               </div>
             </div>
           )}

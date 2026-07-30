@@ -111,7 +111,7 @@ export default function ProductModal({ onClose, onCreated, onUpdated, plan = 'fr
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>{isEdit ? 'Edit product' : 'Add product to track'}</h2>
+          <h2>{isEdit ? 'Edit business or product' : 'Add a business or product'}</h2>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
 

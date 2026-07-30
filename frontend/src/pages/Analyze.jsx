@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ArrowRight, Check, Copy, Loader, Mail, SearchCheck, X } from 'lucide-react'
 import { api } from '../api'
 import { useAuth } from '../AuthContext'
@@ -9,6 +9,7 @@ import SiteFooter from '../components/SiteFooter'
 import { ChatGptLogo, ClaudeLogo, GoogleAIOverviewsLogo } from '../components/AnswerEngineLogos'
 import illusionLogo from '../assets/illusion_logo.svg'
 import { track } from '../analytics'
+import { buildAuditBuyerQuestions } from '../auditPrompts'
 import './Analyze.css'
 
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || ''
@@ -76,12 +77,20 @@ export default function Analyze() {
   const [loading, setLoading] = useState(false)
   const [modalSubmitting, setModalSubmitting] = useState(false)
   const [claiming, setClaiming] = useState(false)
+  const [startingScan, setStartingScan] = useState(false)
+  const [bookingReview, setBookingReview] = useState(false)
   const [copied, setCopied] = useState(false)
   const [error, setError] = useState('')
   const completedRef = useRef(false)
   const pollRef = useRef(null)
   const { user } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const reviewBooked = new URLSearchParams(location.search).get('review') === 'booked'
+
+  useEffect(() => {
+    if (reviewBooked) track.founderReviewCheckoutCompleted()
+  }, [reviewBooked])
 
   useEffect(() => {
     if (!TURNSTILE_SITE_KEY) return
@@ -286,51 +295,76 @@ export default function Analyze() {
     window.setTimeout(() => setCopied(false), 1800)
   }
 
-  const claimAudit = async () => {
+  const continueFromAudit = (intent = 'save') => {
     const token = publicToken || audit?.public_token || routePublicToken
     if (!audit || !token) return
+    const questions = buildAuditBuyerQuestions(audit)
     const pending = {
       audit_id: audit.id,
       public_token: token,
       url: audit.normalized_url || url,
+      intent,
+      keywords: intent === 'first_scan' ? questions : [],
     }
     localStorage.setItem('pendingWebsiteAudit', JSON.stringify(pending))
 
     if (!user) {
       track.signupFromAudit()
-      navigate('/register?source=audit')
+      navigate(`/register?source=${intent === 'first_scan' ? 'audit-scan' : 'audit'}`)
       return
     }
 
     if (user.email_verified !== true) {
-      navigate('/verify-email?source=audit')
+      navigate(`/verify-email?source=${intent === 'first_scan' ? 'audit-scan' : 'audit'}`)
       return
     }
 
+    navigate(intent === 'first_scan' ? '/dashboard?from=audit-scan' : '/dashboard?tab=audit')
+  }
+
+  const claimAudit = () => {
     setClaiming(true)
     try {
-      const existingProducts = await api.getProducts().catch(() => [])
-      let productName = ''
-      try {
-        productName = new URL(audit.normalized_url || url).hostname.replace(/^www\./, '')
-      } catch {
-        productName = audit.domain || 'My website'
-      }
-      await api.claimWebsiteAudit(audit.id, {
-        public_token: token,
-        create_product: existingProducts.length === 0,
-        product_name: productName,
-        category: 'local service business',
-        use_case: 'small business customers',
-      })
-      localStorage.removeItem('pendingWebsiteAudit')
-      track.auditClaimed()
-      navigate('/dashboard?tab=audit')
-    } catch (e) {
-      setError(e.message)
+      continueFromAudit('save')
     } finally {
       setClaiming(false)
     }
+  }
+
+  const startVisibilityScan = () => {
+    const questions = buildAuditBuyerQuestions(audit)
+    setStartingScan(true)
+    track.auditVisibilityScanClicked(questions.length)
+    try {
+      continueFromAudit('first_scan')
+    } finally {
+      setStartingScan(false)
+    }
+  }
+
+  const bookFounderReview = async () => {
+    const token = publicToken || audit?.public_token || routePublicToken
+    if (!token) return
+    setBookingReview(true)
+    setError('')
+    try {
+      track.founderReviewCheckoutStarted()
+      const { checkout_url } = await api.createAuditReviewCheckout(token)
+      window.location.href = checkout_url
+    } catch (e) {
+      setError(e.message)
+      setBookingReview(false)
+    }
+  }
+
+  const requestWebsiteCleanup = () => {
+    track.websiteCleanupRequested()
+    const domain = audit?.domain || audit?.normalized_url || 'my website'
+    const subject = encodeURIComponent(`Website cleanup request for ${domain}`)
+    const body = encodeURIComponent(
+      `Hi David,\n\nI ran an Illusion website audit for ${domain} and would like a flat-fee quote to handle the recommended fixes.\n\nReport: ${shareUrl || window.location.href}\n\nThanks,`
+    )
+    window.location.href = `mailto:david@illusion.ai?subject=${subject}&body=${body}`
   }
 
   const renderShareTools = () => {
@@ -443,6 +477,11 @@ export default function Analyze() {
               </p>
             </section>
             {renderShareTools()}
+            {reviewBooked && (
+              <div className="success-msg analyze-review-success">
+                Founder review purchased. David will follow up at the audit email within one business day.
+              </div>
+            )}
             {error && <div className="error-msg analyze-error">{error}</div>}
             <section className="analyze-report-shell">
               {audit ? (
@@ -452,6 +491,11 @@ export default function Analyze() {
                   publicMode
                   onClaim={claimAudit}
                   claiming={claiming}
+                  onStartScan={startVisibilityScan}
+                  startingScan={startingScan}
+                  onBookReview={bookFounderReview}
+                  bookingReview={bookingReview}
+                  onRequestCleanup={requestWebsiteCleanup}
                 />
               ) : (
                 <div className="audit-progress">
@@ -535,6 +579,11 @@ export default function Analyze() {
                     publicMode
                     onClaim={claimAudit}
                     claiming={claiming}
+                    onStartScan={startVisibilityScan}
+                    startingScan={startingScan}
+                    onBookReview={bookFounderReview}
+                    bookingReview={bookingReview}
+                    onRequestCleanup={requestWebsiteCleanup}
                   />
                 </section>
               </>

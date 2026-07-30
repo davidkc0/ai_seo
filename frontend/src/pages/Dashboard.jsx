@@ -42,16 +42,32 @@ export default function Dashboard() {
 
   const pollRef = useRef(null)
   const statusRotateRef = useRef(null)
+  const autoStartRef = useRef(false)
+  const pendingClaimRef = useRef(null)
 
   useEffect(() => {
-    loadProducts()
-    if (searchParams.get('tab') === 'audit') {
-      setActiveTab('audit')
+    let cancelled = false
+    const initialize = async () => {
+      if (searchParams.get('tab') === 'audit') setActiveTab('audit')
+      if (searchParams.get('upgraded') === 'true') {
+        setScanMessage('Plan upgraded successfully! Your new limits are now active.')
+      }
+
+      const pendingResult = await claimPendingAudit()
+      const data = await loadProducts(pendingResult?.product?.id)
+      if (cancelled) return
+
+      if (pendingResult?.intent === 'first_scan' && !autoStartRef.current) {
+        const target = data.find(item => item.id === pendingResult.product?.id) || pendingResult.product
+        if (target) {
+          autoStartRef.current = true
+          setActiveTab('mentions')
+          await startScan(target, true)
+        }
+      }
     }
-    if (searchParams.get('upgraded') === 'true') {
-      setScanMessage('Plan upgraded successfully! Your new limits are now active.')
-    }
-    claimPendingAudit()
+    initialize()
+    return () => { cancelled = true }
   }, [])
 
   useEffect(() => {
@@ -68,45 +84,67 @@ export default function Dashboard() {
     }
   }, [])
 
-  const loadProducts = async () => {
+  const loadProducts = async (preferredProductId = null) => {
     try {
       const data = await api.getProducts()
       setProducts(data)
-      if (data.length > 0) setSelectedProduct(data[0])
+      if (data.length > 0) {
+        setSelectedProduct(data.find(item => item.id === preferredProductId) || data[0])
+      }
+      return data
     } catch (e) {
       console.error(e)
+      return []
     } finally {
       setLoading(false)
     }
   }
 
   const claimPendingAudit = async () => {
-    const raw = localStorage.getItem('pendingWebsiteAudit')
-    if (!raw) return
-    try {
-      const pending = JSON.parse(raw)
-      if (!pending?.audit_id || !pending?.public_token) return
-      const existingProducts = await api.getProducts().catch(() => [])
-      let productName = ''
+    if (pendingClaimRef.current) return pendingClaimRef.current
+
+    const runClaim = async () => {
+      const raw = localStorage.getItem('pendingWebsiteAudit')
+      if (!raw) return
       try {
-        productName = new URL(pending.url).hostname.replace(/^www\./, '')
-      } catch {
-        productName = 'My website'
+        const pending = JSON.parse(raw)
+        if (!pending?.audit_id || !pending?.public_token) return
+        const existingProducts = await api.getProducts().catch(() => [])
+        let productName = ''
+        try {
+          productName = new URL(pending.url).hostname.replace(/^www\./, '')
+        } catch {
+          productName = 'My website'
+        }
+        const normalizedPendingUrl = String(pending.url || '').replace(/\/$/, '')
+        const matchingProduct = existingProducts.find(product =>
+          String(product.website_url || '').replace(/\/$/, '') === normalizedPendingUrl
+        ) || (existingProducts.length === 1 ? existingProducts[0] : null)
+        const claimed = await api.claimWebsiteAudit(pending.audit_id, {
+          public_token: pending.public_token,
+          product_id: matchingProduct?.id || null,
+          create_product: !matchingProduct,
+          product_name: productName,
+          category: 'local service business',
+          use_case: 'small business customers',
+          keywords: pending.intent === 'first_scan' ? (pending.keywords || []).slice(0, 3) : [],
+        })
+        localStorage.removeItem('pendingWebsiteAudit')
+        setActiveTab(pending.intent === 'first_scan' ? 'mentions' : 'audit')
+        track.auditClaimed()
+        return {
+          product: claimed.product || matchingProduct,
+          intent: pending.intent || 'save',
+        }
+      } catch (e) {
+        console.error(e)
+        setScanMessage(`error:${e.message || 'Could not save the website audit.'}`)
+        return null
       }
-      await api.claimWebsiteAudit(pending.audit_id, {
-        public_token: pending.public_token,
-        create_product: existingProducts.length === 0,
-        product_name: productName,
-        category: 'local service business',
-        use_case: 'small business customers',
-      })
-      localStorage.removeItem('pendingWebsiteAudit')
-      setActiveTab('audit')
-      track.auditClaimed()
-      loadProducts()
-    } catch (e) {
-      console.error(e)
     }
+
+    pendingClaimRef.current = runClaim()
+    return pendingClaimRef.current
   }
 
   const loadSummary = async (productId) => {
@@ -128,13 +166,14 @@ export default function Dashboard() {
     if (msg) setScanMessage(msg)
   }
 
-  const triggerScan = async () => {
-    if (!selectedProduct) return
+  const startScan = async (product, fromAudit = false) => {
+    if (!product) return
+    setSelectedProduct(product)
 
     // Capture the newest existing result ID so we can detect new ones
     let baselineId = 0
     try {
-      const existing = await api.getResults(selectedProduct.id, 1)
+      const existing = await api.getResults(product.id, 1)
       baselineId = existing[0]?.id ?? 0
     } catch {}
 
@@ -144,8 +183,10 @@ export default function Dashboard() {
     setScanStatus(RESEARCH_MESSAGES[0])
 
     try {
-      await api.scanProduct(selectedProduct.id)
+      await api.scanProduct(product.id)
       track.scanRun()
+      if (baselineId === 0) track.firstScanRun()
+      if (fromAudit) track.auditFirstScanStarted()
     } catch (e) {
       setScanning(false)
       setScanStatus('')
@@ -164,7 +205,7 @@ export default function Dashboard() {
     const POLL_INTERVAL_MS = 4000
     const TIMEOUT_MS = 4 * 60 * 1000
     const IDLE_POLLS_TO_STOP = 4 // ~16s of no new results after at least one arrived
-    const productId = selectedProduct.id
+    const productId = product.id
     let lastSeenId = baselineId
     let idlePolls = 0
 
@@ -208,6 +249,8 @@ export default function Dashboard() {
       }
     }, POLL_INTERVAL_MS)
   }
+
+  const triggerScan = () => startScan(selectedProduct)
 
   const handleResendVerification = async () => {
     setVerifyResending(true)
@@ -352,10 +395,10 @@ export default function Dashboard() {
         ) : !selectedProduct && products.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon"><Rocket size={48} strokeWidth={1.5} /></div>
-            <h2>Add your first product</h2>
-            <p>Tell us about your SaaS product and we'll start tracking what AI says about it.</p>
+            <h2>Add your business or product</h2>
+            <p>Add the questions customers ask before choosing you, then see whether AI recommends you or a competitor.</p>
             <button className="btn-primary" onClick={() => setShowModal(true)}>
-              + Add product
+              + Add business or product
             </button>
           </div>
         ) : (
@@ -407,7 +450,7 @@ export default function Dashboard() {
               </div>
             )}
 
-            {summary ? (
+            {summary?.total_queries > 0 ? (
               <>
                 {/* Stats */}
                 <div className="stats-grid">
@@ -496,10 +539,20 @@ export default function Dashboard() {
                 <ScanHistory productId={selectedProduct?.id} refreshKey={resultsRefreshKey} />
               </>
             ) : (
-              <div className="empty-state">
+              <div className="empty-state first-scan-state">
                 <div className="empty-icon"><Search size={48} strokeWidth={1.5} /></div>
-                <h2>No scans yet</h2>
-                <p>Click "Run scan now" to see what AI says about {selectedProduct?.name}.</p>
+                <h2>Ready for your first visibility check</h2>
+                <p>Illusion will ask ChatGPT, Claude, Gemini, and Perplexity these customer questions.</p>
+                {selectedProduct?.keywords?.length > 0 && (
+                  <div className="first-scan-prompts">
+                    {selectedProduct.keywords.map((keyword, idx) => (
+                      <div key={keyword}><span>{idx + 1}</span>{keyword}</div>
+                    ))}
+                  </div>
+                )}
+                <button className="btn-primary" onClick={triggerScan} disabled={scanning}>
+                  <Search size={14} /> Run my first scan
+                </button>
               </div>
             )}
           </>

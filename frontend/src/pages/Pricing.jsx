@@ -98,6 +98,32 @@ export default function Pricing() {
           ))}
         </div>
 
+        <section className="pricing-hands-on">
+          <div className="pricing-hands-on-header">
+            <span>Need hands-on help?</span>
+            <h2>Get a plan, or get the fixes handled.</h2>
+            <p>Start with the free audit so the work is based on your actual website.</p>
+          </div>
+          <div className="pricing-hands-on-grid">
+            <div>
+              <strong>$49 founder visibility review</strong>
+              <p>Review the audit, run the first AI visibility scan, and leave with the three highest-priority actions.</p>
+              <Link to="/analyze" className="btn-primary">Run the audit first →</Link>
+            </div>
+            <div>
+              <strong>Flat-fee website cleanup</strong>
+              <p>Have Illusion handle the recommended clarity, schema, service-page, trust, and CTA fixes.</p>
+              <a
+                href="mailto:david@illusion.ai?subject=Flat-fee%20website%20cleanup"
+                className="btn-ghost"
+                onClick={() => track.websiteCleanupRequested()}
+              >
+                Request a quote
+              </a>
+            </div>
+          </div>
+        </section>
+
         <div className="pricing-faq">
           <div className="faq-item">
             <div className="faq-q">Can I cancel anytime?</div>

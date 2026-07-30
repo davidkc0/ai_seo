@@ -5,7 +5,7 @@ from typing import Optional
 
 import httpx
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -36,6 +36,7 @@ class ClaimAuditRequest(BaseModel):
     product_name: Optional[str] = None
     category: Optional[str] = None
     use_case: Optional[str] = None
+    keywords: list[str] = Field(default_factory=list)
 
 
 class RerunAuditRequest(BaseModel):
@@ -285,11 +286,20 @@ async def claim_audit(
             raise HTTPException(status_code=404, detail="Audit not found")
 
     product = None
+    limits = _plan_limits(current_user.plan)
+    keywords = []
+    for keyword in body.keywords:
+        cleaned = keyword.strip()
+        if cleaned and cleaned not in keywords:
+            keywords.append(cleaned)
+    keywords = keywords[:limits["max_keywords"]]
+
     if body.product_id:
         product = await _owned_product(body.product_id, current_user, db)
         product.website_url = audit.normalized_url
+        if keywords:
+            product.keywords = keywords
     elif body.create_product:
-        limits = _plan_limits(current_user.plan)
         existing_result = await db.execute(
             select(Product).where(Product.user_id == current_user.id, Product.is_active == True)
         )
@@ -305,7 +315,7 @@ async def claim_audit(
             category=(body.category or "local service business").strip(),
             use_case=(body.use_case or None),
             website_url=audit.normalized_url,
-            keywords=[],
+            keywords=keywords,
             competitors=[],
         )
         db.add(product)
@@ -324,7 +334,10 @@ async def claim_audit(
             "id": product.id,
             "name": product.name,
             "category": product.category,
+            "use_case": product.use_case,
             "website_url": product.website_url,
+            "keywords": product.keywords or [],
+            "competitors": product.competitors or [],
         } if product else None,
     }
 

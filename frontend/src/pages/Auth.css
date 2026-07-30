@@ -83,7 +83,7 @@
 
 /* Social proof below form */
 .auth-card::after {
-  content: 'Join 500+ SaaS founders tracking AI mentions';
+  content: 'Built for founders and small businesses tracking AI visibility';
   display: block;
   text-align: center;
   font-family: var(--font-mono);

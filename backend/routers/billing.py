@@ -1,15 +1,21 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
+from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 import stripe
 
 from database import get_db
-from models import User
+from models import User, WebsiteAudit
 from auth import require_verified_user
 from config import settings
+from rate_limit import limiter
 
 router = APIRouter(prefix="/api/billing", tags=["billing"])
 stripe.api_key = settings.stripe_secret_key.strip() if settings.stripe_secret_key else ""
+
+
+class AuditReviewCheckoutRequest(BaseModel):
+    public_token: str
 
 
 @router.get("/plans")
@@ -125,6 +131,60 @@ async def create_checkout(
         raise HTTPException(status_code=500, detail=f"Checkout failed: {str(e)}")
 
 
+@router.post("/audit-review-checkout")
+@limiter.limit("10/hour")
+async def create_audit_review_checkout(
+    request: Request,
+    body: AuditReviewCheckoutRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    """Create a one-time $49 founder review checkout for a completed public audit."""
+    if not settings.stripe_secret_key or settings.stripe_secret_key.startswith("sk_test_your"):
+        raise HTTPException(status_code=503, detail="Stripe is not configured.")
+
+    result = await db.execute(
+        select(WebsiteAudit).where(WebsiteAudit.public_token == body.public_token)
+    )
+    audit = result.scalar_one_or_none()
+    if not audit or audit.status != "completed":
+        raise HTTPException(status_code=404, detail="Completed audit not found.")
+
+    report_url = f"{settings.app_url.rstrip('/')}/analyze/{audit.public_token}"
+    try:
+        session = stripe.checkout.Session.create(
+            mode="payment",
+            customer_email=audit.contact_email or None,
+            payment_method_types=["card"],
+            line_items=[{
+                "quantity": 1,
+                "price_data": {
+                    "currency": "usd",
+                    "unit_amount": 4900,
+                    "product_data": {
+                        "name": "Illusion founder visibility review",
+                        "description": (
+                            "A focused review of your website audit, first AI visibility scan, "
+                            "and the three highest-priority actions."
+                        ),
+                    },
+                },
+            }],
+            success_url=f"{report_url}?review=booked&session_id={{CHECKOUT_SESSION_ID}}",
+            cancel_url=report_url,
+            client_reference_id=f"audit-{audit.id}",
+            metadata={
+                "purchase_type": "audit_review",
+                "audit_id": str(audit.id),
+                "domain": audit.domain or "",
+            },
+        )
+        return {"checkout_url": session.url}
+    except stripe.StripeError as e:
+        raise HTTPException(status_code=400, detail=f"Stripe error: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Checkout failed: {str(e)}")
+
+
 @router.post("/portal")
 async def create_portal(
     current_user: User = Depends(require_verified_user),
@@ -168,6 +228,13 @@ async def stripe_webhook(request: Request, db: AsyncSession = Depends(get_db)):
     try:
         if event_type == "checkout.session.completed":
             metadata = obj.get("metadata") or {}
+            if metadata.get("purchase_type") == "audit_review":
+                print(
+                    f"[Webhook] founder review purchased — audit_id={metadata.get('audit_id')}, "
+                    f"domain={metadata.get('domain')}"
+                )
+                return {"received": True}
+
             user_id = int(metadata.get("user_id", 0))
             plan = metadata.get("plan", "starter")
             sub_id = obj.get("subscription")

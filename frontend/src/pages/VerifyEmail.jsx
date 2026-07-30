@@ -8,6 +8,13 @@ import './Auth.css'
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams()
   const token = searchParams.get('token') || ''
+  const fromAuditScan = searchParams.get('source') === 'audit-scan' || (() => {
+    try {
+      return JSON.parse(localStorage.getItem('pendingWebsiteAudit') || '{}').intent === 'first_scan'
+    } catch {
+      return false
+    }
+  })()
   const [status, setStatus] = useState(token ? 'loading' : 'check') // 'loading' | 'check' | 'success' | 'error'
   const [error, setError] = useState('')
   const [resending, setResending] = useState(false)
@@ -70,7 +77,9 @@ export default function VerifyEmail() {
         {status === 'check' && (
           <>
             <p className="auth-sub">
-              Check your email to unlock your dashboard. Once you verify, you can add products, save audits, and run AI scans.
+              {fromAuditScan
+                ? 'Check your email to unlock your dashboard. Your website and first three customer questions will be waiting.'
+                : 'Check your email to unlock your dashboard. Once you verify, you can add products, save audits, and run AI scans.'}
             </p>
             {user ? (
               <button
@@ -95,15 +104,17 @@ export default function VerifyEmail() {
         {status === 'success' && (
           <>
             <div className="auth-success">
-              Email verified. You're all set — AI scans are now unlocked.
+              {fromAuditScan
+                ? 'Email verified. Your first AI visibility scan is ready to start.'
+                : "Email verified. You're all set — AI scans are now unlocked."}
             </div>
             {user ? (
               <button
                 type="button"
                 className="btn-primary auth-submit"
-                onClick={() => navigate('/dashboard')}
+                onClick={() => navigate(fromAuditScan ? '/dashboard?from=audit-scan' : '/dashboard')}
               >
-                Go to dashboard →
+                {fromAuditScan ? 'Run my first scan →' : 'Go to dashboard →'}
               </button>
             ) : (
               <Link to="/login" className="btn-primary auth-submit" style={{ textAlign: 'center', textDecoration: 'none', display: 'block' }}>

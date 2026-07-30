@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, BarChart2, Zap, Sparkles, Globe } from 'lucide-react'
+import { Search, BarChart2, Zap, Sparkles, Globe, MessageSquareText, ScanSearch, ListChecks } from 'lucide-react'
 import doughnut from '../assets/doughnut.jpg'
 import cube from '../assets/cube.jpg'
 import diamond from '../assets/diamond.png'
@@ -16,12 +16,6 @@ const features = [
   { icon: <Globe size={24} />, title: 'AI Bot Traffic Analysis', desc: 'Connect your CDN to see which AI crawlers visit your site, which pages they read, and how often — the data GA4 completely misses.' },
   { icon: <img src="/ai_overview.svg" alt="" width={24} height={24} />, title: 'Google AI Overview Tracking', desc: 'We scrape the Overview box for your primary query so you know whether Google is citing you — and who it cites instead.' },
   { icon: <Sparkles size={24} />, title: 'Smart Summary & Action Plan', desc: 'Every scan generates an AI-powered diagnosis of your visibility — strengths, gaps, and a prioritized list of exactly what to fix next.' },
-]
-
-const testimonials = [
-  { name: 'Sarah K.', role: 'Founder @ InvoiceFlow', text: 'I had no idea Claude was recommending Stripe Billing over us. Within 2 weeks of seeing the data, we updated our messaging and our AI mentions doubled.' },
-  { name: 'Marcus T.', role: 'Head of Growth @ TaskStack', text: 'This is the tool I wish existed 2 years ago. AI is the new Google — you need to know where you show up.' },
-  { name: 'Priya M.', role: 'CEO @ DeskSync', text: 'The weekly digest lands in my inbox every Monday and tells me more about AI search visibility than anything else.' },
 ]
 
 export default function Landing() {
@@ -114,41 +108,38 @@ export default function Landing() {
 
       {/* How it works */}
       <section className="how-section">
-        <h2>How it works</h2>
-        <div className="steps">
-          <div className="step">
-            <div className="step-num">1</div>
-            <h3>Add your product</h3>
-            <p>Tell us your product name, category, keywords, and competitors. Takes 30 seconds.</p>
+        <div className="how-inner">
+          <div className="how-heading">
+            <span>How it works</span>
+            <h2>One useful loop,<br />not another dashboard.</h2>
+            <p>Start with the questions customers ask. See the answers they get. Fix what keeps your business out of them.</p>
           </div>
-          <div className="step-arrow">→</div>
-          <div className="step">
-            <div className="step-num">2</div>
-            <h3>We query every major AI</h3>
-            <p>Illusion asks Claude, ChatGPT, Gemini, and Perplexity the questions your customers are actually asking.</p>
-          </div>
-          <div className="step-arrow">→</div>
-          <div className="step">
-            <div className="step-num">3</div>
-            <h3>Get your playbook</h3>
-            <p>See your rankings, sentiment, and competitors — plus an AI-generated playbook of exactly what to do next.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="testimonials-section">
-        <h2>Founders love it</h2>
-        <div className="testimonials-grid">
-          {testimonials.map(t => (
-            <div key={t.name} className="testimonial-card">
-              <p>"{t.text}"</p>
-              <div className="testimonial-author">
-                <strong>{t.name}</strong>
-                <span>{t.role}</span>
+          <div className="steps">
+            <article className="step">
+              <div className="step-topline">
+                <span className="step-num">01</span>
+                <MessageSquareText size={20} aria-hidden="true" />
               </div>
-            </div>
-          ))}
+              <h3>Set the questions</h3>
+              <p>Add your business and the buying questions people ask before choosing a product or service like yours.</p>
+            </article>
+            <article className="step">
+              <div className="step-topline">
+                <span className="step-num">02</span>
+                <ScanSearch size={20} aria-hidden="true" />
+              </div>
+              <h3>See the real answers</h3>
+              <p>Illusion checks ChatGPT, Claude, Gemini, and Perplexity, then shows who gets mentioned and why.</p>
+            </article>
+            <article className="step">
+              <div className="step-topline">
+                <span className="step-num">03</span>
+                <ListChecks size={20} aria-hidden="true" />
+              </div>
+              <h3>Make the next move</h3>
+              <p>Use the audit, competitor patterns, and prioritized recommendations to fix the gaps that matter first.</p>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -200,6 +191,28 @@ export default function Landing() {
               <li>✓ Instant mention alerts</li>
             </ul>
             <Link to="/register" className="plan-btn">Get started →</Link>
+          </div>
+        </div>
+        <div className="landing-hands-on">
+          <div className="landing-hands-on-heading">
+            <span>Need hands-on help?</span>
+            <h3>Get the data, or get the fixes handled.</h3>
+            <p>Start with the free audit so every recommendation is based on your actual website.</p>
+          </div>
+          <div className="landing-service">
+            <strong>$49 founder visibility review</strong>
+            <p>Review the audit, run your first AI visibility scan, and leave with the three highest-priority actions.</p>
+            <Link to="/analyze">Run the audit first →</Link>
+          </div>
+          <div className="landing-service">
+            <strong>Flat-fee website cleanup</strong>
+            <p>Have Illusion handle the recommended clarity, schema, service-page, trust, and CTA fixes.</p>
+            <a
+              href="mailto:david@illusion.ai?subject=Flat-fee%20website%20cleanup"
+              onClick={() => track.websiteCleanupRequested()}
+            >
+              Request a quote →
+            </a>
           </div>
         </div>
       </section>

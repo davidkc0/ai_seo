@@ -329,4 +329,23 @@
     flex-direction: column;
     text-align: center;
   }
+
+  .rec-summary {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .rec-action {
+    padding: 11px 10px;
+  }
+
+  .rec-action-row {
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .rec-action-title,
+  .rec-action-rationale {
+    overflow-wrap: anywhere;
+  }
 }

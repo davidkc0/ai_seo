@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../AuthContext'
 import { api } from '../api'
-import { Package, Settings, CreditCard, LogOut, Rocket, Search, Loader, Pencil, Globe, SearchCheck } from 'lucide-react'
+import { Package, Settings, CreditCard, LogOut, Rocket, Search, Loader, Pencil, Globe, SearchCheck, Plus } from 'lucide-react'
 import ProductModal from '../components/ProductModal'
 import ScanResults from '../components/ScanResults'
 import ScanHistory from '../components/ScanHistory'
@@ -308,22 +308,23 @@ export default function Dashboard() {
             </button>
           ))}
           <button className="sidebar-item add-product" onClick={() => setShowModal(true)}>
-            <span>+ Add product</span>
+            <Plus size={14} className="sidebar-item-icon" />
+            <span>Add product</span>
           </button>
         </div>
 
         <div className="sidebar-nav">
-          <Link to="/settings" className="sidebar-item">
+          <Link to="/settings" className="sidebar-item" title="Settings" aria-label="Settings">
             <Settings size={14} className="sidebar-item-icon" />
-            Settings
+            <span className="sidebar-nav-label">Settings</span>
           </Link>
-          <Link to="/pricing" className="sidebar-item">
+          <Link to="/pricing" className="sidebar-item" title="Upgrade" aria-label="Upgrade">
             <CreditCard size={14} className="sidebar-item-icon" />
-            Upgrade
+            <span className="sidebar-nav-label">Upgrade</span>
           </Link>
-          <button className="sidebar-item" onClick={logout}>
+          <button className="sidebar-item" onClick={logout} title="Log out" aria-label="Log out">
             <LogOut size={14} className="sidebar-item-icon" />
-            Log out
+            <span className="sidebar-nav-label">Log out</span>
           </button>
         </div>
 
@@ -406,7 +407,7 @@ export default function Dashboard() {
             {/* Header */}
             <div className="content-header">
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div className="product-title-row">
                   <h1>{selectedProduct?.name}</h1>
                   <button
                     className="btn-icon-sm"
